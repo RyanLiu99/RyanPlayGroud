@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConsoleApp1.Validation;
 
 namespace ConsoleApp1
 {
@@ -8,7 +9,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            TestDateTime.Test();
+            //TestDateTime.Test();
+            TestValidation.Test();
         }
         
     }
