@@ -6,7 +6,7 @@ using System.Text;
 namespace ConsoleApp1.Validation
 {
 
-    public class ValidateNestedAttribute : ValidationAttribute
+    public class ValidateObjectAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {

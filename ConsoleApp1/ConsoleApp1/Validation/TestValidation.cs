@@ -16,9 +16,24 @@ namespace ConsoleApp1.Validation
                 {
                     City = "Awesome Town",
                     State = "TN",
-                    Zip = new ZipCode()
+                    Zip = new ZipCode(),
                 },
-                Name = "Josh"
+                Name = "Josh",
+                Children = new Person[]
+                {
+                    new Person()
+                    {
+                        Name = "Child 1",
+                        Address =  new Address()
+                        {
+                            City = "City 1"
+                        }
+                    },
+                    new Person()
+                    {
+
+                    }
+                }
             };
 
             var context = new ValidationContext(person, null, null);

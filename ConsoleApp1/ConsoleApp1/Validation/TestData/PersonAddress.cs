@@ -11,8 +11,11 @@ namespace ConsoleApp1.Validation.TestData
         [Required]
         public String Name { get; set; }
 
-        [Required, ValidateNested]
+        [ValidateObject]
         public Address Address { get; set; }
+
+        [ValidateEnumerable]
+        public Person[] Children { get; set; }
     }
 
     public class Address
@@ -28,8 +31,9 @@ namespace ConsoleApp1.Validation.TestData
         [Required]
         public String State { get; set; }
 
-        [Required, ValidateNested]
+        [Required, ValidateObject]
         public ZipCode Zip { get; set; }
+
     }
 
     public class ZipCode
