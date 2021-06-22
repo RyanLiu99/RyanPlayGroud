@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using ConsoleApp1.Validation.TestData;
+using ConsoleApp1.TestData;
 
 namespace ConsoleApp1.Validation
 {
@@ -10,31 +10,7 @@ namespace ConsoleApp1.Validation
     {
         internal static void Test()
         {
-            var person = new Person
-            {
-                Address = new Address
-                {
-                    City = "Awesome Town",
-                    State = "TN",
-                    Zip = new ZipCode(),
-                },
-                Name = "Josh",
-                Children = new Person[]
-                {
-                    new Person()
-                    {
-                        Name = "Child 1",
-                        Address =  new Address()
-                        {
-                            City = "City 1"
-                        }
-                    },
-                    new Person()
-                    {
-
-                    }
-                }
-            };
+            var person = DataFactory.CreatePerson();
 
             var context = new ValidationContext(person, null, null);
             var results = new List<ValidationResult>();

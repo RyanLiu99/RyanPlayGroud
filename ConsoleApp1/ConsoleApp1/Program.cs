@@ -16,11 +16,11 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             OneTimeSetup();
-            //TestDateTime.Test();
-            TestValidation.Test();
+            //TestDateTime.Test(); //long delay, for testing date time over new year midnight
+            //TestValidation.Test();
+            TestJsonLogging.Test();
         }
 
-        
         private static void OneTimeSetup()
         {
             IConfiguration configuration = new ConfigurationBuilder()
@@ -28,7 +28,7 @@ namespace ConsoleApp1
                 .Build();
 
             var services = new ServiceCollection();
-            
+
             services.AddLogging(configure => configure.AddDebug());
             services.AddLogging(configure => configure.AddSimpleConsole(c =>
             {
@@ -37,9 +37,15 @@ namespace ConsoleApp1
                 c.TimestampFormat = "[yy-MM-dd HH:mm:ss]";
             }));
 
-            Container = services.BuildServiceProvider();
-            
+            RegisterDependency(services);
 
+            Container = services.BuildServiceProvider();
+        }
+
+
+        private static void RegisterDependency(ServiceCollection serviceCollection)
+        {
+            serviceCollection.AddTransient<TestJsonLogging>();
         }
     }
 }
