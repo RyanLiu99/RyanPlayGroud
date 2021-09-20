@@ -23,9 +23,10 @@ namespace GcpLoggingCoreMvc.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public JsonResult Privacy()
         {
-            return View();
+            var response = new TestGcpLogging().WriteLog();
+            return Json(response);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
