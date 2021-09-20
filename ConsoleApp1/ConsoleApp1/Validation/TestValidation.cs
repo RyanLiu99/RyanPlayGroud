@@ -16,9 +16,10 @@ namespace ConsoleApp1.Validation
             var results = new List<ValidationResult>();
 
             Validator.TryValidateObject(person, context, results, true);
-
             PrintResults(results, 0);
-
+            //or
+            //Validator.ValidateObject(person, context, true);
+           
             Console.ReadKey();
         }
 
