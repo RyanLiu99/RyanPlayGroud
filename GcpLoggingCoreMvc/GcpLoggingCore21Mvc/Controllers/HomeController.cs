@@ -5,11 +5,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace GcpLoggingCore21Mvc.Controllers
 {
     public class HomeController : Controller
     {
+        public static readonly EventId TestGcpLoggingV2EventId = new EventId(5002, "TestGcpLoggingEventId");
+
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
         public IActionResult Index()
         {
             return View();
@@ -18,6 +27,8 @@ namespace GcpLoggingCore21Mvc.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
+
+            _logger.LogCritical(TestGcpLoggingV2EventId, new Exception("Fake exception"), "HomeController log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2" });
 
             return View();
         }
@@ -39,5 +50,12 @@ namespace GcpLoggingCore21Mvc.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+    }
+
+    internal class CriticalMsg
+    {
+        public int Age { get; set; }
+        public string CriticalStr { get; set; }
+
     }
 }
