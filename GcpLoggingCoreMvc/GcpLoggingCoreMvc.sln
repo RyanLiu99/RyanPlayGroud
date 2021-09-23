@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GcpLoggingCoreMvc", "GcpLog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcpLoggingCore21Mvc", "GcpLoggingCore21Mvc\GcpLoggingCore21Mvc.csproj", "{6EE53A93-312C-4CE2-8D30-DD62DB838DBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcpConsoleLog4Net21", "GcpConsoleLog4Net21\GcpConsoleLog4Net21.csproj", "{09C751D7-D665-450E-A32C-A56CB6455D9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6EE53A93-312C-4CE2-8D30-DD62DB838DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EE53A93-312C-4CE2-8D30-DD62DB838DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EE53A93-312C-4CE2-8D30-DD62DB838DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09C751D7-D665-450E-A32C-A56CB6455D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09C751D7-D665-450E-A32C-A56CB6455D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09C751D7-D665-450E-A32C-A56CB6455D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09C751D7-D665-450E-A32C-A56CB6455D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
