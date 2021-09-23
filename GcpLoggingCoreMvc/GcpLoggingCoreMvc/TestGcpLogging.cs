@@ -41,7 +41,7 @@ namespace GcpLoggingCoreMvc
             {
                 LogNameAsLogName = logName,
                 Severity = LogSeverity.Info,
-                TextPayload = $"{DateTime.Now.Millisecond}  Hello CGP!",
+                TextPayload = $"{DateTime.Now}  Hello CGP!",
                 Operation = new LogEntryOperation() { First = true, Producer = "Log Entry operation producer1"},
                 //SourceLocation = Source code location information, file/line
                 //JsonPayload = "",
@@ -54,7 +54,7 @@ namespace GcpLoggingCoreMvc
                 //Resource=//, The monitored resource that produced this log entry. can set in the batch, which has Type property. GCP will auto add Resource.Lables(readonly) which contains project_id
                 //SpanId = can read/write, no default
                 //Timestamp =  Timestamp  the event described by the log entry occurred. If omitted, current time is used,
-                Trace = "Resource name of the trace associated with the log entry, if any. ",
+                Trace = "Optional, Resource name of the trace associated with the log entry, if any. Related to //tracing.googleapis.com",
                 //TraceSampled = true,
             };
             
@@ -62,7 +62,7 @@ namespace GcpLoggingCoreMvc
             {
                 LogNameAsLogName = logName,
                 Severity = LogSeverity.Error,
-                TextPayload = $"{DateTime.Now.Millisecond}  Hello CGP 2!",
+                TextPayload = $"{DateTime.Now}  Hello CGP 2!",
                 Operation = new LogEntryOperation() { Last = true, Producer = "Log Entry operation producer1" }
             };
 

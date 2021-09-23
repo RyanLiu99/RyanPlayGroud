@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GcpLoggingCoreMvc.Services;
+using Google.Cloud.Diagnostics.AspNetCore;
+using Microsoft.Extensions.Logging;
 
 namespace GcpLoggingCoreMvc
 {
@@ -35,11 +38,15 @@ namespace GcpLoggingCoreMvc
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddScoped<IMyService, MyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddGoogle(app.ApplicationServices, "ryantest1-4fd63");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

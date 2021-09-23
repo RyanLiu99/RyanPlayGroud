@@ -1,0 +1,346 @@
+Refresh Privacy pages , compare to the first http request to same page:
+
+Same ActionId: "99e386ae-a663-4b6a-a7ce-1c380630e69b"
+Same ActionName which is controller.method(projet)
+Same RequestPath: "/Home/Privacy"
+Different RequestId:    old "0HMBUAF498S5P:00000001" (ConnectionId:00000001)  new  "0HMBUAF498S5Q:00000001"
+Differrent ConnectionId: old 0HMBUAF498S5P,   new: 0HMBUAF498S5Q 
+
+Different Activity.Current?.Id: old 00-4e7097f2b7cc3a479aac1b2e64bc4302-39b259500e90f648-00, new 00-67ef8aeff3c036459247fdd8427fb7f3-002c95e6ee03f742-00
+Only in Controller: HttpContextTraceId : old 0HMBUAF498S5P:00000001, new 0HMBUAF498S5Q:00000001
+-----------
+
+First time hit Privacy page
+With in a rquest, controller loged first, then service. In parent_scopes. Compare controller and service method it called
+
+Same ActionId: "99e386ae-a663-4b6a-a7ce-1c380630e69b"
+Same ActionName which is controller.method(projet)
+Same RequestPath: "/Home/Privacy"
+Same RequestId:  "0HMBUAF498S5P:00000001" (ConnectionId:00000001)
+Same ConnectionId: 0HMBUAF498S5P
+
+
+Controller and service has same Activity.Current?.Id 00-4e7097f2b7cc3a479aac1b2e64bc4302-39b259500e90f648-00, nothing to do Action Id or anything
+Only in Controller: HttpContextTraceId is same as RequestId (for this single micro-service/tier app)
+
+
+========= 2.4 MyService============
+{
+  "insertId": "13exz35g278668v",
+  "jsonPayload": {
+    "format_parameters": {
+      "{OriginalFormat}": "In MyService, Activity.Current?.Id is {activityId}",
+      "activityId": "00-67ef8aeff3c036459247fdd8427fb7f3-002c95e6ee03f742-00"
+    },
+    "scope": "ConnectionId:0HMBUAF498S5Q => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5Q:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => ",
+    "parent_scopes": [
+      {
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)",
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b"
+      },
+      {
+        "RequestPath": "/Home/Privacy",
+        "RequestId": "0HMBUAF498S5Q:00000001"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5Q"
+      }
+    ],
+    "log_name": "GcpLoggingCoreMvc.Services.MyService",
+    "message": "In MyService, Activity.Current?.Id is 00-67ef8aeff3c036459247fdd8427fb7f3-002c95e6ee03f742-00"
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:48:26.741143600Z",
+  "severity": "INFO",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:48:31.360518002Z"
+}
+
+------------2.3 My Service
+
+{
+  "insertId": "13exz35g278668u",
+  "jsonPayload": {
+    "scope": "ConnectionId:0HMBUAF498S5Q => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5Q:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => ",
+    "log_name": "GcpLoggingCoreMvc.Services.MyService",
+    "event_id": {
+      "name": "TestGcpLoggingEventId",
+      "id": 5000
+    },
+    "format_parameters": {
+      "{OriginalFormat}": "My service logs an anonymous obj: {msObj}",
+      "msObj": "{ MsgObjProp1 = 55, MsgObjPro2 = Prop2 }"
+    },
+    "message": "My service logs an anonymous obj: { MsgObjProp1 = 55, MsgObjPro2 = Prop2 }",
+    "parent_scopes": [
+      {
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)",
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b"
+      },
+      {
+        "RequestPath": "/Home/Privacy",
+        "RequestId": "0HMBUAF498S5Q:00000001"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5Q"
+      }
+    ]
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:48:26.741068900Z",
+  "severity": "WARNING",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:48:31.360518002Z"
+}
+
+----------------- 2.2 Controller
+{
+  "insertId": "13exz35g278668t",
+  "jsonPayload": {
+    "log_name": "GcpLoggingCoreMvc.Controllers.HomeController",
+    "parent_scopes": [
+      {
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b",
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)"
+      },
+      {
+        "RequestPath": "/Home/Privacy",
+        "RequestId": "0HMBUAF498S5Q:00000001"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5Q"
+      }
+    ],
+    "format_parameters": {
+      "{OriginalFormat}": "In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}",
+      "activityId": "00-67ef8aeff3c036459247fdd8427fb7f3-002c95e6ee03f742-00",
+      "traceId": "0HMBUAF498S5Q:00000001"
+    },
+    "scope": "ConnectionId:0HMBUAF498S5Q => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5Q:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => ",
+    "message": "In Controller, Activity.Current?.Id is 00-67ef8aeff3c036459247fdd8427fb7f3-002c95e6ee03f742-00, HttpContextTraceId is 0HMBUAF498S5Q:00000001"
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:48:26.740746Z",
+  "severity": "INFO",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:48:31.360518002Z"
+}
+
+
+-----------------2.1 controller
+{
+  "insertId": "13exz35g278668s",
+  "jsonPayload": {
+    "message": "HomeController log a CriticalMsg: ToString - Age is 55, CriticalStr is Prop2",
+    "event_id": {
+      "name": "TestGcpLoggingEventId",
+      "id": 5000
+    },
+    "format_parameters": {
+      "{OriginalFormat}": "HomeController log a CriticalMsg: {criticalMsg}",
+      "criticalMsg": "ToString - Age is 55, CriticalStr is Prop2"
+    },
+    "parent_scopes": [
+      {
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b",
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)"
+      },
+      {
+        "RequestPath": "/Home/Privacy",
+        "RequestId": "0HMBUAF498S5Q:00000001"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5Q"
+      }
+    ],
+    "exception": "System.Exception: Fake exception",
+    "scope": "ConnectionId:0HMBUAF498S5Q => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5Q:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => ",
+    "log_name": "GcpLoggingCoreMvc.Controllers.HomeController"
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:48:26.740618400Z",
+  "severity": "CRITICAL",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:48:31.360518002Z"
+}
+
+===============================separates two http requests
+
+========= 1.4 MyService============
+{
+  "insertId": "1iyczqhg4yq6gno",
+  "jsonPayload": {
+    "parent_scopes": [
+      {
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)",
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b"
+      },
+      {
+        "RequestPath": "/Home/Privacy",
+        "RequestId": "0HMBUAF498S5P:00000001"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5P"
+      }
+    ],
+    "message": "In MyService, Activity.Current?.Id is 00-4e7097f2b7cc3a479aac1b2e64bc4302-39b259500e90f648-00",
+    "scope": "ConnectionId:0HMBUAF498S5P => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5P:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => ",
+    "log_name": "GcpLoggingCoreMvc.Services.MyService",
+    "format_parameters": {
+      "activityId": "00-4e7097f2b7cc3a479aac1b2e64bc4302-39b259500e90f648-00",
+      "{OriginalFormat}": "In MyService, Activity.Current?.Id is {activityId}"
+    }
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:34:16.337703200Z",
+  "severity": "INFO",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:34:21.168904328Z"
+}
+
+-----------------------------------------1.3 MyService-------- 
+{
+  "insertId": "1iyczqhg4yq6gnn",
+  "jsonPayload": {
+    "event_id": {
+      "id": 5000,
+      "name": "TestGcpLoggingEventId"
+    },
+    "log_name": "GcpLoggingCoreMvc.Services.MyService",
+    "format_parameters": {
+      "msObj": "{ MsgObjProp1 = 55, MsgObjPro2 = Prop2 }",
+      "{OriginalFormat}": "My service logs an anonymous obj: {msObj}"
+    },
+    "parent_scopes": [
+      {
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b",
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)"
+      },
+      {
+        "RequestId": "0HMBUAF498S5P:00000001",
+        "RequestPath": "/Home/Privacy"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5P"
+      }
+    ],
+    "message": "My service logs an anonymous obj: { MsgObjProp1 = 55, MsgObjPro2 = Prop2 }",
+    "scope": "ConnectionId:0HMBUAF498S5P => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5P:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => "
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:34:16.337628800Z",
+  "severity": "WARNING",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:34:21.168904328Z"
+}
+
+
+===============1.2 Controller
+{
+  "insertId": "1iyczqhg4yq6gnm",
+  "jsonPayload": {
+    "scope": "ConnectionId:0HMBUAF498S5P => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5P:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => ",
+    "message": "In Controller, Activity.Current?.Id is 00-4e7097f2b7cc3a479aac1b2e64bc4302-39b259500e90f648-00, HttpContextTraceId is 0HMBUAF498S5P:00000001",
+    "log_name": "GcpLoggingCoreMvc.Controllers.HomeController",
+    "parent_scopes": [
+      {
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)",
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b"
+      },
+      {
+        "RequestId": "0HMBUAF498S5P:00000001",
+        "RequestPath": "/Home/Privacy"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5P"
+      }
+    ],
+    "format_parameters": {
+      "{OriginalFormat}": "In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}",
+      "traceId": "0HMBUAF498S5P:00000001",
+      "activityId": "00-4e7097f2b7cc3a479aac1b2e64bc4302-39b259500e90f648-00"
+    }
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:34:16.336682300Z",
+  "severity": "INFO",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:34:21.168904328Z"
+}
+----------1.1 Controller
+
+{
+  "insertId": "1iyczqhg4yq6gnl",
+  "jsonPayload": {
+    "event_id": {
+      "id": 5000,
+      "name": "TestGcpLoggingEventId"
+    },
+    "exception": "System.Exception: Fake exception",
+    "format_parameters": {
+      "criticalMsg": "ToString - Age is 55, CriticalStr is Prop2",
+      "{OriginalFormat}": "HomeController log a CriticalMsg: {criticalMsg}"
+    },
+    "log_name": "GcpLoggingCoreMvc.Controllers.HomeController",
+    "message": "HomeController log a CriticalMsg: ToString - Age is 55, CriticalStr is Prop2",
+    "parent_scopes": [
+      {
+        "ActionId": "99e386ae-a663-4b6a-a7ce-1c380630e69b",
+        "ActionName": "GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc)"
+      },
+      {
+        "RequestPath": "/Home/Privacy",
+        "RequestId": "0HMBUAF498S5P:00000001"
+      },
+      {
+        "ConnectionId": "0HMBUAF498S5P"
+      }
+    ],
+    "scope": "ConnectionId:0HMBUAF498S5P => RequestPath:/Home/Privacy RequestId:0HMBUAF498S5P:00000001 => GcpLoggingCoreMvc.Controllers.HomeController.Privacy (GcpLoggingCoreMvc) => "
+  },
+  "resource": {
+    "type": "global",
+    "labels": {
+      "project_id": "ryantest1-4fd63"
+    }
+  },
+  "timestamp": "2021-09-23T05:34:16.335592100Z",
+  "severity": "CRITICAL",
+  "logName": "projects/ryantest1-4fd63/logs/aspnetcore",
+  "receiveTimestamp": "2021-09-23T05:34:21.168904328Z"
+}
