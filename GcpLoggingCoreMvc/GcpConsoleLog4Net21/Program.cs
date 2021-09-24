@@ -15,7 +15,7 @@ namespace GcpConsoleLog4Net21
            var c = log4net.Config.XmlConfigurator.Configure();
 
             ILog log = LogManager.GetLogger(typeof(Program));
-            log.Info("Gcp logging from log4net in console app.");
+            log.Info("Gcp logging from log4net in console app.");  //not working, just see console log, never write to GCP
 
             LogManager.Flush(50);
         }

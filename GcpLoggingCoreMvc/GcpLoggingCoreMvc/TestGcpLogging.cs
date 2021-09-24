@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Google.Api;
 using Google.Cloud.Logging.Type;
 using Google.Protobuf.Collections;
+using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Logging;
 
 namespace GcpLoggingCoreMvc
 {
 
-    //PS  $env:GOOGLE_APPLICATION_CREDENTIALS = "C:\rliu-OneDrive\OneDrive\IT\Google service account key when generate it ask to save  ryantest1-4fd63-447661f46186.json"
+    //PS  $env:GOOGLE_APPLICATION_CREDENTIALS = "C:\rliu-OneDrive\OneDrive\IT\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json"
     public class TestGcpLogging
     {
         public WriteLogEntriesResponse WriteLog()
@@ -25,7 +27,7 @@ namespace GcpLoggingCoreMvc
             string logId = "my-gcp-code-log"; //will be folder name in storage bucket. 
             LogName logName = new LogName(projectId, logId); // will be logName prop for each logs in logging bucket, also prop in gcs bucket json file
 
-            MonitoredResource resource = new MonitoredResource
+            MonitoredResource resource = new MonitoredResource  //mandatory
             {
                 Type = "global"
                 //Labels prop is read only. But it will be populated with project_id automatically.
@@ -41,10 +43,10 @@ namespace GcpLoggingCoreMvc
             {
                 LogNameAsLogName = logName,
                 Severity = LogSeverity.Info,
-                TextPayload = $"{DateTime.Now}  Hello CGP!",
-                Operation = new LogEntryOperation() { First = true, Producer = "Log Entry operation producer1"},
+                //TextPayload = $"{DateTime.Now}  Hello CGP!",
+                Operation = new LogEntryOperation() { First = true, Producer = "Log Entry operation producer5"},
                 //SourceLocation = Source code location information, file/line
-                //JsonPayload = "",
+                JsonPayload = CreateJsonPayLoad(new Exception("Test gcp log ex 5"), "Msg for json payload 5"),
                 //Labels = { }, user defined, optional , can also set in batch
                 //HttpRequest = {},
                 //InsertId = {},
@@ -62,7 +64,7 @@ namespace GcpLoggingCoreMvc
             {
                 LogNameAsLogName = logName,
                 Severity = LogSeverity.Error,
-                TextPayload = $"{DateTime.Now}  Hello CGP 2!",
+                TextPayload = $"{DateTime.Now}  Hello CGP 5!",
                 Operation = new LogEntryOperation() { Last = true, Producer = "Log Entry operation producer1" }
             };
 
@@ -71,8 +73,43 @@ namespace GcpLoggingCoreMvc
             // Write new log entry.
             WriteLogEntriesResponse response = client.WriteLogEntries(logName, resource, entryLabels, logEntries);
 
-            Console.WriteLine("Log Entry created.");
+            Console.WriteLine("Log Entry created 5.");
             return response;
+        }
+
+        private Struct CreateJsonPayLoad( Exception exception, string message)
+        {
+            EventId eventId = new EventId(88, "TestGcpLoggingEventId");
+            var jsonStruct = new Struct();
+            jsonStruct.Fields.Add("message", Value.ForString(message));
+            
+
+            //if (_loggerOptions.ServiceContext != null)
+            //{
+            //    jsonStruct.Fields.Add("serviceContext", Value.ForStruct(_loggerOptions.ServiceContext));
+            //}
+            if (exception != null)
+            {
+                jsonStruct.Fields.Add("exception", Value.ForString(exception.ToString()));
+            }
+
+            if (eventId.Id != 0 || eventId.Name != null)
+            {
+                var eventStruct = new Struct();
+                if (eventId.Id != 0)
+                {
+                    eventStruct.Fields.Add("id", Value.ForNumber(eventId.Id));
+                }
+                if (!string.IsNullOrWhiteSpace(eventId.Name))
+                {
+                    eventStruct.Fields.Add("name", Value.ForString(eventId.Name));
+                }
+                jsonStruct.Fields.Add("event_id", Value.ForStruct(eventStruct));
+            }
+
+  
+
+            return jsonStruct;
         }
     }
 }

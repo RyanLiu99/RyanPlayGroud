@@ -35,10 +35,10 @@ namespace GcpLoggingCoreMvc.Controllers
 
         public JsonResult Privacy()
         {
-            var response = new {};  //new TestGcpLogging().WriteLog();
-            _logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "HomeController log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
-            _logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
-            _myService.DoSth();
+            var response = new TestGcpLogging().WriteLog(); //new {};  
+            //_logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "HomeController log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
+            //_logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
+            //_myService.DoSth();
             return Json(response);
         }
 
