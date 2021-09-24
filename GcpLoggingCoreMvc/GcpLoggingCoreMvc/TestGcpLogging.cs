@@ -44,9 +44,9 @@ namespace GcpLoggingCoreMvc
                 LogNameAsLogName = logName,
                 Severity = LogSeverity.Info,
                 //TextPayload = $"{DateTime.Now}  Hello CGP!",
-                Operation = new LogEntryOperation() { First = true, Producer = "Log Entry operation producer5"},
+                Operation = new LogEntryOperation() { First = true, Producer = "Log Entry operation producer 6"},
                 //SourceLocation = Source code location information, file/line
-                JsonPayload = CreateJsonPayLoad(new Exception("Test gcp log ex 5"), "Msg for json payload 5"),
+                JsonPayload = CreateJsonPayLoad(new Exception("Test gcp log ex 6 "), "Msg for json payload 6"),
                 //Labels = { }, user defined, optional , can also set in batch
                 //HttpRequest = {},
                 //InsertId = {},
@@ -64,8 +64,8 @@ namespace GcpLoggingCoreMvc
             {
                 LogNameAsLogName = logName,
                 Severity = LogSeverity.Error,
-                TextPayload = $"{DateTime.Now}  Hello CGP 5!",
-                Operation = new LogEntryOperation() { Last = true, Producer = "Log Entry operation producer1" }
+                TextPayload = $"{DateTime.Now}  Hello CGP 6!",
+                Operation = new LogEntryOperation() { Last = true, Producer = "Log Entry operation producer 6" }
             };
 
             IEnumerable<LogEntry> logEntries = new LogEntry[] { logEntry, logEntry2 };
@@ -73,7 +73,7 @@ namespace GcpLoggingCoreMvc
             // Write new log entry.
             WriteLogEntriesResponse response = client.WriteLogEntries(logName, resource, entryLabels, logEntries);
 
-            Console.WriteLine("Log Entry created 5.");
+            Console.WriteLine("Log Entry created 6.");
             return response;
         }
 
