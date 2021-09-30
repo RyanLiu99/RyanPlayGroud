@@ -24,11 +24,14 @@ namespace GcpLoggingCore21Mvc.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Log()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Check GCP for new logs.";
 
-            _logger.LogCritical(TestGcpLoggingV2EventId, new Exception("Fake exception"), "HomeController log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2" });
+            _logger.LogCritical(TestGcpLoggingV2EventId, 
+                new Exception("Fake exception"), 
+                "HomeController log a CriticalMsg: {criticalMsg}", 
+                new CriticalMsg { Age = 55, CriticalStr = "Prop2" });
 
             return View();
         }
