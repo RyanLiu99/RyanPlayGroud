@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GcpLoggingCoreMvc", "GcpLoggingCoreMvc\GcpLoggingCoreMvc.csproj", "{8277CF41-2C55-41B6-8D62-222CE4700AF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcpLoggingCore21Mvc", "GcpLoggingCore21Mvc\GcpLoggingCore21Mvc.csproj", "{6EE53A93-312C-4CE2-8D30-DD62DB838DBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GcpLoggingCore21Mvc", "GcpLoggingCore21Mvc\GcpLoggingCore21Mvc.csproj", "{6EE53A93-312C-4CE2-8D30-DD62DB838DBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcpConsoleLog4Net21", "GcpConsoleLog4Net21\GcpConsoleLog4Net21.csproj", "{09C751D7-D665-450E-A32C-A56CB6455D9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GcpConsoleLog4Net21NotWorking", "GcpConsoleLog4Net21\GcpConsoleLog4Net21NotWorking.csproj", "{09C751D7-D665-450E-A32C-A56CB6455D9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
