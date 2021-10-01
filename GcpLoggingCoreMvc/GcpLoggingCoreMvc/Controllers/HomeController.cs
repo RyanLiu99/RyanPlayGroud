@@ -33,12 +33,12 @@ namespace GcpLoggingCoreMvc.Controllers
             return View();
         }
 
-        public JsonResult Privacy()
+        public JsonResult Log()
         {
-            var response = new TestGcpLogging().WriteLog(); //new {};  
-            //_logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "HomeController log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
+            var response = new DirectGcpLogging().WriteLog(this.HttpContext);   
+            _logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "2 HomeController ILogger log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
             //_logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
-            //_myService.DoSth();
+            _myService.WriteSomeLog();
             return Json(response);
         }
 

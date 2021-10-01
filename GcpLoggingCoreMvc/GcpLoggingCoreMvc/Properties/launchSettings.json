@@ -11,7 +11,8 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "environmentVariables": {       
+      "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\gcp\\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
@@ -19,8 +20,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\rliu-OneDrive\\OneDrive\\IT\\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json"
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\rliu-OneDrive\\OneDrive\\IT\\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "https://localhost:5001;http://localhost:5000"

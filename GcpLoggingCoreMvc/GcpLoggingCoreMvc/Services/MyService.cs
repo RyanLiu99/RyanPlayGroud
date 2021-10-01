@@ -16,11 +16,10 @@ namespace GcpLoggingCoreMvc.Services
         {
             _logger = logger;
         }
-        public void DoSth()
+        public void WriteSomeLog()
         {
-            _logger.LogWarning(HomeController.TestGcpLoggingEventId, "My service logs an anonymous obj: {msObj}", new { MsgObjProp1 = 55, MsgObjPro2 = "Prop2" });
-            _logger.LogInformation("In MyService, Activity.Current?.Id is {activityId}", Activity.Current?.Id);
-
+            _logger.LogWarning(HomeController.TestGcpLoggingEventId, "3 In MyService, ILogger logs an anonymous obj: {msObj}", new { MsgObjProp1 = 55, MsgObjPro2 = "Prop2" });
+            //_logger.LogInformation("In MyService, Activity.Current?.Id is {activityId}", Activity.Current?.Id);
         }
     }
 }

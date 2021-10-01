@@ -7,6 +7,6 @@ namespace GcpLoggingCoreMvc.Services
 {
     public interface IMyService
     {
-        public void DoSth();
+        public void WriteSomeLog();
     }
 }

@@ -12,7 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\\\rliu-OneDrive\\\\OneDrive\\\\IT\\\\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\gcp\\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
