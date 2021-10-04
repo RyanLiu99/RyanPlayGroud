@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Medrio.ActivityAuditLog;
@@ -15,19 +16,14 @@ namespace Medrio.Logging.Gcp
     {
         protected override Struct CreatePayLoad(HttpContext httpContext)
         {
-            Exception exception = new Exception("Fake exception");
             EventId eventId = new EventId(88, "TestGcpLoggingEventId");
             var jsonStruct = new Struct();
-            jsonStruct.Fields.Add("message", Value.ForString("message"));
+            jsonStruct.Fields.Add("message", Value.ForString("message"));  //message has special meaning when showing on the log explorer
 
             //if (_loggerOptions.ServiceContext != null)
             //{
             //    jsonStruct.Fields.Add("serviceContext", Value.ForStruct(_loggerOptions.ServiceContext));
             //}
-            if (exception != null)
-            {
-                jsonStruct.Fields.Add("exception", Value.ForString(exception.ToString()));
-            }
 
             if (eventId.Id != 0 || eventId.Name != null)
             {
@@ -48,11 +44,13 @@ namespace Medrio.Logging.Gcp
             foreach (var header in httpContext.Request.Headers)
             {
                 requestHeaderStruct.Fields.Add(
-                    header.Key.Replace('-', '_').Replace(':', '_'),  //For Big query , Fields must contain only letters, numbers, and underscores. Not start with letter.  Use regex or use data flow clean up data before import to big query
-                    header.Value.Count > 1 ?
-                    Value.ForList(header.Value.Select(Value.ForString).ToArray()) :
-                    Value.ForString(header.Value)
-                    );
+                    header.Key.Replace('-', '_')
+                        .Replace(':',
+                            '_'), //For Big query , Fields must contain only letters, numbers, and underscores. Not start with letter.  Use regex or use data flow clean up data before import to big query
+                    header.Value.Count > 1
+                        ? Value.ForList(header.Value.Select(Value.ForString).ToArray())
+                        : Value.ForString(header.Value)
+                );
             }
 
             requestStruct.Fields.Add("header", Value.ForStruct(requestHeaderStruct));

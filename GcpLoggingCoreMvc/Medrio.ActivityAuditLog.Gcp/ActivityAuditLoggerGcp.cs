@@ -28,6 +28,8 @@ namespace Medrio.Logging.Gcp
         private readonly ILogRequestBuilder<Struct> _logRequestBuilder;
         private static readonly LogSeverity Severity = LogSeverity.Info;
 
+        private static volatile int _c = 0;
+
         public ActivityAuditLoggerGcp(ILogRequestBuilder<Struct> logRequestBuilder)
         {
             _logRequestBuilder = logRequestBuilder;
@@ -39,7 +41,7 @@ namespace Medrio.Logging.Gcp
 
             // Create dictionary object to add custom labels to the log entry.
             IDictionary<string, string> entryLabels = new Dictionary<string, string>();
-            entryLabels.Add("customerId", logRequest.CustomerId);
+            entryLabels.Add("customerId", logRequest.CustomerId + _c++);
             entryLabels.Add("studyId", logRequest.StudyId);
             entryLabels.Add("app", "MedrioWeb");
 
