@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GcpLoggingCoreMvc.Services;
+using Medrio.ActivityAuditLog;
 
 namespace GcpLoggingCoreMvc.Controllers
 {
@@ -16,8 +17,9 @@ namespace GcpLoggingCoreMvc.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IMyService _myService;
+        private readonly IActivityAuditLog _activityAuditLog;
 
-        public HomeController(ILogger<HomeController> logger, IMyService myService)
+        public HomeController(ILogger<HomeController> logger, IMyService myService, IActivityAuditLog activityAuditLog)
         {
             if (myService is null)
             {
@@ -26,6 +28,7 @@ namespace GcpLoggingCoreMvc.Controllers
 
             _logger = logger;
             _myService = myService;
+            _activityAuditLog = activityAuditLog;
         }
 
         public IActionResult Index()
@@ -33,13 +36,15 @@ namespace GcpLoggingCoreMvc.Controllers
             return View();
         }
 
-        public JsonResult Log()
+        public  Task<string> Log()
         {
-            var response = new DirectGcpLogging().WriteLog(this.HttpContext);   
-            _logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "2 HomeController ILogger log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
-            //_logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
-            _myService.WriteSomeLog();
-            return Json(response);
+            return _activityAuditLog.WriteLog(this.HttpContext);
+
+            //var response = new DirectGcpLogging().WriteLog(this.HttpContext);   
+            //_logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "2 HomeController ILogger log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
+            ////_logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
+            //_myService.WriteSomeLog();
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

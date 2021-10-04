@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GcpLoggingCoreMvc.Services;
 using Google.Cloud.Diagnostics.AspNetCore;
+using Medrio.Infrastructure.Ioc;
 using Microsoft.Extensions.Logging;
 
 namespace GcpLoggingCoreMvc
@@ -40,11 +41,15 @@ namespace GcpLoggingCoreMvc
             services.AddControllersWithViews();
 
             services.AddScoped<IMyService, MyService>();
+
+            services.AutoRegisterServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.ApplicationServices.SetUpIocAdapter();
+
             loggerFactory.AddGoogle(app.ApplicationServices, "ryantest1-4fd63");
 
             if (env.IsDevelopment())
