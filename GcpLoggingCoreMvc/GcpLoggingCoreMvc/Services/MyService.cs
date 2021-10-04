@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using GcpLoggingCoreMvc.Controllers;
-using Microsoft.AspNetCore.Http;
+﻿using GcpLoggingNet5MvcLogDirectlyAndILogger.Controllers;
 using Microsoft.Extensions.Logging;
 
-namespace GcpLoggingCoreMvc.Services
+namespace GcpLoggingNet5MvcLogDirectlyAndILogger.Services
 {
     public class MyService : IMyService
     {

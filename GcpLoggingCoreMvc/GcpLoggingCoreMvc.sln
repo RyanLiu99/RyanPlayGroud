@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GcpLoggingNet5MvcLogDirectl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog", "Medrio.ActivityAuditLog\Medrio.ActivityAuditLog.csproj", "{1B738A08-6F2E-4D2F-A538-9DF8D2EB5AF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog.Gcp", "Medrio.ActivityAuditLog.Gcp\Medrio.ActivityAuditLog.Gcp.csproj", "{AB767952-6BB8-4941-AB08-B4590CC9EC98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Logging.Gcp", "Medrio.ActivityAuditLog.Gcp\Medrio.Logging.Gcp.csproj", "{AB767952-6BB8-4941-AB08-B4590CC9EC98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

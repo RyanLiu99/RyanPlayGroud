@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Medrio.ActivityAuditLog
 {
-    public interface IActivityAuditLog
+    public interface IActivityAuditLogger
     {
-        Task<string> WriteLog(HttpContext httpContext);
+        Task<string> WriteLog(HttpContext context);
     }
 }

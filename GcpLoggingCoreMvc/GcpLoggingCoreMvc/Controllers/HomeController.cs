@@ -1,15 +1,13 @@
-﻿using GcpLoggingCoreMvc.Models;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using GcpLoggingNet5MvcLogDirectlyAndILogger.Models;
+using GcpLoggingNet5MvcLogDirectlyAndILogger.Services;
+using Medrio.ActivityAuditLog;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using GcpLoggingCoreMvc.Services;
-using Medrio.ActivityAuditLog;
 
-namespace GcpLoggingCoreMvc.Controllers
+namespace GcpLoggingNet5MvcLogDirectlyAndILogger.Controllers
 {
     public class HomeController : Controller
     {
@@ -17,9 +15,9 @@ namespace GcpLoggingCoreMvc.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IMyService _myService;
-        private readonly IActivityAuditLog _activityAuditLog;
+        private readonly IActivityAuditLogger _activityAuditLogger;
 
-        public HomeController(ILogger<HomeController> logger, IMyService myService, IActivityAuditLog activityAuditLog)
+        public HomeController(ILogger<HomeController> logger, IMyService myService, IActivityAuditLogger activityAuditLogger)
         {
             if (myService is null)
             {
@@ -28,7 +26,7 @@ namespace GcpLoggingCoreMvc.Controllers
 
             _logger = logger;
             _myService = myService;
-            _activityAuditLog = activityAuditLog;
+            _activityAuditLogger = activityAuditLogger;
         }
 
         public IActionResult Index()
@@ -36,9 +34,9 @@ namespace GcpLoggingCoreMvc.Controllers
             return View();
         }
 
-        public  Task<string> Log()
+        public Task<string> Log()
         {
-            return _activityAuditLog.WriteLog(this.HttpContext);
+            return _activityAuditLogger.WriteLog(this.HttpContext);
 
             //var response = new DirectGcpLogging().WriteLog(this.HttpContext);   
             //_logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "2 HomeController ILogger log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});

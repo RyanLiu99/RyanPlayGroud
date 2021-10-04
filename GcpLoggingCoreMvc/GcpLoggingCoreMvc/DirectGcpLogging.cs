@@ -1,17 +1,15 @@
-﻿using Google.Cloud.Logging.V2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Google.Api;
 using Google.Cloud.Logging.Type;
-using Google.Protobuf.Collections;
+using Google.Cloud.Logging.V2;
 using Google.Protobuf.WellKnownTypes;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using HttpRequest = Google.Cloud.Logging.Type.HttpRequest;
 
-namespace GcpLoggingCoreMvc
+namespace GcpLoggingNet5MvcLogDirectlyAndILogger
 {
 
     //PS  $env:GOOGLE_APPLICATION_CREDENTIALS = "C:\gcp\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json"

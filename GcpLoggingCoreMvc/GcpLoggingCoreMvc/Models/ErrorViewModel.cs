@@ -1,6 +1,4 @@
-using System;
-
-namespace GcpLoggingCoreMvc.Models
+namespace GcpLoggingNet5MvcLogDirectlyAndILogger.Models
 {
     public class ErrorViewModel
     {
