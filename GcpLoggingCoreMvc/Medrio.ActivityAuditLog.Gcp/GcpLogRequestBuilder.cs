@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
-using Medrio.ActivityAuditLog;
+﻿using Google.Protobuf.WellKnownTypes;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
-namespace Medrio.Logging.Gcp
+namespace Medrio.ActivityAuditLog.Gcp
 {
     [RegisterAs(typeof(ILogRequestBuilder<Struct>))]
-    internal class GcpLogRequestBuilder : LogRequestBuilder<Struct>
+    //TODO: make it internal
+    public class GcpLogRequestBuilder : LogRequestBuilder<Struct>
     {
         protected override Struct CreatePayLoad(HttpContext httpContext)
         {

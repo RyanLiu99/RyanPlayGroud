@@ -5,12 +5,11 @@ using Google.Api;
 using Google.Cloud.Logging.Type;
 using Google.Cloud.Logging.V2;
 using Google.Protobuf.WellKnownTypes;
-using Medrio.ActivityAuditLog;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Medrio.Logging.Gcp
+namespace Medrio.ActivityAuditLog.Gcp
 {
 
     //PS  $env:GOOGLE_APPLICATION_CREDENTIALS = "C:\gcp\GcpServiceAccountKey-ryantest1-4fd63-447661f46186.json"

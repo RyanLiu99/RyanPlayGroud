@@ -9,4 +9,10 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
 
+	<PropertyGroup>
+		<PackageVersion Condition="'$(Configuration)'=='Debug'">$([System.DateTime]::Now.ToString("yy.MM.dd.HHmm"))-$(USERNAME)</PackageVersion>
+		<PackageOutputPath Condition="'$(Configuration)'=='Debug'">\medrio_data\localpackages\</PackageOutputPath>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
 </Project>

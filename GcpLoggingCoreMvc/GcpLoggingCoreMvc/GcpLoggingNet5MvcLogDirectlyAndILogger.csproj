@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Medrio.ActivityAuditLog.Gcp\Medrio.Logging.Gcp.csproj" />
+    <ProjectReference Include="..\Medrio.ActivityAuditLog.Gcp\Medrio.ActivityAuditLog.Gcp.csproj" />
     <ProjectReference Include="..\Medrio.ActivityAuditLog\Medrio.ActivityAuditLog.csproj" />
   </ItemGroup>
 
