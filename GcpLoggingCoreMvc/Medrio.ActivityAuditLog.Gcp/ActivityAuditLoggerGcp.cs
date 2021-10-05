@@ -35,6 +35,8 @@ namespace Medrio.ActivityAuditLog.Gcp
         }
         public async Task<string> WriteLog(HttpContext context)
         {
+            if (context == null) return null;
+
             var logRequest = await _logRequestBuilder.BuildLogRequest(context)
                 .ConfigureAwait(false);
 
