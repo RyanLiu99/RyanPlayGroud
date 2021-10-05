@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
+using System.Threading.Tasks;
 using System.Web;
 using Google.Protobuf.WellKnownTypes;
 using Medrio.ActivityAuditLog;
@@ -54,10 +55,11 @@ namespace Net48LogWebApi
 
         //}
 
-        private void Log()
-        {
-            IHttpContextAccessor accessor = new HttpContextAccessor();
-            _activityAuditLogger.WriteLog(accessor.HttpContext);
+        private string Log()
+        {            
+            IHttpContextAccessor accessor = new HttpContextAccessor(); //this is not work, just return null 
+           var result = _activityAuditLogger.WriteLog(accessor.HttpContext);
+            return result.Result;
         }
     }
 }
