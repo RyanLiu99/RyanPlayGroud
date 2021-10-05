@@ -3,7 +3,7 @@ using System.Runtime.ExceptionServices;
 using System.Web;
 using Google.Protobuf.WellKnownTypes;
 using Medrio.ActivityAuditLog;
-using Medrio.Logging.Gcp;
+using Medrio.ActivityAuditLog.Gcp;
 using Microsoft.AspNetCore.Http;
 using HttpContext = System.Web.HttpContext;
 
