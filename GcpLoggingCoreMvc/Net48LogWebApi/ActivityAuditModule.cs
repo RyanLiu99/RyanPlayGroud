@@ -2,10 +2,10 @@
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using System.Web;
-using Google.Protobuf.WellKnownTypes;
 using Medrio.ActivityAuditLog;
 using Medrio.ActivityAuditLog.Gcp;
-using Microsoft.AspNetCore.Http;
+using Medrio.ActivityAuditLog.Gcp.NetFramework;
+using Medrio.ActivityAuditLog.NetFramework;
 using HttpContext = System.Web.HttpContext;
 
 namespace Net48LogWebApi
@@ -57,9 +57,10 @@ namespace Net48LogWebApi
 
         private string Log()
         {            
-            IHttpContextAccessor accessor = new HttpContextAccessor(); //this is not work, just return null 
-           var result = _activityAuditLogger.WriteLog(accessor.HttpContext);
+           // IHttpContextAccessor accessor = new HttpContextAccessor(); //this is not work, just return null 
+           var result = _activityAuditLogger.WriteLog(HttpContext.Current);
             return result.Result;
+           //throw new NotImplementedException();
         }
     }
 }
