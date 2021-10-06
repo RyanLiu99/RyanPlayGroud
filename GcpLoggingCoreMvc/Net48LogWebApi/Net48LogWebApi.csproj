@@ -270,6 +270,10 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Medrio.ActivityAuditLog.Gcp.NetFramework\Medrio.ActivityAuditLog.Gcp.NetFramework.csproj">
+      <Project>{478b3355-0ba9-49c0-95aa-c195321abec5}</Project>
+      <Name>Medrio.ActivityAuditLog.Gcp.NetFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Medrio.ActivityAuditLog.NetFrameWork\Medrio.ActivityAuditLog.NetFramework.csproj">
       <Project>{3240af75-811e-47f8-8841-6a14daeed382}</Project>
       <Name>Medrio.ActivityAuditLog.NetFramework</Name>

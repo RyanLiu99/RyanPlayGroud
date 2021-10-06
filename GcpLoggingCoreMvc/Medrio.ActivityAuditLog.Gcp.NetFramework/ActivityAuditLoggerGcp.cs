@@ -35,7 +35,7 @@ namespace Medrio.ActivityAuditLog.Gcp.NetFramework
         {
             _logRequestBuilder = logRequestBuilder;
         }
-        public async Task<string> WriteLog(HttpContext context)
+        public async Task<string> WriteLog(System.Web.HttpContext context)
         {
             if (context == null) return null;
 

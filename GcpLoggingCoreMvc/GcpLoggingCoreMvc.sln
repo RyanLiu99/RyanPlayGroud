@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net48LogWebApi", "Net48LogW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog.NetFramework", "Medrio.ActivityAuditLog.NetFrameWork\Medrio.ActivityAuditLog.NetFramework.csproj", "{3240AF75-811E-47F8-8841-6A14DAEED382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog.Gcp.NetFramework", "Medrio.ActivityAuditLog.Gcp.NetFramework2\Medrio.ActivityAuditLog.Gcp.NetFramework.csproj", "{478B3355-0BA9-49C0-95AA-C195321ABEC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog.Gcp.NetFramework", "Medrio.ActivityAuditLog.Gcp.NetFramework\Medrio.ActivityAuditLog.Gcp.NetFramework.csproj", "{478B3355-0BA9-49C0-95AA-C195321ABEC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
