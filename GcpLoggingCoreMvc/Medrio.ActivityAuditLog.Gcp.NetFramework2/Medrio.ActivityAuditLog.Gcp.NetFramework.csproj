@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityAuditLoggerGcp.cs" />
+    <Compile Include="GcpLogRequestBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Diagnostics.AspNetCore" Version="4.2.0" />
+    <PackageReference Include="Google.Cloud.Logging.V2" Version="3.4.0" />
+    <PackageReference Include="Medrio.Infrastructure.Ioc" Version="2.0.0.35" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Medrio.ActivityAuditLog.NetFrameWork\Medrio.ActivityAuditLog.NetFramework.csproj">
