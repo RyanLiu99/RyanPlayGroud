@@ -66,8 +66,7 @@ namespace Medrio.ActivityAuditLog.Gcp
             LogEntry logEntry = new LogEntry()
             {
                 LogNameAsLogName = LogName,
-                Severity = Severity,
-                Operation = new LogEntryOperation() { First = true, Producer = "DirectGcpLogging"},
+                Severity = Severity,                
                 #region comments
                 //TextPayload = $"{DateTime.Now}  Hello CGP!",
                 //SourceLocation = Source code location information, file/line

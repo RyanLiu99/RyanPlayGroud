@@ -14,6 +14,9 @@ namespace Medrio.ActivityAuditLog
 {
     public abstract class LogRequestBuilder<TPayload> : ILogRequestBuilder<TPayload>
     {
+        public const string Header = "header";
+        public const string URL = "URL";
+        public const string Request = "request";
         public Task<LogRequest<TPayload>> BuildLogRequest(HttpContext httpContext)
         {
             var request = new LogRequest<TPayload>()

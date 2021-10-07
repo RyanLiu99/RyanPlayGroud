@@ -12,83 +12,52 @@ namespace Medrio.ActivityAuditLog.Gcp
     {
 #if NETFRAMEWORK
         protected override Struct CreatePayLoad(System.Web.HttpContext httpContext)
-        {                        
-            var jsonStruct = new Struct();
-
-            jsonStruct.Fields.Add("Url", Value.ForString(httpContext.Request.Url.ToString()));
-
-            var requestStruct = new Struct();
+        {   
+            //Url, Header, body already contains everything            
             
+            var payLoadStruct = new Struct();
+            payLoadStruct.Fields.Add(URL, Value.ForString(httpContext.Request.Url.ToString()));
 
-            //Url, Header, body already contains everything
-            
-            
+            var requestStruct = new Struct();                                    
             var requestHeaderStruct = new Struct();
-            
-            foreach (var header in httpContext.Request.Headers)
+
+            var headers = httpContext.Request.Headers;
+            foreach (var header in headers)
             {
-                //requestHeaderStruct.Fields.Add(
-                //    header.Key.Replace('-', '_')
-                //        .Replace(':',
-                //            '_'), //For Big query , Fields must contain only letters, numbers, and underscores. Not start with letter.  Use regex or use data flow clean up data before import to big query
-                //    header.Value.Count > 1
-                //        ? Value.ForList(header.Value.Select(Value.ForString).ToArray())
-                //        : Value.ForString(header.Value)
-                //);
-                requestHeaderStruct.Fields.Add(header.ToString(), Value.ForString(httpContext.Request.Headers[header.ToString()]));
+                //For Big query , Fields must contain only letters, numbers, and underscores. Not start with letter.
+                //Use regex to replace special char or use data flow clean up data before import to big query
+                requestHeaderStruct.Fields.Add(header.ToString().Replace('-', '_').Replace(':', '_'), 
+                    Value.ForString(headers[header.ToString()]));
             }
 
+            requestStruct.Fields.Add(Header, Value.ForStruct(requestHeaderStruct));
+            payLoadStruct.Fields.Add(Request, Value.ForStruct(requestStruct));
 
-            requestStruct.Fields.Add("header", Value.ForStruct(requestHeaderStruct));
-            jsonStruct.Fields.Add("request", Value.ForStruct(requestStruct));
-
-            return jsonStruct;
+            return payLoadStruct;
         }
 
 #else
         protected override Struct CreatePayLoad(Microsoft.AspNetCore.Http.HttpContext httpContext)
-        {
-            //EventId eventId = new EventId(88, "TestGcpLoggingEventId");
-            var jsonStruct = new Struct();
-            jsonStruct.Fields.Add("message", Value.ForString("message netcore"));  //message has special meaning when showing on the log explorer
-
-            //if (_loggerOptions.ServiceContext != null)
-            //{
-            //    jsonStruct.Fields.Add("serviceContext", Value.ForStruct(_loggerOptions.ServiceContext));
-            //}
-
-            //if (eventId.Id != 0 || eventId.Name != null)
-            //{
-            //    var eventStruct = new Struct();
-            //    if (eventId.Id != 0)
-            //    {
-            //        eventStruct.Fields.Add("id", Value.ForNumber(eventId.Id));
-            //    }
-            //    if (!string.IsNullOrWhiteSpace(eventId.Name))
-            //    {
-            //        eventStruct.Fields.Add("name", Value.ForString(eventId.Name));
-            //    }
-            //    jsonStruct.Fields.Add("event_id", Value.ForStruct(eventStruct));
-            //}
-
+        {            
+            var payLoadStruct = new Struct();
             var requestStruct = new Struct();
+            payLoadStruct.Fields.Add(URL, Value.ForString(Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(httpContext.Request)));
+
             var requestHeaderStruct = new Struct();
             foreach (var header in httpContext.Request.Headers)
             {
+                //For Big query , Fields must contain only letters, numbers, and underscores. Not start with letter.
+                //Use regex to replace special chars or use data flow clean up data before import to big query
                 requestHeaderStruct.Fields.Add(
-                    header.Key.Replace('-', '_')
-                        .Replace(':',
-                            '_'), //For Big query , Fields must contain only letters, numbers, and underscores. Not start with letter.  Use regex or use data flow clean up data before import to big query
-                    header.Value.Count > 1
-                        ? Value.ForList(header.Value.Select(Value.ForString).ToArray())
-                        : Value.ForString(header.Value)
+                    header.Key.Replace('-', '_').Replace(':',  '_'),                         
+                    Value.ForString(string.Join(",",header.Value)) //we can use Value.ForList(), but make it same as .net framework version
                 );
             }
 
-            requestStruct.Fields.Add("header", Value.ForStruct(requestHeaderStruct));
-            jsonStruct.Fields.Add("request", Value.ForStruct(requestStruct));
+            requestStruct.Fields.Add(Header, Value.ForStruct(requestHeaderStruct));
+            payLoadStruct.Fields.Add(Request, Value.ForStruct(requestStruct));
 
-            return jsonStruct;
+            return payLoadStruct;
         }
 
 #endif
