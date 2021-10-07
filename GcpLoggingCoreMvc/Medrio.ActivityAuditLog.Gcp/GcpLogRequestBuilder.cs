@@ -31,6 +31,7 @@ namespace Medrio.ActivityAuditLog.Gcp
             }
 
             requestStruct.Fields.Add(Header, Value.ForStruct(requestHeaderStruct));
+            requestStruct.Fields.Add(Body, Value.ForString(GetRequestBody(httpContext)));
             payLoadStruct.Fields.Add(Request, Value.ForStruct(requestStruct));
 
             return payLoadStruct;
