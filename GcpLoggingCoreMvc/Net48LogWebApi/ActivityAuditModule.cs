@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using System.Web;
 using Medrio.ActivityAuditLog;
 using Medrio.ActivityAuditLog.Gcp;
-using Medrio.ActivityAuditLog.Gcp.NetFramework;
-using Medrio.ActivityAuditLog.NetFramework;
 using HttpContext = System.Web.HttpContext;
 
 namespace Net48LogWebApi
