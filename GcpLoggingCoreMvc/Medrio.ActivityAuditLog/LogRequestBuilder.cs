@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+#if NETFRAMEWORK
+using HttpContext = System.Web.HttpContext;
+#else
+using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
+#endif
+
 namespace Medrio.ActivityAuditLog
 {
     public abstract class LogRequestBuilder<TPayload> : ILogRequestBuilder<TPayload>
     {
-        public ValueTask<LogRequest<TPayload>> BuildLogRequest(HttpContext httpContext)
+        public Task<LogRequest<TPayload>> BuildLogRequest(HttpContext httpContext)
         {
             var request = new LogRequest<TPayload>()
             {
@@ -17,11 +23,9 @@ namespace Medrio.ActivityAuditLog
                 PayLoad = CreatePayLoad(httpContext)
             };
 
-            return new ValueTask<LogRequest<TPayload>>(request);
+            return Task.FromResult(request);
         }
 
-
-        protected abstract TPayload CreatePayLoad(HttpContext httpContext);
-
-}
+        protected abstract TPayload CreatePayLoad(HttpContext context);
+    }
 }

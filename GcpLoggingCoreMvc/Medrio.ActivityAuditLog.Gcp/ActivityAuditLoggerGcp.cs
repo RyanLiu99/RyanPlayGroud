@@ -9,6 +9,13 @@ using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
+
+#if NETFRAMEWORK
+using HttpContext = System.Web.HttpContext;
+#else
+using HttpContext = Microsoft.AspNetCore.Http.HttpContext;
+#endif
+
 namespace Medrio.ActivityAuditLog.Gcp
 {
 
