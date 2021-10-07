@@ -46,6 +46,7 @@ namespace Medrio.ActivityAuditLog.Gcp
         {            
             var payLoadStruct = new Struct();
             var requestStruct = new Struct();
+            requestStruct.Fields.Add(HttpMethod, Value.ForString(httpContext.Request.Method));
             payLoadStruct.Fields.Add(URL, Value.ForString(Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(httpContext.Request)));
 
             var requestHeaderStruct = new Struct();

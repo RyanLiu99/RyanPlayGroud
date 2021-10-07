@@ -66,7 +66,7 @@ namespace Medrio.ActivityAuditLog.Gcp
             LogEntry logEntry = new LogEntry()
             {
                 LogNameAsLogName = LogName,
-                Severity = Severity,                
+                Severity = Severity,
                 #region comments
                 //TextPayload = $"{DateTime.Now}  Hello CGP!",
                 //SourceLocation = Source code location information, file/line
@@ -86,31 +86,15 @@ namespace Medrio.ActivityAuditLog.Gcp
 
                 JsonPayload = logRequest.PayLoad
             };
-            
 
-            IEnumerable<LogEntry> logEntries = new LogEntry[] { logEntry};
+
+            IEnumerable<LogEntry> logEntries = new LogEntry[] { logEntry };
 
             // Write new log entry.
             WriteLogEntriesResponse response = await client.WriteLogEntriesAsync(LogName, resource, entryLabels, logEntries).ConfigureAwait(false);
 
-            Console.WriteLine("Log Entries sent, response is " + response );
+            Console.WriteLine("Log Entries sent, response is " + response);
             return string.Empty;
         }
-
-        
-        //private HttpRequest GetHttpRequest(HttpContext httpContext)
-        //{
-        //    //properly we add our httpRequest in json payload, not user Google httpRequest property and type which is very limited. 
-        //    //if we not set Google httpRequest property, it then won't show up in log.
-        //    return new HttpRequest()
-        //    {
-        //        //Referer =
-        //        RequestMethod = httpContext.Request.Method,
-        //        Protocol = httpContext.Request.Protocol,
-        //        RemoteIp = httpContext.Connection.RemoteIpAddress.ToString()
-        //    };
-        //}
-
-        
     }
 }

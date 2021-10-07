@@ -107,7 +107,54 @@ namespace Medrio.ActivityAuditLog
 #else
         public string GetRequestBody(HttpContext context)
         {
-            throw new NotImplementedException();
+            var request = context.Request;
+            try
+            {
+                Stream inputStream = request.Body;
+
+
+                if (inputStream != null && inputStream.Length > 0 && inputStream.CanRead)
+                {
+                    var bodyStream = new StreamReader(inputStream,
+                        Encoding.Default, true,
+                        (int)inputStream.Length,
+                        true);
+                    string readToEnd = bodyStream.ReadToEnd();
+                    inputStream.Position = 0;
+
+                    string requestBody = System.Web.HttpUtility.UrlDecode(readToEnd);
+
+                    if (!string.IsNullOrEmpty(requestBody))
+                    {
+
+                        const string groupName = "replace";
+
+                        if (PasswordRegex.GetGroupNames().Contains(groupName))
+                        {
+                            Match[] matches = PasswordRegex.Matches(requestBody).Cast<Match>().ToArray();
+
+                            foreach (Match match in matches)
+                            {
+                                string oldValue = match.Groups[groupName].Value;
+                                if (!string.IsNullOrEmpty(oldValue))
+                                {
+                                    string newValue = match.Value.Replace(oldValue, "removed-by-Medrio");
+                                    requestBody = requestBody.Replace(match.Value, newValue);
+                                }
+                            }
+                        }
+                    }
+
+                    return requestBody;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+
+            return string.Empty;
         }
 #endif
     }
