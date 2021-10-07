@@ -11,10 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.ActivityAuditLog.Gcp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net48LogWebApi", "Net48LogWebApi\Net48LogWebApi.csproj", "{60E70766-CEE6-4CBF-8B1B-81B62F1BC584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog.NetFramework", "Medrio.ActivityAuditLog.NetFrameWork\Medrio.ActivityAuditLog.NetFramework.csproj", "{3240AF75-811E-47F8-8841-6A14DAEED382}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.ActivityAuditLog.Gcp.NetFramework", "Medrio.ActivityAuditLog.Gcp.NetFramework\Medrio.ActivityAuditLog.Gcp.NetFramework.csproj", "{478B3355-0BA9-49C0-95AA-C195321ABEC5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,14 +33,6 @@ Global
 		{60E70766-CEE6-4CBF-8B1B-81B62F1BC584}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E70766-CEE6-4CBF-8B1B-81B62F1BC584}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E70766-CEE6-4CBF-8B1B-81B62F1BC584}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3240AF75-811E-47F8-8841-6A14DAEED382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3240AF75-811E-47F8-8841-6A14DAEED382}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3240AF75-811E-47F8-8841-6A14DAEED382}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3240AF75-811E-47F8-8841-6A14DAEED382}.Release|Any CPU.Build.0 = Release|Any CPU
-		{478B3355-0BA9-49C0-95AA-C195321ABEC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{478B3355-0BA9-49C0-95AA-C195321ABEC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{478B3355-0BA9-49C0-95AA-C195321ABEC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{478B3355-0BA9-49C0-95AA-C195321ABEC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
