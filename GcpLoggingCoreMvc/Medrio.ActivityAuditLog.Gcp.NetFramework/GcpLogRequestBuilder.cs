@@ -16,7 +16,7 @@ namespace Medrio.ActivityAuditLog.Gcp.NetFramework
         {
             EventId eventId = new EventId(88, "TestGcpLoggingEventId");
             var jsonStruct = new Struct();
-            jsonStruct.Fields.Add("message", Value.ForString("message"));  //message has special meaning when showing on the log explorer
+            jsonStruct.Fields.Add("message", Value.ForString("message framework"));  //message has special meaning when showing on the log explorer
 
             //if (_loggerOptions.ServiceContext != null)
             //{

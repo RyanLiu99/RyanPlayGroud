@@ -46,7 +46,7 @@ namespace Medrio.ActivityAuditLog.Gcp.NetFramework
             IDictionary<string, string> entryLabels = new Dictionary<string, string>();
             entryLabels.Add("customerId", logRequest.CustomerId + _c++);
             entryLabels.Add("studyId", logRequest.StudyId);
-            entryLabels.Add("app", "MedrioWeb");
+            entryLabels.Add("app", "MedrioWebApp");
 
             // Instantiates a client.
             var client = await LoggingServiceV2Client.CreateAsync().ConfigureAwait(false);
