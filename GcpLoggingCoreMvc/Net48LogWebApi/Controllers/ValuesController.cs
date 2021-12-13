@@ -3,16 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
+using System.Reflection;
+using System.Text;
+using System.Web.Hosting;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 
 namespace Net48LogWebApi.Controllers
 {
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public JsonResult<AppInfoResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var obj = new AppInfoResult
+            {
+                ExecutingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name, //"Net48LogWebApi",
+                EntryAssemblyName = Assembly.GetEntryAssembly()?.GetName().Name, //null
+                AppHostSiteName = HostingEnvironment.ApplicationHost.GetSiteName(), //"Net48LogWebApi"
+                HostEnvSiteName = HostingEnvironment.SiteName //preferred . "Net48LogWebApi"
+            };
+
+            return Json(obj);
+            
+            //return new JsonResult()
+            //{
+            //    Data = obj,
+            //    ContentType = "text/json",
+            //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            //};
         }
 
         // GET api/values/5
@@ -36,4 +57,14 @@ namespace Net48LogWebApi.Controllers
         {
         }
     }
+
+    public class AppInfoResult
+    {
+
+        public string ExecutingAssemblyName { get; set; }
+        public string EntryAssemblyName { get; set; }
+        public string AppHostSiteName { get; set; }
+        public string HostEnvSiteName { get; set; }
+    }
+
 }
