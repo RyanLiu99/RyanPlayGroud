@@ -18,9 +18,10 @@ namespace WebApiNet5.Controllers
             this.logger = logger;
         }
         [HttpGet]
-        public object Index()
+        public object Index(string q)
         {
-            var s = $"Receive a request at  + {DateTime.Now}.  \r\n" +
+            var s = $"Receive a request at  + {DateTime.Now}.  {q} \r\n" +
+                    $"Try /Index?q=echo back\r\n" +
                     $"Go to <a href='/swagger/'>/swagger/</a>";
             logger.LogInformation(s);
             return s;
