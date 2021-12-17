@@ -13,6 +13,8 @@ namespace WebApiNet5
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Program start at " + DateTime.Now);
+            Console.WriteLine("------------ Go to /Index?q=aa  or /swagger/-------------------");
             CreateHostBuilder(args).Build().Run();
         }
 
