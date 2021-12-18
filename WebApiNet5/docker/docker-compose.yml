@@ -11,7 +11,7 @@ services:
       context: ../src
       dockerfile: ./Dockerfile
       args:
-        version: "1.0.0.42"    
+        version: "1.0.0.100"    
     volumes:
       - ./LogFiles:/LogFiles
     restart: unless-stopped
