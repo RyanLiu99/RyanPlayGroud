@@ -28,7 +28,7 @@ namespace CoreWebApp1.Controllers
       _byOptionMonitor = montior;
     }
 
-    //values/GetByGet
+    //values/Get
     //return {"cfgNumber":12,"cfgString":"String3","sub":{"subCfgNumber":112,"subCfgString":"StringSub3"}}
     [HttpGet]
     public object Get()
@@ -45,7 +45,7 @@ namespace CoreWebApp1.Controllers
         byGet, //will change
         byBind, //will change
         byInjectedIOption = _ryanCfgIOptions.Value, //no reload
-        _ryanCfgIOptionSnapShot.Value, //realod
+        _ryanCfgIOptionSnapShot.Value, //relood
         _byOptionMonitor.CurrentValue //reload
       };
     }

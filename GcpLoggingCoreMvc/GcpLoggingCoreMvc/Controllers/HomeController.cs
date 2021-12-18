@@ -1,14 +1,14 @@
-﻿using GcpLoggingCoreMvc.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using GcpLoggingCoreMvc.Services;
+using GcpLoggingNet5MvcLogDirectlyAndILogger.Models;
+using GcpLoggingNet5MvcLogDirectlyAndILogger.Services;
+using Medrio.ActivityAuditLog;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace GcpLoggingCoreMvc.Controllers
+namespace GcpLoggingNet5MvcLogDirectlyAndILogger.Controllers
 {
     public class HomeController : Controller
     {
@@ -16,8 +16,12 @@ namespace GcpLoggingCoreMvc.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IMyService _myService;
+        private readonly IActivityAuditLogger _activityAuditLogger;
+        private readonly IHostEnvironment _hostEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, IMyService myService)
+        public HomeController(ILogger<HomeController> logger, IMyService myService, 
+            IActivityAuditLogger activityAuditLogger,
+            IHostEnvironment hostEnvironment)
         {
             if (myService is null)
             {
@@ -26,6 +30,8 @@ namespace GcpLoggingCoreMvc.Controllers
 
             _logger = logger;
             _myService = myService;
+            _activityAuditLogger = activityAuditLogger;
+            _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
@@ -33,13 +39,18 @@ namespace GcpLoggingCoreMvc.Controllers
             return View();
         }
 
-        public JsonResult Log()
+        public async Task<string> Log()
         {
-            var response = new DirectGcpLogging().WriteLog(this.HttpContext);   
-            _logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "2 HomeController ILogger log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
-            //_logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
-            _myService.WriteSomeLog();
-            return Json(response);
+            var result = await _activityAuditLogger.WriteLog(this.HttpContext);
+            return result
+                   + " | App : " + _hostEnvironment.ApplicationName  //GcpLoggingNet5MvcLogDirectlyAndILogger 
+                   + " | Env : " + _hostEnvironment.EnvironmentName; //Development
+
+            //var response = new DirectGcpLogging().WriteLog(this.HttpContext);   
+            //_logger.LogCritical(TestGcpLoggingEventId, new Exception("Fake exception"), "2 HomeController ILogger log a CriticalMsg: {criticalMsg}", new CriticalMsg { Age = 55, CriticalStr = "Prop2"});
+            ////_logger.LogInformation("In Controller, Activity.Current?.Id is {activityId}, HttpContextTraceId is {traceId}", Activity.Current?.Id, HttpContext.TraceIdentifier);
+            //_myService.WriteSomeLog();
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

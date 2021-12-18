@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+	</ItemGroup>
+
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<Reference Include="System.Web" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageVersion Condition="'$(Configuration)'=='Debug'">$([System.DateTime]::Now.ToString("yy.MM.dd.HHmm"))-$(USERNAME)</PackageVersion>
+		<PackageOutputPath Condition="'$(Configuration)'=='Debug'">\medrio_data\localpackages\</PackageOutputPath>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+</Project>

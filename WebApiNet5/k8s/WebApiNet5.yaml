@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapinet5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapinet5 
+  template:
+    metadata:
+      labels:
+        app: webapinet5
+    spec:
+      containers:
+      - image: webapinet5:dev
+        imagePullPolicy: Always
+        name: webapinet5
+        ports:
+        - name: webapinet5
+          containerPort: 4299
+

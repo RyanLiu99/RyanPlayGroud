@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GcpLoggingCoreMvc.Data
+namespace GcpLoggingNet5MvcLogDirectlyAndILogger.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

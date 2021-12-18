@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: webapinet5
+  name: webapinet5
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 99
+      targetPort: 4299
+  selector:
+    app: webapinet5

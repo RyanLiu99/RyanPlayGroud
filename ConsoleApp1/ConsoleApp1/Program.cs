@@ -17,8 +17,10 @@ namespace ConsoleApp1
         {
             OneTimeSetup();
             //TestDateTime.Test(); //long delay, for testing date time over new year midnight
-            TestValidation.Test();
+            //TestValidation.Test();
             //TestJsonLogging.Test();
+
+            TestRegex.RunTests();
         }
 
         private static void OneTimeSetup()

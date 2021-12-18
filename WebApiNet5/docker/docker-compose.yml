@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ryan.webapinet5:
+    image: webapinet5
+    container_name: WebApiNet5
+    build:
+      target: final
+      labels:
+        label1: "RyanTest"
+      context: ../src
+      dockerfile: ./Dockerfile
+      args:
+        version: "1.0.0.42"    
+    volumes:
+      - ./LogFiles:/LogFiles
+    restart: unless-stopped
+    ports:
+      - "12777:80"
+      - "152:443"
+    environment: 
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "https://+:443;http://+:80"

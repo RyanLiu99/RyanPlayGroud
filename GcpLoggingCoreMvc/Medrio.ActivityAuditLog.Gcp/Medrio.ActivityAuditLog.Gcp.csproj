@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Web" />		
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Net.Http" />		
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Google.Cloud.Diagnostics.AspNetCore" Version="4.2.0" />
+		<PackageReference Include="Google.Cloud.Logging.V2" Version="3.4.0" />
+		<PackageReference Include="Medrio.Infrastructure.Ioc" Version="2.0.0.35" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Medrio.ActivityAuditLog\Medrio.ActivityAuditLog.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageVersion Condition="'$(Configuration)'=='Debug'">$([System.DateTime]::Now.ToString("yy.MM.dd.HHmm"))-$(USERNAME)</PackageVersion>
+		<PackageOutputPath Condition="'$(Configuration)'=='Debug'">\medrio_data\localpackages\</PackageOutputPath>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+	  <DefineConstants>TRACE</DefineConstants>
+	</PropertyGroup>
+
+</Project>
