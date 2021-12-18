@@ -13,7 +13,7 @@ spec:
         app: webapinet5
     spec:
       containers:
-      - image: webapinet5:dev
+      - image: webapinet5
         imagePullPolicy: Always
         name: webapinet5
         ports:
