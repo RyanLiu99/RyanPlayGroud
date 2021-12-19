@@ -8,5 +8,5 @@ spec:
   - port: 801
     targetPort: 851
     nodePort: 30851
-  selector:
-   app: webapinet5
+  selector:  #select Pod
+   app: webapinet5 
