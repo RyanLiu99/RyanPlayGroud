@@ -1,0 +1,6 @@
+
+ kubectl logs webapinet5pod webapinet5-1
+
+kubectl get pods -o wide
+kubectl get pods --all-namespaces # check status column
+
