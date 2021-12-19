@@ -9,6 +9,7 @@ namespace WebApiNet5.Controllers
 {
     [ApiController]
     [Route("/[action]")]
+    [Route("")]
     public class DefaultController
     {
         private readonly ILogger<DefaultController> logger;
@@ -22,7 +23,7 @@ namespace WebApiNet5.Controllers
         {
             var s = $"Receive a request at  + {DateTime.Now}.  {q} \r\n" +
                     $"Try /Index?q=echo back\r\n" +
-                    $"Go to <a href='/swagger/'>/swagger/</a>";
+                    $"Go to /swagger/ if in Development mode";
             logger.LogInformation(s);
             return s;
         }
