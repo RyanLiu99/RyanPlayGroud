@@ -8,8 +8,8 @@ services:
       target: final
       labels:
         label1: "RyanTest"
-      context: ../src
-      dockerfile: ./Dockerfile
+      context: ../
+      dockerfile: src/Dockerfile  #relative path in context
       args:
         version: "1.0.0.100"        
     restart: unless-stopped

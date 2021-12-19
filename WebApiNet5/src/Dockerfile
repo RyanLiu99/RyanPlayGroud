@@ -11,8 +11,8 @@
 
 	RUN echo "using version $version"
 		
-    # COPY: Copy All Workspace contents into Docker Container                        #
-    COPY . .
+    # COPY: Copy src to src in Docker Container                        #
+    COPY src/ .
 		
 	# RESTORE: Restore all nuget packages for Solution                               #
 	RUN dotnet restore ./WebApiNet5.sln
@@ -29,7 +29,7 @@
 	
 	# BASE: ASP.Net Core Base Image, listening on port 80
     FROM  base AS final
-    COPY ./Certs  ./Certs
+    COPY ./Certs/  /app/Certs/
     COPY --from=publish /app .
 	
     ENTRYPOINT ["dotnet", "WebApiNet5.dll"]
