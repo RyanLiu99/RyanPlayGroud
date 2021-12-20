@@ -4,3 +4,10 @@
 kubectl get pods -o wide
 kubectl get pods --all-namespaces # check status column
 
+kubectl describe pods webapinet5
+
+kubectl describe servicekube webapinet5
+
+ kubectl describe ingress webapinet5
+ 
+ kubectl get all
