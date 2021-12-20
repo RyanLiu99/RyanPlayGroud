@@ -1,12 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: guestbook-ingress
+  name: webapinet5-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:  
-  - http:
+  - host: webapinet5.local.medrio.com
+    http:
      paths:
      - path: /
        pathType: Prefix

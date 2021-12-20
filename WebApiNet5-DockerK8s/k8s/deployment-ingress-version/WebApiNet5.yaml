@@ -13,10 +13,12 @@ spec:
         app: webapinet5
     spec:
       containers:
-      - image: webapinet5
-        imagePullPolicy: Always
-        name: webapinet5
+      - name: webapinet5-1
+        image: webapinet5publish
+        imagePullPolicy: Never 
+        args: []
+        env:
+        - name : ASPNETCORE_URLS
+          value: "http://+:4299"    
         ports:
-        - name: webapinet5
-          containerPort: 4299
-
+        - containerPort: 4299

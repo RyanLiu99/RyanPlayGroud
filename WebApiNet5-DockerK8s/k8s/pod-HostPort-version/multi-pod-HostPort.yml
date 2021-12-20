@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapinet5podhostport
+  labels:
+    app: webapinet5hostport
+spec:
+  hostNetwork: true
+  containers:  
+  - name: webapinet5hostport-1
+    image: webapinet5publish
+    imagePullPolicy: Never 
+    args: []
+    env:
+    - name : ASPNETCORE_URLS
+      value: "http://+:851"    
+    ports:
+    - containerPort: 851
+  - name: webapinet5hostport-2
+    image: webapinet5publish
+    imagePullPolicy: Never 
+    args: []
+    env:
+    - name : ASPNETCORE_URLS
+      value: "http://+:1852"
+    ports:
+    - containerPort: 1852   
+      hostPort: 1852   
+      
