@@ -21,4 +21,5 @@ spec:
         - name : ASPNETCORE_URLS
           value: "http://+:4299"    
         ports:
-        - containerPort: 4299
+        - name : webapinet5
+          containerPort: 4299
