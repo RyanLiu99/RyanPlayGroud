@@ -18,7 +18,7 @@ docker-compose stop
 docker ps --format "{{.Image}}#{{.ID}}" -n 1 -q | Where-Object {$_ -Match "webapinet5"} | foreach-object {docker rm -f $_.split("#")[1]}  
 # docker container rm -fv WebApiNet5
 prune
-docker-compose up -d --build
+docker-compose up -d --build # or run dockerize-another.directWay.ps1 to create image only
 try { [System.Diagnostics.Process]::Start("https://localhost:252/Index")  # PS 5 only
 } catch { } #Ignore
 Set-Location $OldLocaton
