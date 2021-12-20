@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: {{.Release.Name}}
+  name: {{.Release.Name}}
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 99
+      targetPort: 4299
+  selector:
+    app: {{.Release.Name}}
