@@ -6,14 +6,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{.Release.Name}} 
+      app: {{include "app.fullname" .}}
   template:
     metadata:
       labels:
-        app: {{.Release.Name}}
+        app: {{include "app.fullname" .}}
     spec:
       containers:
-      - name: {{.Release.Name}}-{{.Release.Revision}}
+      - name: {{include "app.fullname" .}}-{{.Release.Revision}}
         image: webapinet5publish
         imagePullPolicy: Never 
         args: []
