@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: {{include "app.fullname" .}}-{{.Release.Revision}}
-        image: webapinet5publish
+        image: {{ .Values.image.repository }}
         imagePullPolicy: Never 
         args: []
         env:

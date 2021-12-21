@@ -15,5 +15,5 @@ spec:
          service:
           name: {{include "app.fullname" .}}
           port:
-            number: 99
+            number: {{ .Values.service.port}}
   

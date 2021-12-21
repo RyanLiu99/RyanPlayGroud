@@ -1,0 +1,9 @@
+image:
+  repository: webapinet5publish
+  tag: ""
+service:
+  type: ClusterIP
+  port: 99
+ingress:
+  enabled: true
+
