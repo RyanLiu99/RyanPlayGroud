@@ -6,4 +6,4 @@ service:
   port: 99
 ingress:
   enabled: true
-
+fullnameOverride: "webapinet5override"
