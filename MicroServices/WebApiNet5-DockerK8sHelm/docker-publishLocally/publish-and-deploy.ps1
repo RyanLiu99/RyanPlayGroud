@@ -9,9 +9,10 @@ $OldLocaton = Get-Location
 Set-Location "$PSSCRIPTROOT\..\src\"
 $version = '1.0.88' #can be parameter
 dotnet build  /p:Version=$version  -c Release # --no-restore, it will restore as needed
-dotnet publish -c Release -o ../Publish # it will restore, build first if needed
-Copy-Item '..\docker-publishLocally\DockerfilePublish' -Destination '..\Publish\'
-Copy-Item '..\Certs\localhost-openssl.pfx' -Destination '..\Publish\Certs\'
+dotnet publish -c Release -o ../_Publish # it will restore, build first if needed
+New-Item -path '..\_Publish\Certs\' -ItemType Directory -Force
+Copy-Item '..\docker-publishLocally\DockerfilePublish' -Destination '..\_Publish\'
+Copy-Item '..\Certs\localhost-openssl.pfx' -Destination '..\_Publish\Certs\'
 
 Set-Location "$PSSCRIPTROOT\"
 docker-compose stop
