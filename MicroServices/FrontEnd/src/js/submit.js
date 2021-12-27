@@ -3,7 +3,7 @@ $("#btnSubmit").click(function () {
     console.log("send " + inputTxt)
     $.get(
         {
-            url:"https://localhost:252?q=" + inputTxt,
+            url:"https://localhost:352?q=" + inputTxt,
             
             success:  function (data, txtStatus) {
                 $("#result").append(data + "<br/>");

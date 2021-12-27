@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   ryan.webapinet5published:
-    image: webapinet5publish
-    container_name: WebApiNet5BackEnd
+    image: playground/proxyservice
+    container_name: playgroundProxyService
     build:
       target: final
       labels:
@@ -14,8 +14,8 @@ services:
         version: "1.0.0.100"        
     restart: unless-stopped
     ports:
-      - "12888:80"
-      - "252:443"
+      - "22888:80"
+      - "352:443"
     environment: 
         ASPNETCORE_ENVIRONMENT: "Development"
         ASPNETCORE_URLS: "https://+:443;http://+:80"
