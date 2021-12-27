@@ -16,8 +16,8 @@ Copy-Item '..\Certs\localhost-openssl.pfx' -Destination '..\_Publish\Certs\'
 
 Set-Location "$PSSCRIPTROOT\"
 docker-compose stop
-docker ps --format "{{.Image}}#{{.ID}}" -n 1 -q | Where-Object {$_ -Match "webapinet5"} | foreach-object {docker rm -f $_.split("#")[1]}  
-# docker container rm -fv WebApiNet5
+docker ps --format "{{.Image}}#{{.ID}}" -n 1 -q | Where-Object {$_ -Match "webapinet5publish"} | foreach-object {docker rm -f $_.split("#")[1]}  
+# docker container rm -fv webapinet5publish
 prune
 docker-compose up -d --build # or run dockerize-another.directWay.ps1 to create image only
 try { [System.Diagnostics.Process]::Start("https://localhost:252/Index")  # PS 5 only

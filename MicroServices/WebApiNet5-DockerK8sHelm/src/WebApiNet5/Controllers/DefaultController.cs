@@ -21,7 +21,7 @@ namespace WebApiNet5.Controllers
         [HttpGet]
         public object Index(string q)
         {
-            var s = $"WebApiNet5 back-end service {Environment.MachineName} received a request at  + {DateTime.Now}.  {q} " +
+            var s = $"WebApiNet5 BackEnd service {Environment.MachineName} received a request at  + {DateTime.Now}.  {q} " +
                     $"Try /Index?q=echo back. " +
                     $"Go to /swagger/ if in Development mode";
             logger.LogInformation(s);
