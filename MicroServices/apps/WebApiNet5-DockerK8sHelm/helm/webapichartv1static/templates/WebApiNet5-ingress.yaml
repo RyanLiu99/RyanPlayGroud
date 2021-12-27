@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapinet5-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:  
+  - host: webapinet5.local.medrio.com
+    http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+          name: webapinet5
+          port:
+            number: 99
+  
