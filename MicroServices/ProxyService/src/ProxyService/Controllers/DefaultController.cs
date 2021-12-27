@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
@@ -14,20 +15,21 @@ namespace ProxyService.Controllers
     public class DefaultController : ControllerBase
     {
         private readonly ILogger<DefaultController> logger;
+        private readonly IHttpClientFactory httpClientFactory;
 
-        public DefaultController(ILogger<DefaultController> logger)
+        public DefaultController(ILogger<DefaultController> logger, IHttpClientFactory httpClientFactory)
         {
             this.logger = logger;
+            this.httpClientFactory = httpClientFactory;
         }
 
         [HttpGet]
-        public object Index(string q)
+        public async Task<string> Index(string q)
         {
-            var s = $"Proxy Service {Environment.MachineName} received a request at  + {DateTime.Now}.  {q} " +
-                    $"Try /Index?q=echo back. " +
-                    $"Go to /swagger/ if in Development mode";
-
-
+            using var httpClient = httpClientFactory.CreateClient();
+            httpClient.BaseAddress = new Uri("https://localhost:252");
+            var backEndResponse = await httpClient.GetStringAsync("?q=" + q).ConfigureAwait(false);
+            var s = $"[{DateTime.Now}] Proxy {Environment.MachineName} Got from back end: [{backEndResponse}]";
             logger.LogInformation(s);
             return s;
         }

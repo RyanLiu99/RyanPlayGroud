@@ -13,6 +13,7 @@ namespace ProxyService
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"Proxy service starting at {DateTime.Now}. Go to /swagger/ if in Development mode");
             CreateHostBuilder(args).Build().Run();
         }
 
