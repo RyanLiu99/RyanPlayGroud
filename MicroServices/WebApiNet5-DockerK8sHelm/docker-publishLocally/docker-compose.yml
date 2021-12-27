@@ -9,7 +9,7 @@ services:
       labels:
         label1: "RyanTest"
       context: ../_Publish
-      dockerfile: ./DockerfilePublish
+      dockerfile: ./DockerfilePublish #relative path in context
       args:
         version: "1.0.0.100"        
     restart: unless-stopped
