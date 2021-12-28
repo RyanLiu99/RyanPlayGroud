@@ -6,7 +6,7 @@ kubectl get pods --all-namespaces # check status column
 
 kubectl describe pods webapinet5
 
-kubectl describe servicekube webapinet5
+kubectl describe service webapinet5
 
  kubectl describe ingress webapinet5
  
