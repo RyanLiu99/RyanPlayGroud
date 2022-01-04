@@ -7,11 +7,11 @@ services:
     build:
       target: final
       labels:
-        label1: "RyanTest"
+        label1: "RyanSingleStageLocally" # Ryan: this label will in both image and container at different paths, but no functional use except debug
       context: ../_Publish
       dockerfile: ./DockerfilePublish #relative path in context
-      args:
-        version: "1.0.0.100"        
+      # args:
+      #  version: "1.0.0.100"    # this can be passed in docker file, not in use here    
     restart: unless-stopped
     ports:
       - "12888:80"

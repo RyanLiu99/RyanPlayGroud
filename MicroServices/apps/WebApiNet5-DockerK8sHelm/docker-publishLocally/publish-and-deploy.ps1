@@ -1,3 +1,6 @@
+# Depends on docker-composer.yaml, which in turn 
+# depends on DockerfilePublish
+
 function prune{
     docker container prune -f
     docker image prune -f
