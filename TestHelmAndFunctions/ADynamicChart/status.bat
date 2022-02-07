@@ -1,1 +1,1 @@
- helm status webapichartv2
+ helm status arelease
