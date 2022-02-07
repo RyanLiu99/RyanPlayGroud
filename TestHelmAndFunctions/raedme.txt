@@ -1,0 +1,22 @@
+Use this repo to test helm functions etc,  no intent to install any release
+
+
+Helm debug commands
+
+
+helm template ReleaserName Chart directory like . for current chart directory [flags]    //static, for each template, it will generate a yaml file for you to preview
+helm install [release] [chart] --debug --dry-run  //dynamic
+
+Other commands does require install a chart as release:
+
+To see the currently applied value overrides (compared to the chart values)
+helm get values <release_name> //Ryan list user supplied values in yaml format
+helm get values <release_name> -oyaml >xxx_values.yam
+
+To see all values (original chart values with overrides applied) that were used when creating the actual resources for an installed release
+helm get values <release_name> --all
+
+To see all the resources generated for an installed release
+helm get manifest <release_name>
+ 
+helm list  //list releases

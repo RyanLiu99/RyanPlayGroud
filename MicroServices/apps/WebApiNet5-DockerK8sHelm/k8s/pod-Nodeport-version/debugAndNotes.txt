@@ -3,7 +3,7 @@
 
  kubectl get pods --all-namespaces
 
- t is recommended that users create Pods only through a Controller, and not directly. 
+ It is recommended that users create Pods only through a Controller, and not directly. 
  See Controllers: Deployment, Job, or StatefulSet.
 
  Now run 2 instances in one pod on different ports. 3 containers and reslilient .
