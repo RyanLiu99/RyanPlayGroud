@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  ryan.webapinet5:
+    image: webapinet5
+    container_name: WebApiNet5
+    build:
+      target: final
+      labels:
+        label1: "RyanTestMultiStage"  # Ryan: this label will in both image and container at different paths, but no functional use except debug
+      context: ../
+      dockerfile: src/Dockerfile  #relative path in context
+      args:
+        version: "1.0.0.100"  # this can be passed in docker file      
+    restart: unless-stopped
+    ports:
+      - "12777:80"
+      - "152:443"
+    environment: 
+        ASPNETCORE_ENVIRONMENT: "Development"
+        ASPNETCORE_URLS: "https://+:443;http://+:80"
+        ASPNETCORE_HTTPS_PORT: "443"
+        ASPNETCORE_Kestrel__Certificates__Default__Password: medrio123!
+        ASPNETCORE_Kestrel__Certificates__Default__Path: Certs/localhost-openssl.pfx

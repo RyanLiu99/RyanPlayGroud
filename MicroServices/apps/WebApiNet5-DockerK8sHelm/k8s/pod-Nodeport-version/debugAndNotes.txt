@@ -1,0 +1,13 @@
+
+ kubectl logs webapinet5pod webapinet5-1
+
+ kubectl get pods --all-namespaces
+
+ It is recommended that users create Pods only through a Controller, and not directly. 
+ See Controllers: Deployment, Job, or StatefulSet.
+
+ Now run 2 instances in one pod on different ports. 3 containers and reslilient .
+ 1 container for pod. 2 for 2 instances of app.
+ If you kill one app container, it will create again, even no k8s deployment involved.
+
+ If you kill pod container, it will also kill 2 app containers. But it will then create all 3 again.

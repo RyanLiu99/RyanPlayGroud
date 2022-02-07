@@ -1,0 +1,8 @@
+	FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS final
+	WORKDIR /app
+	EXPOSE 80
+	EXPOSE 443
+    		
+    COPY . .
+	
+    ENTRYPOINT ["dotnet", "ProxyService.dll"]
