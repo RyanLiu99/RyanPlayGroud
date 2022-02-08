@@ -1,3 +1,0 @@
-app fullname result: {{include "app.fullname" .}}
-
-

@@ -1,1 +1,1 @@
-helm template arelease ADynamicChart
+helm template arelease ADynamicChart --disable-openapi-validation 
