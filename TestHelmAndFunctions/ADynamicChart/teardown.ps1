@@ -1,1 +1,1 @@
-helm uninstall webapichartv2
+helm uninstall arelease

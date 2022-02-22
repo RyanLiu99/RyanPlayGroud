@@ -1,5 +1,5 @@
 
- kubectl logs webapinet5pod webapinet5-1
+kubectl logs webapinet5pod webapinet5-1
 
 kubectl get pods -o wide
 kubectl get pods --all-namespaces # check status column
@@ -8,6 +8,6 @@ kubectl describe pods webapinet5
 
 kubectl describe service webapinet5
 
- kubectl describe ingress webapinet5
+kubectl describe ingress webapinet5
  
- kubectl get all
+kubectl get all
