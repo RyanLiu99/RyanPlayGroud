@@ -1,0 +1,59 @@
+{{- /*  will cause execution error and stop
+Result: {{include "app.testfail" .}}
+*/ -}}
+app fullname result: {{include "app.fullname" . }}
+testternary: {{include "testTernary" .}}
+testternaryDirect: {{ ternary "true value" "empty value" false }}
+
+#range over list
+{{- range $index, $thing := list "a" "B" "c"  }}
+{{ $index }}: {{ $thing }}
+{{- end }}   
+
+#range over tuple
+{{- range $index, $thing := tuple "a" "B" "c"  }}
+{{ $index }}: {{ $thing }}
+{{- end }}  
+
+#range over dict, index become key and order is not guranteed
+#JSON, yaml itself is big dict
+{{- range $index, $thing := dict "a" "aa" "B" "bb" "c" "cc"  }}
+{{ $index }}: {{ $thing }}
+{{- end }}  
+
+# map data from yaml file. order is random(but stable), not the order in values.yaml file
+{{- range $index, $thing := .Values.aDic }}
+{{ $index }}: {{ $thing }}
+{{- end }}  
+
+kindOfSegmentInYamlFile: {{ kindOf .Values.aDic }}
+kindOfDict: {{ kindOf (dict "a" 1 "b" 2) }}
+
+{{- $a := dict "a1" 1 "a2" 2 -}}
+{{- $b := dict "b1" 1 "b2" 2 -}}
+{{- $d := dict "a1" 11 "d2" 2 -}}
+
+
+{{- $newdict := merge $d $a $b }}
+
+
+
+#did $d change? Orignal was "a1" 11 "d2" 2.  Yes
+{{- range $index, $thing := $d }}
+{{ $index }}: {{ $thing }}
+{{- end }}  
+
+# is $d same as this #newdict, does it merge? Yes, Yes
+{{- range $index, $thing := $newdict }}
+{{ $index }}: {{ $thing }}
+{{- end }}  
+
+{{- if eq 3 3 }}
+threeeqthree: true
+{{ else }}
+threeeqthree: false
+{{ end -}}
+
+
+dotisdollar: {{include "dotisdollar" .}}
+xisdollar: {{include "dotisdollar" (dict "a" 1)}}
