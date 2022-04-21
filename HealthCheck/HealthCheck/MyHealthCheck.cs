@@ -7,16 +7,16 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace HealthCheck
 {
-    public class TypeActivatedCheck : IHealthCheck
+    public class MyHealthCheck : IHealthCheck
     {
-        public TypeActivatedCheck()
+        public MyHealthCheck()
         {
-            Console.WriteLine("TypeActivatedCheck constructor called");
+               Console.WriteLine("MyHealthCheck constructor is called"); 
         }
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            Console.WriteLine("TypeActivatedCheck CheckHealthAsync() called");
-            return Task.FromResult(HealthCheckResult.Unhealthy("TypeActivatedCheck"));
+            Console.WriteLine("MyHealthCheck CheckHealthAsync() is called");
+            return Task.FromResult(HealthCheckResult.Healthy("MyHealthCheck"));
         }
     }
 }
