@@ -40,8 +40,8 @@ namespace HealthCheck
         {
             services.AddRazorPages();
 
-            services.AddSingleton<TypeActivatedCheck, TypeActivatedCheck>();
-            services.AddSingleton<MyHealthCheck, MyHealthCheck>();
+            services.AddSingleton<TypeActivatedCheck>();
+            services.AddSingleton<MyHealthCheck>();
 
             var builder = services.AddHealthChecks();
 
