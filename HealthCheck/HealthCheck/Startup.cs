@@ -40,15 +40,16 @@ namespace HealthCheck
         {
             services.AddRazorPages();
 
-            services.AddSingleton<TypeActivatedCheck>();
+            //services.AddSingleton<TypeActivatedCheck>();
             services.AddSingleton<MyHealthCheck>();
+            services.AddTransient<IArgDependency, ArgDependency>();
 
             var builder = services.AddHealthChecks();
 
             builder.AddCheck("Lambda check 1",
                 (CancellationToken t) => { return HealthCheckResult.Degraded("Lambda check 1"); });
 
-            builder.AddTypeActivatedCheck<TypeActivatedCheck>("TypeActivatedCheck");
+            builder.AddTypeActivatedCheck<TypeActivatedCheck>("TypeActivatedCheck", "Title4" );
             builder.AddCheck<MyHealthCheck>("MyHealthCheck");
         }
 
