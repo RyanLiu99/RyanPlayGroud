@@ -7,7 +7,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace HealthCheck
 {
@@ -32,7 +34,14 @@ namespace HealthCheck
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddHealthChecks();
+            var builder = services.AddHealthChecks();
+
+            builder.AddCheck("Lambda check 1", (CancellationToken t)=>
+            {
+                return HealthCheckResult.Degraded("Lambda check 1");
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
