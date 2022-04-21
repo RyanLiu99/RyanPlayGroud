@@ -7,7 +7,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace HealthCheck
 {
-    public class TypeActivatedCheck : IHealthCheck
+    public class TypeActivatedCheck : IHealthCheck, IDisposable
     {
         public TypeActivatedCheck()
         {
@@ -17,6 +17,11 @@ namespace HealthCheck
         {
             Console.WriteLine("TypeActivatedCheck CheckHealthAsync() called");
             return Task.FromResult(HealthCheckResult.Unhealthy("TypeActivatedCheck"));
+        }
+
+        public void Dispose()
+        {
+            Console.WriteLine("TypeActivatedCheck Dispose() is called");
         }
     }
 }
