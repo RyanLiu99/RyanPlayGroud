@@ -15,7 +15,7 @@ namespace HealthCheck
 {
     /* Things to find out:
 
-    Do I need register health check class in ioc container
+    Do I need register health check class in ioc container? Yes, but need registered as self. This does not apply to TypeActivatedCheck which always created again.
     how often container call health end point
     best way to connect to couchbase
     best way to 
@@ -34,19 +34,17 @@ namespace HealthCheck
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            services.AddSingleton<TypeActivatedCheck, TypeActivatedCheck>();
+            services.AddSingleton<MyHealthCheck, MyHealthCheck>();
+
             var builder = services.AddHealthChecks();
 
-            builder.AddCheck("Lambda check 1", (CancellationToken t)=>
-            {
-                return HealthCheckResult.Degraded("Lambda check 1");
-            });
+            builder.AddCheck("Lambda check 1",
+                (CancellationToken t) => { return HealthCheckResult.Degraded("Lambda check 1"); });
 
-            services.AddSingleton<IHealthCheck, TypeActivatedCheck>();
             builder.AddTypeActivatedCheck<TypeActivatedCheck>("TypeActivatedCheck");
-
-            //services.AddSingleton<IHealthCheck, MyHealthCheck>();
             builder.AddCheck<MyHealthCheck>("MyHealthCheck");
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +75,7 @@ namespace HealthCheck
 
             //app.MapHealthChecks("/health"); // Not found
             app.UseHealthChecks("/health"); // from Microsoft.AspNetCore.Diagnostics.HealthChecks.dll
+
         }
     }
 }
