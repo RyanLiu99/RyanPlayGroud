@@ -41,6 +41,9 @@ namespace HealthCheck
                 return HealthCheckResult.Degraded("Lambda check 1");
             });
 
+            builder.AddTypeActivatedCheck<TypeActivatedCheck>("TypeActivatedCheck");
+
+            services.AddSingleton<IHealthCheck, TypeActivatedCheck>();
 
         }
 
