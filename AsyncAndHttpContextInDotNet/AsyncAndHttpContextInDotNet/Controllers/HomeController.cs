@@ -23,17 +23,17 @@ namespace AsyncAndHttpContextInDotNet.Controllers
 
             await Task.Run(() =>
             {
+                HttpContextPrinter.PrintHttpContext("Inside task, before a call");
                 DoAsyncWork.GetUrlContentAsyncNoConfigureAwait().GetAwaiter().GetResult();
-                HttpContextPrinter.PrintHttpContext("Inside task, Right after inside await");
+                HttpContextPrinter.PrintHttpContext("Inside task, after a call");
             });
             HttpContextPrinter.PrintHttpContext("Right after Task");
 
-
             await DoAsyncWork.GetUrlContentAsyncNoConfigureAwait().ConfigureAwait(true);
-            HttpContextPrinter.PrintHttpContext("After await again which ConfigureAwait is true ");
+            HttpContextPrinter.PrintHttpContext("After await which ConfigureAwait is true");
 
             await DoAsyncWork.GetUrlContentAsyncNoConfigureAwait().ConfigureAwait(false);
-            HttpContextPrinter.PrintHttpContext("After await again which ConfigureAwait is false ");
+            HttpContextPrinter.PrintHttpContext("After await which ConfigureAwait is false");
 
             ViewBag.Message = HttpContextPrinter.Result() + "\r\n" + content;
             return View();

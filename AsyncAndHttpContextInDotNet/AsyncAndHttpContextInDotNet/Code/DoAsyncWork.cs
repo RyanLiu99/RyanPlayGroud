@@ -12,7 +12,8 @@ namespace AsyncAndHttpContextInDotNet.Code
         static  HttpClient _httpClient = new HttpClient();
         internal static async Task<string> GetUrlContentAsyncNoConfigureAwait()
         {
-            var result = await _httpClient.GetStringAsync("https://www.google.com/");
+            var result = await _httpClient.GetStringAsync("https://www.google.com/")
+                .ConfigureAwait(false);
             return result;
         }
 
