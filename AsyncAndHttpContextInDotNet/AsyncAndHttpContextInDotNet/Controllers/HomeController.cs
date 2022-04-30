@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AsyncAndHttpContextInDotNet.Code;
 
 namespace AsyncAndHttpContextInDotNet.Controllers
 {
@@ -13,10 +15,12 @@ namespace AsyncAndHttpContextInDotNet.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public async Task<ActionResult> Test()
         {
-            ViewBag.Message = "Your application description page.";
+            var content = await DoAsyncWork.GetUrlContentAsyncNoConfigureAwait();
 
+            HttpContextPrinter.PrintHttpContext();
+            ViewBag.Message = HttpContextPrinter.Result() + "\r\n" + content;
             return View();
         }
 
