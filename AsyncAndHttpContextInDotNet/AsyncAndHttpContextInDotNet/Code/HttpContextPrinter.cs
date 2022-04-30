@@ -9,18 +9,18 @@ namespace AsyncAndHttpContextInDotNet.Code
     public static class HttpContextPrinter
     {
         private static StringBuilder sb = new StringBuilder();
-        internal static void PrintHttpContext()
+        internal static void PrintHttpContext(string step)
         {
             if(HttpContext.Current == null) 
-                sb.AppendLineHtml("HttpContext.Current is null");
+                sb.AppendLineHtml($"{step} -- HttpContext.Current is null");
             else
-                sb.AppendLineHtml($"HttpContext.Current is valid, and AllowAsyncDuringSyncStages is { HttpContext.Current.AllowAsyncDuringSyncStages}");
+                sb.AppendLineHtml($"{step} -- HttpContext.Current is valid, and AllowAsyncDuringSyncStages is { HttpContext.Current.AllowAsyncDuringSyncStages}");
         }
 
 
         internal static string Result()
         {
-            var result = sb.ToString();
+            var result = sb.ToString() + "\r\n";
             sb.Clear();
             return result;
         }
@@ -32,7 +32,7 @@ namespace AsyncAndHttpContextInDotNet.Code
 
         private static string Format(this string str)
         {
-            return $"\r\n{str}\r\n";
+            return $"\r\n{str}";
         }
 
     }
