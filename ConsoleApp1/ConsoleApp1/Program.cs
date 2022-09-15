@@ -20,7 +20,7 @@ namespace ConsoleApp1
             //TestValidation.Test();
             //TestJsonLogging.Test();
 
-            TestRegex.RunTests();
+            //TestRegex.RunTests();
         }
 
         private static void OneTimeSetup()
