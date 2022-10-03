@@ -15,53 +15,54 @@ namespace Arli_yunTest
         private const string logstore = "ryan-logstore-1";
         private const string accessKeyId = "LTAI5tE7pj2TkWZhgQEFcPua";
         private const string accessKey = "ghAwibLAIDIIlbhdvP6siGF54LNQFu";
-
-
-
+        
         [SetUp]
         public void Setup()
         {
-
-
         }
-
-
 
         [Test]
         public async Task TestAliyunLogging()
         {
             HttpLogServiceClient client = LogServiceClientBuilders.HttpBuilder
-              .Endpoint(endpoint, projectName)
-              .Credential(accessKeyId, accessKey)
-              .Build();
+                .Endpoint(endpoint, projectName)
+                .Credential(accessKeyId, accessKey)
+                .Build();
 
-            var logGroup = new LogGroupInfo() 
-            { 
-                Topic = "Test Date Time",
-                Source = "RyanLogSrc"
+            var logGroup = new LogGroupInfo()
+            {
+                Topic = "MedrioWeb",
+                Source = "dev-bran-06"
 
             };
 
-            logGroup.LogTags.Add("Reference", "Test DateTime");
+            logGroup.LogTags.Add("Region", "na");
 
-            // for Time Semms either way is fine and shown on aliyun as local time of PDT.
+
+            //for (int i = 0; i < 200; i++)
+            //{
+            //    logGroup.Logs.Add(CreateLogInfo(i));
+            //}
+
+            //all 3 headers just treated as regular string, nothing special
             var logInfo = new LogInfo();
-            logInfo.Time = DateTime.Now;
-            logInfo.Contents.Add("Datetime method", "DateTime.Now");
+            logInfo.Time = DateTime.UtcNow; //DateTime.Now; seems either way is fine and shown on aliyun as local time of PDT.
+            logInfo.Contents.Add("method", "put");
+            logInfo.Contents.Add("body", "new  http body");
+            logInfo.Contents.Add("header", "header1");
+            logInfo.Contents.Add("header:colon", ":");
+            logInfo.Contents.Add("header/slash", "/");
+            logInfo.Contents.Add("header.dot", ".");
+            logInfo.Contents.Add("json", @"
+            {
+                'a': 666,
+                's': 'I am string',
+                'inside': {
+                    'total': 1,
+                    'items': [777]
+                }
+            }");
             logGroup.Logs.Add(logInfo);
-
-            logInfo = new LogInfo();
-            logInfo.Time = DateTime.UtcNow;
-            logInfo.Contents.Add("Datetime method", "DateTime.UtcNow");
-            logGroup.Logs.Add(logInfo);
-
-            logInfo = new LogInfo();
-
-            //logInfo.Time = DateTime.UtcNow;//Strange, this is not working, log will not show up in aliyun DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-            //logInfo.Contents.Add("Datetime method", "==== DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)");
-            //logGroup.Logs.Add(logInfo);
-
-            //Assert.AreEqual(3, logGroup.Logs.Count);
 
             PostLogsRequest request = new PostLogsRequest(logstore, logGroup)
             {
@@ -69,12 +70,21 @@ namespace Arli_yunTest
                 ProjectName = projectName
             };
 
-
-           var response = await client.PostLogStoreLogsAsync(request);
+            var response = await client.PostLogStoreLogsAsync(request);
             Assert.IsNotNull(response);
             response.EnsureSuccess();
-            
+        }
 
+
+        private LogInfo CreateLogInfo(int i)
+        {
+            var logInfo = new LogInfo();
+            logInfo.Time = DateTime.UtcNow; //DateTime.Now; seems either way is fine and shown on aliyun as local time of PDT.
+            logInfo.Contents.Add("method", "post");
+            logInfo.Contents.Add("body", "fake http body");
+            logInfo.Contents.Add("index", i.ToString());
+            logInfo.Contents.Add("header.accept", "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml");
+            return logInfo;
         }
 
         [Test]
