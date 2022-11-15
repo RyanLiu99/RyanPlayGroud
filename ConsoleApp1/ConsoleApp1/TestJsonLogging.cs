@@ -29,7 +29,7 @@ namespace ConsoleApp1
             //1: When writng to console, it is not real time. There is delay.
             //2: ToDebugString is needed, otherwise just class name
 
-            _logger.LogInformation("Logging sth: {sth}", sth); //.ToDebugString()
+            _logger.LogInformation("Logging sth: {@sth}", sth); //.ToDebugString()
         }
     }
 }

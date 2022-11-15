@@ -9,14 +9,14 @@ namespace ConsoleApp1.TestData
 
     public class Person
     {
-        [Required]
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
 
-        [ValidateObject]
-        public Address Address { get; set; }
+        [ValidateObject] public Address Address { get; set; }
 
-        [ValidateEnumerable]
-        public Person[] Children { get; set; }
+        [ValidateEnumerable] public Person[] Children { get; set; }
+
+        public override string ToString() => $"Person [Name:{Name},  Address: {Address} ]";
+
     }
 
     public class Address
