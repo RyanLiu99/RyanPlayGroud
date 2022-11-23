@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheLib", "CacheLib\CacheLib.csproj", "{343D4619-65FB-4328-AF4B-EE311D381018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashTest", "CashTest\CashTest.csproj", "{1244615F-3A12-4013-8441-246B1D2D2363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{343D4619-65FB-4328-AF4B-EE311D381018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{343D4619-65FB-4328-AF4B-EE311D381018}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{343D4619-65FB-4328-AF4B-EE311D381018}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{343D4619-65FB-4328-AF4B-EE311D381018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1244615F-3A12-4013-8441-246B1D2D2363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1244615F-3A12-4013-8441-246B1D2D2363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1244615F-3A12-4013-8441-246B1D2D2363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1244615F-3A12-4013-8441-246B1D2D2363}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
