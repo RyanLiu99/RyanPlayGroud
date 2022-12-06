@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Medrio.Infrastructure.Ioc;
+﻿using Medrio.Infrastructure.Ioc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
 
-namespace CashTest
+namespace CacheTestNetFramework
 {
     [SetUpFixture]
     internal static class Setup

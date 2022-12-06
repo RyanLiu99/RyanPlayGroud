@@ -1,19 +1,14 @@
-﻿using CashTest.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading.Tasks;
+using CacheTestNetFramework.Entity;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Linq.Expressions;
 
-namespace CashTest
+namespace CacheTestNetFramework
 {
     internal class DistributedCacheTest
     {
@@ -45,7 +40,7 @@ namespace CashTest
         }
 
         [Test]
-        public async ValueTask TestMethodNotEqual1()
+        public async ValueTask TestMethodEqual()
         {
             var x = await WrappedMethod(() => this.DoSth("a"));
             var y = await WrappedMethod(() => this.DoSth("a"));
@@ -53,12 +48,12 @@ namespace CashTest
             //Assert.AreEqual(2, _callTargets.Count);
             //Assert.AreEqual(_callTargets[0], _callTargets[1]);
 
-            Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal
+            Assert.AreEqual(_callMethods[0], _callMethods[1]); //not equal, WrappedMethod doesn't work
 
         }
 
         [Test]
-        public async ValueTask TestMethodNotEqual2()
+        public async ValueTask TestMethodNotEqual()
         {
             var x = await WrappedMethod(() => this.DoSth("a"));
             var y = await WrappedMethod(() => this.DoSth2("a")); //sth 2
@@ -104,10 +99,10 @@ namespace CashTest
         public async ValueTask TestExpNotEqual()
         {
             Expression<Func<ValueTask<string>>> exp1 = () => this.DoSth("a");
-            Expression<Func<ValueTask<string>>> exp2 = () => this.DoSth2("b");
+            Expression<Func<ValueTask<string>>> exp3 = () => this.DoSth2("b");
 
             var x = await WrappedExp(exp1);
-            var y = await WrappedExp(exp2);
+            var y = await WrappedExp(() => this.DoSth("b"));
 
             Assert.AreNotEqual(_exps[0], _exps[1]);
         }
@@ -116,9 +111,16 @@ namespace CashTest
         {
             MethodInfo m = ((MethodCallExpression)exp.Body).Method; 
             _exps.Add(m.GetHashCode());
-            
+
+            ConstantExpression arg1 = ((MethodCallExpression)exp.Body).Arguments[0] as ConstantExpression;
+            //arg1.Type; //typeof(string)
+            //arg1.Value; // "a"
+
             var r = await exp.Compile().Invoke();
             return r;
         }
+
+     
+
     }
 }

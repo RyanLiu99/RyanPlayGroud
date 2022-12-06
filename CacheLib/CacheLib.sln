@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashTest", "CashTest\CashTest.csproj", "{1244615F-3A12-4013-8441-246B1D2D2363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNetFramework", "CashTest\CacheTestNetFramework.csproj", "{1244615F-3A12-4013-8441-246B1D2D2363}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNet6", "CacheTestNet6\CacheTestNet6.csproj", "{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.Abstraction", "Caching.Core\Medrio.Caching.Abstraction.csproj", "{C27095E8-C809-48ED-881F-5D62EB57934C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.InMemoryCache", "Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj", "{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.DistributedCache", "Medrio.Caching.DistributedCache\Medrio.Caching.DistributedCache.csproj", "{FD92147C-F53C-4286-BC8D-91D704DABA66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{1244615F-3A12-4013-8441-246B1D2D2363}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1244615F-3A12-4013-8441-246B1D2D2363}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1244615F-3A12-4013-8441-246B1D2D2363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C27095E8-C809-48ED-881F-5D62EB57934C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C27095E8-C809-48ED-881F-5D62EB57934C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C27095E8-C809-48ED-881F-5D62EB57934C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C27095E8-C809-48ED-881F-5D62EB57934C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

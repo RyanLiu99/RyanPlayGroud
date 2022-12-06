@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ namespace ConsoleApp1
 
         private static void OneTimeSetup()
         {
+            Debug.Assert(false, "debug.Assert failed");
             Serilog.Log.Logger = new LoggerConfiguration()
                // .Enrich.FromLogContext() //don't see difference
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss.fff} {Level:u3}] [{SourceContext}] {Message:lj} {NewLine}{Exception}")
