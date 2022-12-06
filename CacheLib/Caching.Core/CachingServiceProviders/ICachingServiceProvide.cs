@@ -9,11 +9,11 @@ namespace Medrio.Caching.Abstraction.CachingServiceProviders
         T? Get<T>(string key);
         Task<T?> GetAsync<T>(string key);
 
-        T? GetOrSet<T>(string key, Func<T> factory, CachingDependencies dependencies = null);
-        Task<T> GetOrSetAsync<T>(string key, Func<T> factory, CachingDependencies dependencies = null);
+        T? GetOrSet<T>(string key, Func<T> factory, CachingDependencies? dependencies = null);
+        Task<T> GetOrSetAsync<T>(string key, Func<T> factory, CachingDependencies? dependencies = null);
 
-        void Set<T>(string key, T data, CachingDependencies dependencies = null);
-        Task SetAsync<T>(string key, T data,  CachingDependencies dependencies = null);
+        void Set<T>(string key, T data, CachingDependencies? dependencies = null);
+        Task SetAsync<T>(string key, T data,  CachingDependencies? dependencies = null);
 
         void Remove(string key);
 

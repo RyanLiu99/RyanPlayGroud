@@ -20,22 +20,22 @@ namespace Medrio.Caching.DistributedCache
             throw new NotImplementedException();
         }
 
-        public T? GetOrSet<T>(string key, Func<T> factory, CachingDependencies dependencies = null)
+        public T? GetOrSet<T>(string key, Func<T> factory, CachingDependencies? dependencies = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> GetOrSetAsync<T>(string key, Func<T> factory, CachingDependencies dependencies = null)
+        public Task<T> GetOrSetAsync<T>(string key, Func<T> factory, CachingDependencies? dependencies = null)
         {
             throw new NotImplementedException();
         }
 
-        public void Set<T>(string key, T data, CachingDependencies dependencies = null)
+        public void Set<T>(string key, T data, CachingDependencies? dependencies = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetAsync<T>(string key, T data, CachingDependencies dependencies = null)
+        public Task SetAsync<T>(string key, T data, CachingDependencies? dependencies = null)
         {
             throw new NotImplementedException();
         }
