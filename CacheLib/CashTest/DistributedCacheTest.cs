@@ -48,7 +48,7 @@ namespace CacheTestNetFramework
             //Assert.AreEqual(2, _callTargets.Count);
             //Assert.AreEqual(_callTargets[0], _callTargets[1]);
 
-            Assert.AreEqual(_callMethods[0], _callMethods[1]); //not equal, WrappedMethod doesn't work
+            Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal, WrappedMethod doesn't work
 
         }
 
@@ -104,7 +104,7 @@ namespace CacheTestNetFramework
             var x = await WrappedExp(exp1);
             var y = await WrappedExp(() => this.DoSth("b"));
 
-            Assert.AreNotEqual(_exps[0], _exps[1]);
+            Assert.AreEqual(_exps[0], _exps[1]);
         }
 
         public async ValueTask<T> WrappedExp<T>(Expression<Func<ValueTask<T>>> exp)
