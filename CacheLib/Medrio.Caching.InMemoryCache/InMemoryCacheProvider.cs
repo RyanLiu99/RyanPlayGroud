@@ -5,6 +5,7 @@ using Medrio.Caching.Abstraction.CachingServiceProviders;
 using Medrio.Caching.Abstraction.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.Caching;
 
 [assembly: InternalsVisibleTo("CacheTestNetFramework")]
 
