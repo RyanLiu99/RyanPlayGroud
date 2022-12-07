@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.Abstraction"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.InMemoryCache", "Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj", "{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.DistributedCache", "Medrio.Caching.DistributedCache\Medrio.Caching.DistributedCache.csproj", "{FD92147C-F53C-4286-BC8D-91D704DABA66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.RedisDistributedCache", "Medrio.Caching.DistributedCache\Medrio.Caching.RedisDistributedCache.csproj", "{FD92147C-F53C-4286-BC8D-91D704DABA66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

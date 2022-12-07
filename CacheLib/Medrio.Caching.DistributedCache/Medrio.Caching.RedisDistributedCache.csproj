@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
+    <PackageReference Include="Medrio.Infrastructure.RedisClient" Version="100.0.160" />
   </ItemGroup>
 
   <ItemGroup>

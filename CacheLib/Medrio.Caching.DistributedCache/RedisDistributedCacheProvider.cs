@@ -5,10 +5,10 @@ using Medrio.Caching.Abstraction.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Medrio.Caching.DistributedCache
+namespace Medrio.Caching.RedisDistributedCache
 {
     [RegisterAs(typeof(IDistributedCacheProvider), Lifetime = ServiceLifetime.Singleton)]
-    internal class DistributedCacheProvider : IDistributedCacheProvider
+    internal class RedisDistributedCacheProvider : IDistributedCacheProvider
     {
         public T? Get<T>(string key)
         {
