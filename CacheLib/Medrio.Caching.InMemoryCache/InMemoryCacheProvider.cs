@@ -6,57 +6,64 @@ using Medrio.Caching.Abstraction.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.Caching;
+using Medrio.Caching.Abstraction;
+using Medrio.Caching.Abstraction.Utilities;
 
 [assembly: InternalsVisibleTo("CacheTestNetFramework")]
 
 namespace Medrio.Caching.InMemoryCache
 {
     [RegisterAs(typeof(IInMemoryCacheProvider), Lifetime = ServiceLifetime.Singleton)]
-    internal class InMemoryCacheProvider : IInMemoryCacheProvider
+    internal class InMemoryCacheProvider : IInMemoryCacheProvider, IDisposable
     {
+        private readonly MemoryCache _cache;
+
         public InMemoryCacheProvider()
         {
-                
+            _cache = new MemoryCache("Medrio.NoDependencies");
         }
 
-        public T? Get<T>(string key)
+        public bool TryGet<T>(string key, out T? data)
         {
-            return default(T?);
+            if (_cache.Contains(key))
+            {
+                data = (T?)_cache.Get(key);
+                return true;
+            }
+            else
+            {
+                data = default(T?);
+                return false;
+            }
         }
 
-        public Task<T?> GetAsync<T>(string key)
+        public Task<bool> TryGetAsync<T>(string key, out T? data)
         {
-            throw new NotImplementedException();
+            var result = TryGet(key, out data);
+            return result ? TaskResults.True : TaskResults.False;
         }
 
-        public T? GetOrSet<T>(string key, Func<T> factory, CachingDependencies? dependencies = null)
+        public void Set<T>(string key, T data, CacheEntryOption? cacheEntryOption, CachingDependencies? dependencies = null)
         {
-            throw new NotImplementedException();
+            CacheItemPolicy? policy = cacheEntryOption.ToCacheItemPolicy();
+            _cache.Set(key, data!, policy);
         }
 
-        public Task<T> GetOrSetAsync<T>(string key, Func<T> factory, CachingDependencies? dependencies = null)
+        public Task SetAsync<T>(string key, T data, CacheEntryOption? cacheEntryOption, CachingDependencies? dependencies = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Set<T>(string key, T data, CachingDependencies? dependencies = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetAsync<T>(string key, T data, CachingDependencies? dependencies = null)
-        {
-            throw new NotImplementedException();
+            Set(key, data, cacheEntryOption);
+            return Task.CompletedTask;
         }
 
         public void Remove(string key)
         {
-            throw new NotImplementedException();
+            _cache.Remove(key, CacheEntryRemovedReason.Removed);
         }
 
         public Task RemoveAsync(string key)
         {
-            throw new NotImplementedException();
+            Remove(key);
+            return Task.CompletedTask;
         }
 
         public void RemoveAll()
@@ -67,6 +74,11 @@ namespace Medrio.Caching.InMemoryCache
         public Task RemoveAllAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _cache.Dispose();
         }
     }
 }

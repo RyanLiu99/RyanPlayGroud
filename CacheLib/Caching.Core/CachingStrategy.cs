@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Medrio.Caching.Abstraction
 {
+    //This class is not in use for now and excluded from the project
     public class CachingStrategy
     {
         private List<CachingTier> _tiers; //Using List not IList because AsReadOnly<T>(IList<T>) only available in .NET 7 +

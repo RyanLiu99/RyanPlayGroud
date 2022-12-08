@@ -18,70 +18,50 @@ namespace Medrio.Caching.Abstraction
             _factory = factory;
         }
 
-        public T Get<T>(string key, CachingStrategy cachingStrategy)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<T> GetAsync<T>(string key, CachingStrategy cachingStrategy)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Get<T>(string key, params CachingTierType[] tierTypes)
+        public bool TryGet<T>(string key, out T? data, params CachingTierType[] tierTypes)
         {
             if (tierTypes == null || tierTypes.Length == 0)
                 throw new ArgumentNullException($"{nameof(tierTypes)} must provided.");
 
-            foreach (var tierType in tierTypes.OrderBy(x => x))  //try local cache first
+            foreach (var tierType in tierTypes.Sort())  //try local cache first
             {
                 var cachingProvider = _factory.GetCachingServiceProvide(tierType);
-                T? result = cachingProvider.Get<T>(key);
-                if (result != null)
+                var found = cachingProvider.TryGet(key, out data);
+                if (found)
                 {
-                    //TO DO: fill other tiers as needed. 
-                    return result;
+                    return found;
                 }
             }
-            return default(T)!;
+
+            data = default(T?);
+            return false;
         }
 
-        public async Task<T> GetAsync<T>(string key, params CachingTierType[] tierTypes)
+
+        public async Task<T?> GetAsync<T>(string key, params CachingTierType[] tierTypes)
         {
             if (tierTypes == null || tierTypes.Length == 0)
                 throw new ArgumentNullException($"{nameof(tierTypes)} must provided.");
 
-            foreach (var tierType in tierTypes.OrderBy(x => x))  //try local cache first
+            foreach (var tierType in tierTypes.Sort())  //try local cache first
             {
                 var cachingProvider = _factory.GetCachingServiceProvide(tierType);
-                T? result = await cachingProvider.GetAsync<T>(key).ConfigureAwait(false);
-                if (result != null)
+                var found = await cachingProvider.TryGetAsync<T>(key, out T? data).ConfigureAwait(false);
+                if (found)
                 {
-                    //TO DO: fill other tiers as needed. 
-                    return result;
+                    return data;
                 }
             }
-            return default(T)!;
+            return  default(T?);
         }
 
-        public T GetOrSet<T>(string key, Func<T> factory, CachingStrategy cachingStrategy = null,
-            CachingDependencies dependencies = null)
+        public void Set<T>(string key, T data, CachingTier cachingTier, CachingDependencies dependencies = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> GetOrSetAsync<T>(string key, Func<T> factory, CachingStrategy cachingStrategy = null,
-            CachingDependencies dependencies = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Set<T>(string key, T data, CachingStrategy cachingStrategy = null, CachingDependencies dependencies = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetAsync<T>(string key, T data, CachingStrategy cachingStrategy = null, CachingDependencies dependencies = null)
+        public Task SetAsync<T>(string key, T data, CachingTier cachingTier, CachingDependencies dependencies = null)
         {
             throw new NotImplementedException();
         }

@@ -13,8 +13,8 @@ namespace CacheTestNetFramework
         public void TestCacheProvider()
         {
             ICachingServiceProvide provider = new InMemoryCacheProvider();
-            var result = provider.Get<int?>("any");
-           Assert.IsNull(result);
+            provider.TryGet<int?>("any", out int? result);
+            Assert.IsNull(result);
         }
 
 

@@ -6,11 +6,17 @@ namespace Medrio.Caching.Abstraction
     {
         public CachingTierType TierType { get; private set; }
 
-        public DateTimeOffset Expiration { get; set; }
+        public CacheEntryOption? CacheEntryOption { get; private set; }
 
         public CachingTier(CachingTierType tierType)
         {
             TierType = tierType;
+        }
+
+        public CachingTier(CachingTierType tierType, CacheEntryOption cacheEntryOption)
+        {
+            TierType = tierType;
+            CacheEntryOption = cacheEntryOption;
         }
     }
 }

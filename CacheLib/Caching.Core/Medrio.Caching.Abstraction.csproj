@@ -4,6 +4,9 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>9.0</LangVersion>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="CachingStrategy.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
