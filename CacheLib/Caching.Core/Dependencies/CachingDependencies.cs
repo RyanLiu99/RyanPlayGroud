@@ -8,10 +8,4 @@ namespace Medrio.Caching.Abstraction.Dependencies
         public IList<CollectionDependency> CollectionDependencies => new List<CollectionDependency>();
     }
 
-    
-    //public class CachingDependencies<TEntity, TId> 
-    //{
-    //    public IList<EntityDependency<TEntity>> EntityDependencies => new List<EntityDependency<TEntity>>();
-    //    public IList<CollectionDependency<TEntity>> CollectionDependencies => new List<CollectionDependency<TEntity>>();
-    //}
 }
