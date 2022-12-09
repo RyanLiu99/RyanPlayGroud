@@ -43,15 +43,15 @@ namespace Medrio.Caching.InMemoryCache
             return result ? TaskResults.True : TaskResults.False;
         }
 
-        public void Set<T>(string key, T data, CacheEntryOption? cacheEntryOption, CachingDependencies? dependencies = null)
+        public void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption)
         {
             CacheItemPolicy? policy = cacheEntryOption.ToCacheItemPolicy();
-            _cache.Set(key, data!, policy);
+            _cache.Set(key, cacheEntry, policy);
         }
 
-        public Task SetAsync<T>(string key, T data, CacheEntryOption? cacheEntryOption, CachingDependencies? dependencies = null)
+        public Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption)
         {
-            Set(key, data, cacheEntryOption);
+            Set(key, cacheEntry, cacheEntryOption);
             return Task.CompletedTask;
         }
 

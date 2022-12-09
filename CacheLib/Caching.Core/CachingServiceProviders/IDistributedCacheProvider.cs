@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Medrio.Caching.Abstraction.CachingServiceProviders
 {
-    public interface IDistributedCacheProvider : ICachingServiceProvide
+    public interface IDistributedCacheProvider : ICachingProvide
     {
     }
 }

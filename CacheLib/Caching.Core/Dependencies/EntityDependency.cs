@@ -18,21 +18,21 @@ namespace Medrio.Caching.Abstraction.Dependencies
         }
     }
 
-    //public class EntityDependency<TEntity> : EntityDependency
-    //{
-    //    public EntityDependency(IList<object> ids) : base(typeof(TEntity).FullName, ids)
-    //    {
-    //    }
-    //}
+    public class EntityDependency<TEntity> : EntityDependency
+    {
+        public EntityDependency(IList<object> ids) : base(typeof(TEntity).FullName, ids)
+        {
+        }
+    }
 
-    //public class EntityDependency<TEntity, TId> : EntityDependency<TEntity>
-    //{
+    public class EntityDependency<TEntity, TId> : EntityDependency<TEntity>
+    {
 
-    //    public new IList<TId>[] Ids { get; private set; }
+        public new IList<TId>[] Ids { get; private set; }
 
-    //    public EntityDependency(IList<TId>[] ids) : base(ids)
-    //    {
-    //        Ids = ids;
-    //    }
-    //}
+        public EntityDependency(IList<TId>[] ids) : base(ids)
+        {
+            Ids = ids;
+        }
+    }
 }
