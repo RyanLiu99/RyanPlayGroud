@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Medrio.Caching.Abstraction;
 using Medrio.Caching.Abstraction.CachingServiceProviders;
-using Medrio.Caching.Abstraction.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 

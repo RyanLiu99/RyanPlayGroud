@@ -17,8 +17,8 @@ namespace Medrio.Caching.Abstraction
         }
 
 
-
-        public static T? GetOrCreate<T>(this ICachingService cache, string key, Func<T> factory, params CachingTier[] tiers)
+        public static T? GetOrCreate<T>(this ICachingService cache, string key, Func<T> factory,
+            CachingDependencies? dependencies = null, params CachingTier[] tiers)
         {
             tiers.MakeSureValid();
 
@@ -27,33 +27,30 @@ namespace Medrio.Caching.Abstraction
                 result = factory();
                 if (result != null)
                 {
-                    cache.Set(key, result, tiers[0]);
+                    cache.Set(key, result, tiers[0], dependencies);
                 }
             }
+
             return result;
         }
 
-        //public static async Task<TItem?> GetOrCreateAsync<TItem>(this IMemoryCache cache, object key, Func<ICacheEntry, Task<TItem>> factory)
-        //{
-        //    if (!cache.TryGetValue(key, out object? result))
-        //    {
-        //        using ICacheEntry entry = cache.CreateEntry(key);
+        public static async Task<T?> GetOrCreateAsync<T>(this ICachingService cache, string key, Func<Task<T>> factory,
+            CachingDependencies? dependencies = null, params CachingTier[] tiers)
+        {
+            tiers.MakeSureValid();
 
-        //        result = await factory(entry).ConfigureAwait(false);
-        //        entry.Value = result;
-        //    }
+            var data = await cache.GetAsync<T>(key, tiers.Select(t => t.TierType).Sort().ToArray())
+                .ConfigureAwait(false);
 
-        //    return (TItem?)result;
-        //}
-
-
-        //T GetOrCreate<T>(string key, Func<T> factory, CachingStrategy cachingStrategy = null,
-        //    CachingDependencies dependencies = null);
-
-        //Task<T> GetOrCreateAsync<T>(string key, Func<T> factory, CachingStrategy cachingStrategy = null,
-        //    CachingDependencies dependencies = null);
-
-
-
+            if (data == null)
+            {
+                data = await factory().ConfigureAwait(false);
+                if (data != null)
+                {
+                    await cache.SetAsync(key, data, tiers[0], dependencies).ConfigureAwait(false);
+                }
+            }
+            return data;
+        }
     }
 }

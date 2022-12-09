@@ -35,7 +35,6 @@ namespace Medrio.Caching.Abstraction
             return false;
         }
 
-
         public async Task<T?> GetAsync<T>(string key, params CachingTierType[] tierTypes)
         {
             tierTypes.MakeSureValid();
@@ -52,7 +51,7 @@ namespace Medrio.Caching.Abstraction
             return default(T?);
         }
 
-        public void Set<T>(string key, T data, CachingTier tier, CachingDependencies dependencies = null)
+        public void Set<T>(string key, T data, CachingTier tier, CachingDependencies? dependencies = null)
         {
             _ = tier ?? throw new ArgumentNullException(nameof(tier));
             var cachingProvider = _factory.GetCachingServiceProvide(tier.TierType);
@@ -60,7 +59,7 @@ namespace Medrio.Caching.Abstraction
             cachingProvider.Set(key, cacheEntry, tier.CacheEntryOption);
         }
 
-        public Task SetAsync<T>(string key, T data, CachingTier tier, CachingDependencies dependencies = null)
+        public Task SetAsync<T>(string key, T data, CachingTier tier, CachingDependencies? dependencies = null)
         {
             _ = tier ?? throw new ArgumentNullException(nameof(tier));
             var cachingProvider = _factory.GetCachingServiceProvide(tier.TierType);

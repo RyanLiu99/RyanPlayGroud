@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Medrio.Caching.Abstraction.Dependencies;
 
 namespace Medrio.Caching.Abstraction.CachingServiceProviders
 {
