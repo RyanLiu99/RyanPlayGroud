@@ -2,10 +2,10 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Medrio.Caching.Abstraction.CachingServiceProviders;
-using Medrio.Caching.Abstraction.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.Caching;
+using System.Threading;
 using Medrio.Caching.Abstraction;
 using Medrio.Caching.Abstraction.Utilities;
 
@@ -16,11 +16,11 @@ namespace Medrio.Caching.InMemoryCache
     [RegisterAs(typeof(IInMemoryCacheProvider), Lifetime = ServiceLifetime.Singleton)]
     internal class InMemoryCacheProvider : IInMemoryCacheProvider, IDisposable
     {
-        private readonly MemoryCache _cache;
+        private MemoryCache _cache;
 
         public InMemoryCacheProvider()
         {
-            _cache = new MemoryCache("Medrio In Memory Cache");
+            _cache = new MemoryCache($"Medrio In Memory Cache {DateTime.UtcNow}");
         }
 
         public bool TryGet<T>(string key, out T? data)
@@ -68,12 +68,14 @@ namespace Medrio.Caching.InMemoryCache
 
         public void RemoveAll()
         {
-            throw new NotImplementedException();
+            var oldCache = Interlocked.Exchange(ref _cache, new MemoryCache($"Medrio In Memory Cache {DateTime.UtcNow}"));
+            oldCache.Dispose();
         }
 
         public Task RemoveAllAsync()
         {
-            throw new NotImplementedException();
+            RemoveAll();
+            return Task.CompletedTask;
         }
 
         public void Dispose()

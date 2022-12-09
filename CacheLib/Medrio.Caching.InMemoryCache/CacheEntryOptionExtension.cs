@@ -15,7 +15,7 @@ namespace Medrio.Caching.InMemoryCache
 
             if(option.AbsoluteExpiration.HasValue)
                 result.AbsoluteExpiration = option.AbsoluteExpiration.Value;
-            else if (option.SlidingExpiration.HasValue)
+            if (option.SlidingExpiration.HasValue)
                 result.SlidingExpiration = option.SlidingExpiration.Value;
             return result;
         }
