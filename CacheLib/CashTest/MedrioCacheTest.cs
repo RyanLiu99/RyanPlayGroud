@@ -1,5 +1,5 @@
 using Medrio.Caching.Abstraction;
-using Medrio.Caching.Abstraction.CachingServiceProviders;
+using Medrio.Caching.Abstraction.CachingProviders;
 using Medrio.Caching.InMemoryCache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;

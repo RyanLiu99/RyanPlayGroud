@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Medrio.Caching.Abstraction;
-using Medrio.Caching.Abstraction.CachingServiceProviders;
+using Medrio.Caching.Abstraction.CachingProviders;
 using Medrio.Caching.RedisDistributedCache.Configurations;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Medrio.Infrastructure.RedisClient;

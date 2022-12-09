@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Medrio.Caching.Abstraction.CachingServiceProviders;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.Caching;
 using System.Threading;
 using Medrio.Caching.Abstraction;
+using Medrio.Caching.Abstraction.CachingProviders;
 using Medrio.Caching.Abstraction.Utilities;
 
 [assembly: InternalsVisibleTo("CacheTestNetFramework")]

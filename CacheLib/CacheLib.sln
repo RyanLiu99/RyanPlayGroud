@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNet6", "CacheTestN
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.Abstraction", "Caching.Core\Medrio.Caching.Abstraction.csproj", "{C27095E8-C809-48ED-881F-5D62EB57934C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.InMemoryCache", "Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj", "{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.InMemoryCache", "Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj", "{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.RedisDistributedCache", "Medrio.Caching.DistributedCache\Medrio.Caching.RedisDistributedCache.csproj", "{FD92147C-F53C-4286-BC8D-91D704DABA66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.RedisDistributedCache", "Medrio.Caching.DistributedCache\Medrio.Caching.RedisDistributedCache.csproj", "{FD92147C-F53C-4286-BC8D-91D704DABA66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.Abstraction.Dependencies", "Medrio.Caching.Abstraction.Dependencies\Medrio.Caching.Abstraction.Dependencies.csproj", "{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD92147C-F53C-4286-BC8D-91D704DABA66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

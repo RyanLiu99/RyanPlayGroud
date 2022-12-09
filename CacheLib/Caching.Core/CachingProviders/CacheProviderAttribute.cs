@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Medrio.Caching.Abstraction.CachingServiceProviders
+namespace Medrio.Caching.Abstraction.CachingProviders
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class CacheProviderAttribute : Attribute

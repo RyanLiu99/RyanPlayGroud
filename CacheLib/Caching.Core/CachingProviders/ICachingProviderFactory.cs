@@ -1,5 +1,5 @@
 ﻿
-namespace Medrio.Caching.Abstraction.CachingServiceProviders
+namespace Medrio.Caching.Abstraction.CachingProviders
 {
     public interface ICachingProviderFactory
     {

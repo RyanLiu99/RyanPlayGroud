@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Medrio.Infrastructure.Ioc;
 using Medrio.Infrastructure.Ioc.Dependency;
 
-namespace Medrio.Caching.Abstraction.CachingServiceProviders
+namespace Medrio.Caching.Abstraction.CachingProviders
 {
     [RegisterAs(typeof(ICachingProviderFactory))]
     internal class CachingProviderFactory : ICachingProviderFactory

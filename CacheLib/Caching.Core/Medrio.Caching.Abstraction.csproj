@@ -12,4 +12,12 @@
 		<PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dependencies\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Medrio.Caching.Abstraction.Dependencies\Medrio.Caching.Abstraction.Dependencies.csproj" />
+	</ItemGroup>
 </Project>

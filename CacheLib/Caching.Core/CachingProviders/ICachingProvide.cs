@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Medrio.Caching.Abstraction.CachingServiceProviders
+namespace Medrio.Caching.Abstraction.CachingProviders
 {
     public interface ICachingProvide
     {

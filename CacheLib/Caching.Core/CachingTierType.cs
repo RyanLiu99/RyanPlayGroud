@@ -1,4 +1,4 @@
-﻿using Medrio.Caching.Abstraction.CachingServiceProviders;
+﻿using Medrio.Caching.Abstraction.CachingProviders;
 
 namespace Medrio.Caching.Abstraction
 {
