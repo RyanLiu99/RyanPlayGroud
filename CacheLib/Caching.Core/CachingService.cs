@@ -18,11 +18,9 @@ namespace Medrio.Caching.Abstraction
             _factory = factory;
         }
 
-
         public bool TryGet<T>(string key, out T? data, params CachingTierType[] tierTypes)
         {
-            if (tierTypes == null || tierTypes.Length == 0)
-                throw new ArgumentNullException($"{nameof(tierTypes)} must provided.");
+            tierTypes.MakeSureValid();
 
             foreach (var tierType in tierTypes.Sort())  //try local cache first
             {
@@ -33,7 +31,6 @@ namespace Medrio.Caching.Abstraction
                     return found;
                 }
             }
-
             data = default(T?);
             return false;
         }
@@ -41,8 +38,7 @@ namespace Medrio.Caching.Abstraction
 
         public async Task<T?> GetAsync<T>(string key, params CachingTierType[] tierTypes)
         {
-            if (tierTypes == null || tierTypes.Length == 0)
-                throw new ArgumentNullException($"{nameof(tierTypes)} must provided.");
+            tierTypes.MakeSureValid();
 
             foreach (var tierType in tierTypes.Sort())  //try local cache first
             {
@@ -53,37 +49,59 @@ namespace Medrio.Caching.Abstraction
                     return data;
                 }
             }
-            return  default(T?);
+            return default(T?);
         }
 
-        public void Set<T>(string key, T data, CachingTier cachingTier, CachingDependencies dependencies = null)
+        public void Set<T>(string key, T data, CachingTier tier, CachingDependencies dependencies = null)
         {
-            throw new NotImplementedException();
+            _ = tier ?? throw new ArgumentNullException(nameof(tier));
+            var cachingProvider = _factory.GetCachingServiceProvide(tier.TierType);
+
+            cachingProvider.Set(key, data, tier.CacheEntryOption, dependencies);
         }
 
-        public Task SetAsync<T>(string key, T data, CachingTier cachingTier, CachingDependencies dependencies = null)
+        public Task SetAsync<T>(string key, T data, CachingTier tier, CachingDependencies dependencies = null)
         {
-            throw new NotImplementedException();
+            _ = tier ?? throw new ArgumentNullException(nameof(tier));
+            var cachingProvider = _factory.GetCachingServiceProvide(tier.TierType);
+
+            return cachingProvider.SetAsync(key, data, tier.CacheEntryOption, dependencies);
         }
 
-        public void Remove(string key, params CachingTierType[] tierType)
+        public void Remove(string key, params CachingTierType[] tierTypes)
         {
-            throw new NotImplementedException();
+            tierTypes.MakeSureValid();
+
+            foreach (var tierType in tierTypes)  
+            {
+                var cachingProvider = _factory.GetCachingServiceProvide(tierType);
+                cachingProvider.Remove(key);    
+            }
         }
 
-        public Task RemoveAsync(string key, params CachingTierType[] tierType)
+        public Task RemoveAsync(string key, params CachingTierType[] tierTypes)
         {
-            throw new NotImplementedException();
+            tierTypes.MakeSureValid();
+
+            var tasks = tierTypes.Select(tierType => _factory.GetCachingServiceProvide(tierType).RemoveAsync(key));
+            return Task.WhenAll(tasks);
         }
 
-        public void RemoveAll()
+        public void RemoveAll(params CachingTierType[] tierTypes)
         {
-            throw new NotImplementedException();
+            tierTypes.MakeSureValid();
+            Parallel.ForEach(tierTypes, tierType =>  
+            {
+                var cachingProvider = _factory.GetCachingServiceProvide(tierType);
+                cachingProvider.RemoveAll();
+            });
         }
 
-        public Task RemoveAllAsync()
+        public Task RemoveAllAsync(params CachingTierType[] tierTypes)
         {
-            throw new NotImplementedException();
+            tierTypes.MakeSureValid();
+            var tasks = tierTypes.Select(tierType => _factory.GetCachingServiceProvide(tierType).RemoveAllAsync());
+            return Task.WhenAll(tasks);
         }
     }
 }

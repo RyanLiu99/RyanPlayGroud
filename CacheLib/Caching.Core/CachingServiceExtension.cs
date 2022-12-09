@@ -1,6 +1,7 @@
 ﻿using Medrio.Caching.Abstraction.Dependencies;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,18 +18,20 @@ namespace Medrio.Caching.Abstraction
 
 
 
-        //public static TItem? GetOrCreate<TItem>(this IMemoryCache cache, object key, Func<ICacheEntry, TItem> factory)
-        //{
-        //    if (!cache.TryGetValue(key, out object? result))
-        //    {
-        //        using ICacheEntry entry = cache.CreateEntry(key);
+        public static T? GetOrCreate<T>(this ICachingService cache, string key, Func<T> factory, params CachingTier[] tiers)
+        {
+            tiers.MakeSureValid();
 
-        //        result = factory(entry);
-        //        entry.Value = result;
-        //    }
-
-        //    return (TItem?)result;
-        //}
+            if (!cache.TryGet(key, out T? result, tiers.Select(t => t.TierType).Sort().ToArray()))
+            {
+                result = factory();
+                if (result != null)
+                {
+                    cache.Set(key, result, tiers[0]);
+                }
+            }
+            return result;
+        }
 
         //public static async Task<TItem?> GetOrCreateAsync<TItem>(this IMemoryCache cache, object key, Func<ICacheEntry, Task<TItem>> factory)
         //{

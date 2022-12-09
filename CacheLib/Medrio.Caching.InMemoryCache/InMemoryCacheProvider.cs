@@ -20,7 +20,7 @@ namespace Medrio.Caching.InMemoryCache
 
         public InMemoryCacheProvider()
         {
-            _cache = new MemoryCache("Medrio.NoDependencies");
+            _cache = new MemoryCache("Medrio In Memory Cache");
         }
 
         public bool TryGet<T>(string key, out T? data)

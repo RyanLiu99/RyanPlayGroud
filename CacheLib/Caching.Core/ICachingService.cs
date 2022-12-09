@@ -10,15 +10,15 @@ namespace Medrio.Caching.Abstraction
 
         Task<T?> GetAsync<T>(string key, params CachingTierType[] tierTypes);
 
-        void Set<T>(string key, T data, CachingTier cachingTier, CachingDependencies dependencies = null);
-        Task SetAsync<T>(string key, T data, CachingTier cachingTier, CachingDependencies dependencies = null);
+        void Set<T>(string key, T data, CachingTier tier, CachingDependencies dependencies = null);
+        Task SetAsync<T>(string key, T data, CachingTier tier, CachingDependencies dependencies = null);
 
-        void Remove(string key, params CachingTierType[] tierType);
+        void Remove(string key, params CachingTierType[] tierTypes);
 
-        Task RemoveAsync(string key, params CachingTierType[] tierType);
+        Task RemoveAsync(string key, params CachingTierType[] tierTypes);
 
-        void RemoveAll();
+        void RemoveAll(params CachingTierType[] tierTypes);
 
-         Task RemoveAllAsync();
+         Task RemoveAllAsync(params CachingTierType[] tierTypes);
     }
 }

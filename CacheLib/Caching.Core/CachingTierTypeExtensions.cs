@@ -12,5 +12,11 @@ namespace Medrio.Caching.Abstraction
         {
             return tierTypes.OrderBy(x => x);
         }
+
+        public static void MakeSureValid(this IEnumerable<CachingTierType> tierTypes)
+        {
+            if (tierTypes == null || !tierTypes.Any())
+                throw new ArgumentException($"{nameof(tierTypes)} must provided.");
+        }
     }
 }
