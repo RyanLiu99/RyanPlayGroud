@@ -9,11 +9,11 @@ namespace Medrio.Caching.Abstraction.Caches
         /// Cache type for the cache tier type
         /// <remarks>Usually it is an interface.</remarks>
         /// </summary>
-        public Type ProviderType { get; private set; }
+        public Type CacheType { get; private set; }
 
-        public CacheAttribute(Type providerType)
+        public CacheAttribute(Type cacheType)
         {
-            ProviderType = providerType;
+            CacheType = cacheType;
         }
     }
 }

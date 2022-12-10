@@ -12,7 +12,7 @@ using StackExchange.Redis;
 namespace Medrio.Caching.RedisDistributedCache
 {
     [RegisterAs(typeof(IDistributedCache), Lifetime = ServiceLifetime.Singleton)]
-    internal class RedisDistributedCacheProvider : IDistributedCache
+    internal class RedisDistributedCache : IDistributedCache
     {
         //TODO: pre load script to server
         // KEYS[1] = = key
@@ -37,7 +37,7 @@ namespace Medrio.Caching.RedisDistributedCache
         private IDatabase _cache;
         private readonly string _instance;
 
-        public RedisDistributedCacheProvider(IRedisConnectionProvider redisConnectionProvider,
+        public RedisDistributedCache(IRedisConnectionProvider redisConnectionProvider,
             IOptions<RedisDistributedCacheOptions> redisDistributedCacheOptions)
         {
             _cache = redisConnectionProvider.GetRedisConnection(redisDistributedCacheOptions.Value.MessageBrokerIdentifier).GetDatabase();

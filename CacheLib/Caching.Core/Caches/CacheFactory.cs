@@ -8,7 +8,7 @@ namespace Medrio.Caching.Abstraction.Caches
     [RegisterAs(typeof(ICacheFactory))]
     internal class CacheFactory : ICacheFactory
     {
-        //TODO: Build map from enum CacheProviderAttribute
+        //TODO: Build map from enum CacheAttribute
         private static readonly IReadOnlyDictionary<CachingTierType, Type> Map = new Dictionary<CachingTierType, Type>()
         {
             {CachingTierType.LocalInMemory, typeof(IInMemoryCache)},
@@ -17,13 +17,13 @@ namespace Medrio.Caching.Abstraction.Caches
 
         public ICache GetCaches(CachingTierType cachingTierType)
         {
-            if (!Map.TryGetValue(cachingTierType, out Type providerType))
+            if (!Map.TryGetValue(cachingTierType, out Type cacheType))
             {
                 throw new CachingSettingException($"Cannot find cache for {cachingTierType}");
             }
 
-            ICache cache = IocAdapter.ResolveInContainer(providerType, true) as ICache 
-                                              ?? throw new CachingSettingException($"Cannot find implementation for {providerType.FullName}");
+            ICache cache = IocAdapter.ResolveInContainer(cacheType, true) as ICache 
+                                              ?? throw new CachingSettingException($"Cannot find implementation for {cacheType.FullName}");
             return cache;
         }
     }

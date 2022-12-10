@@ -10,7 +10,7 @@ namespace CacheTestNetFramework
     public class MedrioCacheTest
     {
         [Test]
-        public void TestCacheProvider()
+        public void TestCache()
         {
             ICache cache = new InMemoryCache();
             cache.TryGet<int?>("any", out int? result);
