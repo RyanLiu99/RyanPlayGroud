@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Medrio.Caching.Abstraction.CachingProviders
+namespace Medrio.Caching.Abstraction.Caches
 {
-    public interface ICachingProvide
+    public interface ICache
     {
         bool TryGet<T>(string key, out T? data);
 

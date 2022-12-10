@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Medrio.Caching.Abstraction.CachingProviders
+namespace Medrio.Caching.Abstraction.Caches
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public class CacheProviderAttribute : Attribute
+    public class CacheAttribute : Attribute
     {
         /// <summary>
         /// Cache provider type for the cache tier type
@@ -11,7 +11,7 @@ namespace Medrio.Caching.Abstraction.CachingProviders
         /// </summary>
         public Type ProviderType { get; private set; }
 
-        public CacheProviderAttribute(Type providerType)
+        public CacheAttribute(Type providerType)
         {
             ProviderType = providerType;
         }

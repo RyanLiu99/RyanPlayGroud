@@ -1,14 +1,14 @@
-﻿using Medrio.Caching.Abstraction.CachingProviders;
+﻿using Medrio.Caching.Abstraction.Caches;
 
 namespace Medrio.Caching.Abstraction
 {
  
     public enum CachingTierType: byte
     {
-        [CacheProvider(typeof(IInMemoryCacheProvider))]
+        [Cache(typeof(IInMemoryCache))]
         LocalInMemory = 1,
 
-        [CacheProvider(typeof(IDistributedCacheProvider))]
+        [Cache(typeof(IDistributedCache))]
         Distributed = 2
     }
 }

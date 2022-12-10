@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using Medrio.Infrastructure.Ioc;
 using Medrio.Infrastructure.Ioc.Dependency;
 
-namespace Medrio.Caching.Abstraction.CachingProviders
+namespace Medrio.Caching.Abstraction.Caches
 {
-    [RegisterAs(typeof(ICachingProviderFactory))]
-    internal class CachingProviderFactory : ICachingProviderFactory
+    [RegisterAs(typeof(ICacheFactory))]
+    internal class CacheFactory : ICacheFactory
     {
         //TODO: Build map from enum CacheProviderAttribute
         private static readonly IReadOnlyDictionary<CachingTierType, Type> Map = new Dictionary<CachingTierType, Type>()
         {
-            {CachingTierType.LocalInMemory, typeof(IInMemoryCacheProvider)},
-            {CachingTierType.Distributed, typeof(IDistributedCacheProvider)}
+            {CachingTierType.LocalInMemory, typeof(IInMemoryCache)},
+            {CachingTierType.Distributed, typeof(IDistributedCache)}
         };
 
-        public ICachingProvide GetCachingServiceProvide(CachingTierType cachingTierType)
+        public ICache GetCachingServiceProvide(CachingTierType cachingTierType)
         {
             if (!Map.TryGetValue(cachingTierType, out Type providerType))
             {
                 throw new CachingSettingException($"Cannot find caching provider for {cachingTierType}");
             }
 
-            ICachingProvide provider = IocAdapter.ResolveInContainer(providerType, true) as ICachingProvide 
+            ICache provider = IocAdapter.ResolveInContainer(providerType, true) as ICache 
                                               ?? throw new CachingSettingException($"Cannot find implementation for {providerType.FullName}");
             return provider;
         }

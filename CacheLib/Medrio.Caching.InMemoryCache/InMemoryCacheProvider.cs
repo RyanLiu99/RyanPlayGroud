@@ -6,15 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.Caching;
 using System.Threading;
 using Medrio.Caching.Abstraction;
-using Medrio.Caching.Abstraction.CachingProviders;
+using Medrio.Caching.Abstraction.Caches;
 using Medrio.Caching.Abstraction.Utilities;
 
 [assembly: InternalsVisibleTo("CacheTestNetFramework")]
 
 namespace Medrio.Caching.InMemoryCache
 {
-    [RegisterAs(typeof(IInMemoryCacheProvider), Lifetime = ServiceLifetime.Singleton)]
-    internal class InMemoryCacheProvider : IInMemoryCacheProvider, IDisposable
+    [RegisterAs(typeof(IInMemoryCache), Lifetime = ServiceLifetime.Singleton)]
+    internal class InMemoryCacheProvider : IInMemoryCache, IDisposable
     {
         private MemoryCache _cache;
 

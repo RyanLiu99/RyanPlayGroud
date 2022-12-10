@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Medrio.Caching.Abstraction;
-using Medrio.Caching.Abstraction.CachingProviders;
+using Medrio.Caching.Abstraction.Caches;
 using Medrio.Caching.RedisDistributedCache.Configurations;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Medrio.Infrastructure.RedisClient;
@@ -11,8 +11,8 @@ using StackExchange.Redis;
 
 namespace Medrio.Caching.RedisDistributedCache
 {
-    [RegisterAs(typeof(IDistributedCacheProvider), Lifetime = ServiceLifetime.Singleton)]
-    internal class RedisDistributedCacheProvider : IDistributedCacheProvider
+    [RegisterAs(typeof(IDistributedCache), Lifetime = ServiceLifetime.Singleton)]
+    internal class RedisDistributedCacheProvider : IDistributedCache
     {
         //TODO: pre load script to server
         // KEYS[1] = = key

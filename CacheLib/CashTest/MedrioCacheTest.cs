@@ -1,5 +1,5 @@
 using Medrio.Caching.Abstraction;
-using Medrio.Caching.Abstraction.CachingProviders;
+using Medrio.Caching.Abstraction.Caches;
 using Medrio.Caching.InMemoryCache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +12,7 @@ namespace CacheTestNetFramework
         [Test]
         public void TestCacheProvider()
         {
-            ICachingProvide provider = new InMemoryCacheProvider();
+            ICache provider = new InMemoryCacheProvider();
             provider.TryGet<int?>("any", out int? result);
             Assert.IsNull(result);
         }
