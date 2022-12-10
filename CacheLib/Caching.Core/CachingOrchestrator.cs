@@ -24,7 +24,7 @@ namespace Medrio.Caching.Abstraction
 
             foreach (var tierType in tierTypes.Sort())  //try local cache first
             {
-                var cachingProvider = _factory.GetCachingServiceProvide(tierType);
+                var cachingProvider = _factory.GetCaches(tierType);
                 var found = cachingProvider.TryGet(key, out data);
                 if (found)
                 {
@@ -41,7 +41,7 @@ namespace Medrio.Caching.Abstraction
 
             foreach (var tierType in tierTypes.Sort())  //try local cache first
             {
-                var cachingProvider = _factory.GetCachingServiceProvide(tierType);
+                var cachingProvider = _factory.GetCaches(tierType);
                 var found = await cachingProvider.TryGetAsync<T>(key, out T? data).ConfigureAwait(false);
                 if (found)
                 {
@@ -54,7 +54,7 @@ namespace Medrio.Caching.Abstraction
         public void Set<T>(string key, T data, CachingTier tier, CachingDependencies? dependencies = null)
         {
             _ = tier ?? throw new ArgumentNullException(nameof(tier));
-            var cachingProvider = _factory.GetCachingServiceProvide(tier.TierType);
+            var cachingProvider = _factory.GetCaches(tier.TierType);
             var cacheEntry = new CacheDataEntry<T>(data, dependencies);
             cachingProvider.Set(key, cacheEntry, tier.CacheEntryOption);
         }
@@ -62,7 +62,7 @@ namespace Medrio.Caching.Abstraction
         public Task SetAsync<T>(string key, T data, CachingTier tier, CachingDependencies? dependencies = null)
         {
             _ = tier ?? throw new ArgumentNullException(nameof(tier));
-            var cachingProvider = _factory.GetCachingServiceProvide(tier.TierType);
+            var cachingProvider = _factory.GetCaches(tier.TierType);
 
             var cacheEntry = new CacheDataEntry<T>(data, dependencies);
             return cachingProvider.SetAsync(key, cacheEntry, tier.CacheEntryOption);
@@ -74,7 +74,7 @@ namespace Medrio.Caching.Abstraction
 
             foreach (var tierType in tierTypes)  
             {
-                var cachingProvider = _factory.GetCachingServiceProvide(tierType);
+                var cachingProvider = _factory.GetCaches(tierType);
                 cachingProvider.Remove(key);    
             }
         }
@@ -83,7 +83,7 @@ namespace Medrio.Caching.Abstraction
         {
             tierTypes.MakeSureValid();
 
-            var tasks = tierTypes.Select(tierType => _factory.GetCachingServiceProvide(tierType).RemoveAsync(key));
+            var tasks = tierTypes.Select(tierType => _factory.GetCaches(tierType).RemoveAsync(key));
             return Task.WhenAll(tasks);
         }
 
@@ -92,7 +92,7 @@ namespace Medrio.Caching.Abstraction
             tierTypes.MakeSureValid();
             Parallel.ForEach(tierTypes, tierType =>  
             {
-                var cachingProvider = _factory.GetCachingServiceProvide(tierType);
+                var cachingProvider = _factory.GetCaches(tierType);
                 cachingProvider.RemoveAll();
             });
         }
@@ -100,7 +100,7 @@ namespace Medrio.Caching.Abstraction
         public Task RemoveAllAsync(params CachingTierType[] tierTypes)
         {
             tierTypes.MakeSureValid();
-            var tasks = tierTypes.Select(tierType => _factory.GetCachingServiceProvide(tierType).RemoveAllAsync());
+            var tasks = tierTypes.Select(tierType => _factory.GetCaches(tierType).RemoveAllAsync());
             return Task.WhenAll(tasks);
         }
     }

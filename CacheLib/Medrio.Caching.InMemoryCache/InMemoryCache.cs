@@ -14,11 +14,11 @@ using Medrio.Caching.Abstraction.Utilities;
 namespace Medrio.Caching.InMemoryCache
 {
     [RegisterAs(typeof(IInMemoryCache), Lifetime = ServiceLifetime.Singleton)]
-    internal class InMemoryCacheProvider : IInMemoryCache, IDisposable
+    internal class InMemoryCache : IInMemoryCache, IDisposable
     {
         private MemoryCache _cache;
 
-        public InMemoryCacheProvider()
+        public InMemoryCache()
         {
             _cache = new MemoryCache($"Medrio In Memory Cache {DateTime.UtcNow}");
         }

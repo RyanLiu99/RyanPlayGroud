@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Medrio.Caching.RedisDistributedCache.Configurations
 {
-    public class RedisDistributedCacheOptions : AutoBindOption<RedisDistributedCacheOptions>
+    internal class RedisDistributedCacheOptions : AutoBindOption<RedisDistributedCacheOptions>
     {
         public override string SectionName => "Medrio:RedisCache";
 

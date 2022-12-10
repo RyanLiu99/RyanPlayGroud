@@ -6,7 +6,7 @@ namespace Medrio.Caching.Abstraction.Caches
     public class CacheAttribute : Attribute
     {
         /// <summary>
-        /// Cache provider type for the cache tier type
+        /// Cache type for the cache tier type
         /// <remarks>Usually it is an interface.</remarks>
         /// </summary>
         public Type ProviderType { get; private set; }

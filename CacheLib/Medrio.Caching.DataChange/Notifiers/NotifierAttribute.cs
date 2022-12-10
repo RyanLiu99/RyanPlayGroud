@@ -6,14 +6,14 @@ namespace Medrio.Caching.DataChangeNotification.Notifiers
     public class NotifierAttribute : Attribute
     {
         /// <summary>
-        /// Cache provider type for the cache tier type
+        /// Notifier type 
         /// <remarks>Usually it is an interface.</remarks>
         /// </summary>
-        public Type ProviderType { get; private set; }
+        public Type NotifierType { get; private set; }
 
-        public NotifierAttribute(Type providerType)
+        public NotifierAttribute(Type notifierType)
         {
-            ProviderType = providerType;
+            NotifierType = notifierType;
         }
     }
 }

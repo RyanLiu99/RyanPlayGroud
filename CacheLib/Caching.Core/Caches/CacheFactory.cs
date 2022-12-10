@@ -15,16 +15,16 @@ namespace Medrio.Caching.Abstraction.Caches
             {CachingTierType.Distributed, typeof(IDistributedCache)}
         };
 
-        public ICache GetCachingServiceProvide(CachingTierType cachingTierType)
+        public ICache GetCaches(CachingTierType cachingTierType)
         {
             if (!Map.TryGetValue(cachingTierType, out Type providerType))
             {
-                throw new CachingSettingException($"Cannot find caching provider for {cachingTierType}");
+                throw new CachingSettingException($"Cannot find cache for {cachingTierType}");
             }
 
-            ICache provider = IocAdapter.ResolveInContainer(providerType, true) as ICache 
+            ICache cache = IocAdapter.ResolveInContainer(providerType, true) as ICache 
                                               ?? throw new CachingSettingException($"Cannot find implementation for {providerType.FullName}");
-            return provider;
+            return cache;
         }
     }
 }
