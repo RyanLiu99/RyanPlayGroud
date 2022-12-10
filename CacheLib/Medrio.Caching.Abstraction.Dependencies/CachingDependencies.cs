@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Medrio.Caching.Abstraction.Dependencies
+namespace Medrio.Caching.Dependencies
 {
     public class CachingDependencies
     {

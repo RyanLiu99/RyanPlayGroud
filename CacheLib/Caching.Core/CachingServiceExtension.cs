@@ -1,23 +1,23 @@
-﻿using Medrio.Caching.Abstraction.Dependencies;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Medrio.Caching.Dependencies;
 
 namespace Medrio.Caching.Abstraction
 {
     public static class CachingServiceExtension
     {
 
-        public static T? Get<T>(this ICachingService cache, string key, params CachingTierType[] tierTypes)
+        public static T? Get<T>(this ICachingOrchestrator cache, string key, params CachingTierType[] tierTypes)
         {
             var found = cache.TryGet(key, out T? result, tierTypes);
             return result;
         }
 
 
-        public static T? GetOrCreate<T>(this ICachingService cache, string key, Func<T> factory,
+        public static T? GetOrCreate<T>(this ICachingOrchestrator cache, string key, Func<T> factory,
             CachingDependencies? dependencies = null, params CachingTier[] tiers)
         {
             tiers.MakeSureValid();
@@ -34,7 +34,7 @@ namespace Medrio.Caching.Abstraction
             return result;
         }
 
-        public static async Task<T?> GetOrCreateAsync<T>(this ICachingService cache, string key, Func<Task<T>> factory,
+        public static async Task<T?> GetOrCreateAsync<T>(this ICachingOrchestrator cache, string key, Func<Task<T>> factory,
             CachingDependencies? dependencies = null, params CachingTier[] tiers)
         {
             tiers.MakeSureValid();

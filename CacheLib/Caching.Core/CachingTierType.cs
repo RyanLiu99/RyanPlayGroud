@@ -3,7 +3,7 @@
 namespace Medrio.Caching.Abstraction
 {
  
-    public enum CachingTierType: short
+    public enum CachingTierType: byte
     {
         [CacheProvider(typeof(IInMemoryCacheProvider))]
         LocalInMemory = 1,

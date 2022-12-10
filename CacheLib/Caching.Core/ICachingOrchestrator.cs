@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Medrio.Caching.Abstraction.Dependencies;
+using Medrio.Caching.Dependencies;
 
 namespace Medrio.Caching.Abstraction
 {
-    public interface ICachingService
+    public interface ICachingOrchestrator
     {
         bool TryGet<T>(string key, out T? data, params CachingTierType[] tierTypes);
 

@@ -1,4 +1,4 @@
-﻿namespace Medrio.Caching.Abstraction.Dependencies
+﻿namespace Medrio.Caching.Dependencies
 {
     public class CollectionDependency
     {

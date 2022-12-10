@@ -21,7 +21,7 @@ namespace CacheTestNetFramework
         [Test]
         public void TestCacheServiceNullable()
         {
-            ICachingService service = Setup.Container.GetRequiredService<ICachingService>();
+            ICachingOrchestrator service = Setup.Container.GetRequiredService<ICachingOrchestrator>();
             var result = service.Get<int?>("TestCacheService", CachingTierType.LocalInMemory);
             Assert.IsNull(result);
         }
@@ -29,7 +29,7 @@ namespace CacheTestNetFramework
         [Test]
         public void TestCacheServiceZero()
         {
-            ICachingService service = Setup.Container.GetRequiredService<ICachingService>();
+            ICachingOrchestrator service = Setup.Container.GetRequiredService<ICachingOrchestrator>();
             var result = service.Get<int>("TestCacheService", CachingTierType.LocalInMemory);
             Assert.AreEqual(0, result);
         }

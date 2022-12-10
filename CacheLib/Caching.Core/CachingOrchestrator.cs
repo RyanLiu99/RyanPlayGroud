@@ -2,18 +2,18 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Medrio.Caching.Abstraction.CachingProviders;
-using Medrio.Caching.Abstraction.Dependencies;
+using Medrio.Caching.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Medrio.Caching.Abstraction
 {
-    [RegisterAs(typeof(ICachingService), Lifetime = ServiceLifetime.Transient )]
-    internal class CachingService : ICachingService
+    [RegisterAs(typeof(ICachingOrchestrator), Lifetime = ServiceLifetime.Transient )]
+    internal class CachingOrchestrator : ICachingOrchestrator
     {
         private readonly ICachingProviderFactory _factory;
 
-        public CachingService(ICachingProviderFactory factory)
+        public CachingOrchestrator(ICachingProviderFactory factory)
         {
             _factory = factory;
         }

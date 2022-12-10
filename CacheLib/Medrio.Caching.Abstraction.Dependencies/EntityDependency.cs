@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Security.Principal;
+﻿using System.Collections.Generic;
 
-namespace Medrio.Caching.Abstraction.Dependencies
+namespace Medrio.Caching.Dependencies
 {
     public class EntityDependency
     {
