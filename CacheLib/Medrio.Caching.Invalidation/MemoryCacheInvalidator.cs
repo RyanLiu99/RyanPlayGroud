@@ -1,10 +1,9 @@
 ﻿using System;
-using Medrio.Caching.Dependencies;
 using System.Threading.Tasks;
-using Medrio.Caching.InMemoryInvalidationService;
+using Medrio.Caching.Dependencies;
 using Medrio.Infrastructure.Ioc.Dependency;
 
-namespace Medrio.Caching.InMemoryInvalidation
+namespace Medrio.Caching.InMemoryInvalidationService
 {
     [RegisterAs(typeof(IMemoryCacheInvalidator))]
     internal class MemoryCacheInvalidator : IMemoryCacheInvalidator

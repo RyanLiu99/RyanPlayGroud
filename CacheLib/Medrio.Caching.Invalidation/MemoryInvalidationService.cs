@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Medrio.Caching.Dependencies;
-using Medrio.Caching.InMemoryInvalidation.DataChannel;
+using Medrio.Caching.InMemoryInvalidationService.DataChannel;
 
-namespace Medrio.Caching.InMemoryInvalidation
+namespace Medrio.Caching.InMemoryInvalidationService
 {
     internal class MemoryCacheInvalidationService 
     {

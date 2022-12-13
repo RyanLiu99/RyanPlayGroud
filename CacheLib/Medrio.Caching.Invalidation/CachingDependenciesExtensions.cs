@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Medrio.Caching.Dependencies;
 
-namespace Medrio.Caching.InMemoryInvalidation
+namespace Medrio.Caching.InMemoryInvalidationService
 {
     public static class CachingDependenciesExtensions
     {

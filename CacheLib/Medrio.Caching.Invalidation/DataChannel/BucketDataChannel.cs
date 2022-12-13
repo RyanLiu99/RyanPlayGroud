@@ -4,7 +4,7 @@ using System.Threading;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Medrio.Caching.InMemoryInvalidation.DataChannel
+namespace Medrio.Caching.InMemoryInvalidationService.DataChannel
 {
     [RegisterAs(typeof(IBulkDataChannel<>), Lifetime = ServiceLifetime.Singleton)]
     internal class BucketDataChannel<T> : IBulkDataChannel<T>, IDisposable

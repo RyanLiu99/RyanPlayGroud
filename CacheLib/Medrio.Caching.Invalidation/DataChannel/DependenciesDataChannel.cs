@@ -2,7 +2,7 @@
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Medrio.Caching.InMemoryInvalidation.DataChannel
+namespace Medrio.Caching.InMemoryInvalidationService.DataChannel
 {
     [RegisterAs(typeof(IDependenciesDataChannel), Lifetime = ServiceLifetime.Singleton)]
     internal class DependenciesDataChannel : BucketDataChannel<CachingDependencies>, IDependenciesDataChannel

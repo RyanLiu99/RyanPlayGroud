@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Medrio.Caching.InMemoryInvalidation.DataChannel
+namespace Medrio.Caching.InMemoryInvalidationService.DataChannel
 {
     public interface IBulkDataChannel<T>
     {
