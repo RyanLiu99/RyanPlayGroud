@@ -1,15 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>9.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Medrio.Caching.Abstraction.Dependencies\Medrio.Caching.Dependencies.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Medrio.Caching.Abstraction.Dependencies\Medrio.Caching.Dependencies.csproj" />
+	</ItemGroup>
 
 </Project>

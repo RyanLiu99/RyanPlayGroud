@@ -1,18 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>9.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
-    <PackageReference Include="Medrio.Infrastructure.RedisClient" Version="100.0.160" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.158" />
+		<PackageReference Include="Medrio.Infrastructure.RedisClient" Version="100.0.160" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Caching.Core\Medrio.Caching.Abstraction.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Caching.Core\Medrio.Caching.Abstraction.csproj" />
+	</ItemGroup>
 
 </Project>

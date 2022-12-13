@@ -34,7 +34,7 @@ namespace CacheTestNet6
                 .ConfigureAwait(false);
             var personB = cache.Get<Person>(key);
             Assert.NotNull(personB);
-            Assert.AreEqual(person.Name, personB.Name);
+            Assert.That(personB?.Name, Is.EqualTo(person.Name));
 
             await Task.Delay(cacheDuration).ConfigureAwait(false);
             var personC = cache.Get<Person>(key);
