@@ -4,11 +4,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 
-namespace CacheTestNetFramework
+
+namespace SmallTests
 {
-    internal class DelegatExpressionTest
+    
+    public class DelegateExpressionTest
     {
         private readonly List<object> _callTargets = new List<object>();
         private readonly List<object> _callMethods = new List<object>();
@@ -53,7 +54,7 @@ namespace CacheTestNetFramework
             Assert.AreEqual(_expsMethod[0], _expsMethod[1]); //Calling same method
         }
 
-        public async ValueTask<T> WrappedExp<T>(Expression<Func<ValueTask<T>>> exp)
+        private async ValueTask<T> WrappedExp<T>(Expression<Func<ValueTask<T>>> exp)
         {
             MethodInfo m = ((MethodCallExpression)exp.Body).Method;
             _expsMethod.Add(m);
@@ -102,7 +103,7 @@ namespace CacheTestNetFramework
             Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal DoSth and DoSth2 are not same
         }
 
-        public async ValueTask<T> WrappedFunc<T>(Func<ValueTask<T>> func)
+        private async ValueTask<T> WrappedFunc<T>(Func<ValueTask<T>> func)
         {
             _callTargets.Add(func.Target);
             _callMethods.Add(func.Method);
