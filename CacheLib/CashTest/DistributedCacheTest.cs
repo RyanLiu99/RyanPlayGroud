@@ -3,76 +3,24 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using CacheTestNetFramework.Entity;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace CacheTestNetFramework
 {
-    internal class DistributedCacheTest
+    internal class DelegatExpressionTest
     {
         private readonly List<object> _callTargets = new List<object>();
         private readonly List<object> _callMethods = new List<object>();
-        private readonly List<object> _exps = new List<object>();
+        private readonly List<int> _expsHasCodes = new List<int>();
+        private readonly List<MethodInfo> _expsMethod = new List<MethodInfo>();
 
-        [TearDown]
-        public void TearDown()
+        private async ValueTask<string> DoSthX()
         {
-            _callTargets.Clear();
-            _callMethods.Clear();
-            _exps.Clear();
+            return "2";
         }
 
-        [Test]
-        public void Test1()
-        {
-            //var cache = Setup.Container.GetRequiredService<IDistributedCache>();
-            var cache = Setup.Container.GetRequiredService<IMemoryCache>();
-
-            string key = "key1";
-            Person person1 = new Person("P1");
-            cache.Set(key, person1);
-            var person1B = cache.Get<Person>(key);
-            Assert.NotNull(person1B);
-            Assert.AreEqual(person1.Name, person1B.Name);
-
-        }
-
-        [Test]
-        public async ValueTask TestMethodEqual()
-        {
-            var x = await WrappedMethod(() => this.DoSth("a"));
-            var y = await WrappedMethod(() => this.DoSth("a"));
-
-            //Assert.AreEqual(2, _callTargets.Count);
-            //Assert.AreEqual(_callTargets[0], _callTargets[1]);
-
-            Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal, WrappedMethod doesn't work
-
-        }
-
-        [Test]
-        public async ValueTask TestMethodNotEqual()
-        {
-            var x = await WrappedMethod(() => this.DoSth("a"));
-            var y = await WrappedMethod(() => this.DoSth2("a")); //sth 2
-
-            Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal
-           
-        }
-
-        public async ValueTask<T> WrappedMethod<T>(Func<ValueTask<T>> func)
-        {
-            _callTargets.Add(func.Target);
-            _callMethods.Add(func.Method);
-            
-            var r  = await func.Invoke();
-            return r;
-        }
-
-
-        private async  ValueTask<string> DoSth(string input)
+        private async ValueTask<string> DoSth(string input)
         {
             return "2";
         }
@@ -83,34 +31,33 @@ namespace CacheTestNetFramework
         }
 
 
-        [Test]
-        public async ValueTask TestExpEqual()
+        [TearDown]
+        public void TearDown()
         {
-            Expression<Func<ValueTask<string>>> exp1 = () => this.DoSth("a");
-            Expression<Func<ValueTask<string>>> exp2 = () => this.DoSth("b");
-
-            var x = await WrappedExp(exp1);
-            var y = await WrappedExp(exp2);
-            
-            Assert.AreEqual(_exps[0], _exps[1]);
+            _callTargets.Clear();
+            _callMethods.Clear();
+            _expsHasCodes.Clear();
+            _expsMethod.Clear();
         }
 
+        #region expression
         [Test]
-        public async ValueTask TestExpNotEqual()
+        public async ValueTask ExpressionsCallingSameMethod()
         {
             Expression<Func<ValueTask<string>>> exp1 = () => this.DoSth("a");
-            Expression<Func<ValueTask<string>>> exp3 = () => this.DoSth2("b");
 
             var x = await WrappedExp(exp1);
             var y = await WrappedExp(() => this.DoSth("b"));
 
-            Assert.AreEqual(_exps[0], _exps[1]);
+            Assert.AreEqual(_expsHasCodes[0], _expsHasCodes[1]); //Calling same method
+            Assert.AreEqual(_expsMethod[0], _expsMethod[1]); //Calling same method
         }
 
         public async ValueTask<T> WrappedExp<T>(Expression<Func<ValueTask<T>>> exp)
         {
-            MethodInfo m = ((MethodCallExpression)exp.Body).Method; 
-            _exps.Add(m.GetHashCode());
+            MethodInfo m = ((MethodCallExpression)exp.Body).Method;
+            _expsMethod.Add(m);
+            _expsHasCodes.Add(m.GetHashCode());
 
             ConstantExpression arg1 = ((MethodCallExpression)exp.Body).Arguments[0] as ConstantExpression;
             //arg1.Type; //typeof(string)
@@ -119,8 +66,52 @@ namespace CacheTestNetFramework
             var r = await exp.Compile().Invoke();
             return r;
         }
+        #endregion exp
 
-     
+        #region Func
+        [Test]
+        public async ValueTask TestMethodInvokingOn()
+        {
+            var x = await WrappedFunc( this.DoSthX);
+            var y = await WrappedFunc( this.DoSthX);
+
+            Assert.AreEqual(2, _callTargets.Count);
+            Assert.AreEqual(_callTargets[0], _callTargets[1]); //invoking on the same target ("this")
+
+            Assert.AreEqual(_callMethods[0], _callMethods[1]); //same DoSthX
+        }
+
+        [Test]
+        public async ValueTask TestMethodInvokingOnSameTargetButDifferentMethod()
+        {
+            var x = await WrappedFunc(() => this.DoSth("a"));
+            var y = await WrappedFunc(() => this.DoSth("a"));
+
+            Assert.AreEqual(2, _callTargets.Count);
+            Assert.AreEqual(_callTargets[0], _callTargets[1]); //invoking on the same target ("this")
+
+            Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal even calling same method work since delegate itself is the method. 
+        }
+
+        [Test]
+        public async ValueTask TestMethodNotEqual()
+        {
+            var x = await WrappedFunc(() => this.DoSth("a"));
+            var y = await WrappedFunc(() => this.DoSth2("a")); //sth 2
+
+            Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal DoSth and DoSth2 are not same
+        }
+
+        public async ValueTask<T> WrappedFunc<T>(Func<ValueTask<T>> func)
+        {
+            _callTargets.Add(func.Target);
+            _callMethods.Add(func.Method);
+
+            var r = await func.Invoke();
+            return r;
+        }
+        #endregion
+
 
     }
 }

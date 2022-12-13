@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CacheTestNetFramework.Entity;
 using Medrio.Caching.Abstraction;
@@ -7,7 +8,7 @@ using NUnit.Framework;
 
 namespace CacheTestNetFramework
 {
-    public class MedrioCacheTest
+    public class MedrioInMemoryCacheTest
     {
         [Test]
         public void GetNullIfNotInCache()
@@ -18,28 +19,30 @@ namespace CacheTestNetFramework
         }
 
         [Test]
-        public async Task CanGetCacheBackAndExpire()
-        {
-            ICachingOrchestrator cache = Setup.Container.GetRequiredService<ICachingOrchestrator>();
-
-            string key = Guid.NewGuid().ToString();
-            Person person = new Person(key);
-            await cache.SetInMemoryCacheAsync(key, person, DateTimeOffset.UtcNow + TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
-            var personB = cache.Get<Person>(key);
-            Assert.NotNull(personB);
-            Assert.AreEqual(person.Name, personB.Name);
-
-            await Task.Delay(200).ConfigureAwait(false);
-            var personC = cache.Get<Person>(key);
-            Assert.IsNull(personC);
-        }
-
-        [Test]
         public void GetDefaultValueIfNotInCache()
         {
             ICachingOrchestrator cache = Setup.Container.GetRequiredService<ICachingOrchestrator>();
             var result = cache.Get<int>("TestCacheService", CachingTierType.LocalInMemory);
             Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public async Task CanGetCacheBackAndExpire()
+        {
+            int cacheDuration = 100;
+            ICachingOrchestrator cache = Setup.Container.GetRequiredService<ICachingOrchestrator>();
+
+            string key = Guid.NewGuid().ToString();
+            Person person = new Person(key);
+            await cache.SetInMemoryCacheAsync(key, person, DateTimeOffset.UtcNow + TimeSpan.FromMilliseconds(cacheDuration))
+                .ConfigureAwait(false);
+            var personB = cache.Get<Person>(key);
+            Assert.NotNull(personB);
+            Assert.AreEqual(person.Name, personB.Name);
+
+            await Task.Delay(cacheDuration).ConfigureAwait(false);
+            var personC = cache.Get<Person>(key);
+            Assert.IsNull(personC);
         }
     }
 }
