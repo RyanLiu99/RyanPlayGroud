@@ -50,5 +50,31 @@ namespace Medrio.Caching.Abstraction
             }
             return data;
         }
+
+        public static void SetInMemoryCache<T>(this ICachingOrchestrator cache, string key, T data, DateTimeOffset? absoluteExpiration=null,
+            CachingDependencies? dependencies = null)
+        {
+            cache.Set(key, data, new CachingTier(CachingTierType.LocalInMemory, absoluteExpiration), dependencies);
+        }
+
+        public static Task SetInMemoryCacheAsync<T>(this ICachingOrchestrator cache, string key, T data, DateTimeOffset? absoluteExpiration = null,
+            CachingDependencies? dependencies = null)
+        {
+            return cache.SetAsync(key, data, new CachingTier(CachingTierType.LocalInMemory, absoluteExpiration),
+                dependencies);
+        }
+
+        public static void SetInMemoryCache<T>(this ICachingOrchestrator cache, string key, T data, TimeSpan? slidingExpiration = null,
+            CachingDependencies? dependencies = null)
+        {
+            cache.Set(key, data, new CachingTier(CachingTierType.LocalInMemory, slidingExpiration), dependencies);
+        }
+
+        public static Task SetInMemoryCacheAsync<T>(this ICachingOrchestrator cache, string key, T data, TimeSpan? slidingExpiration = null,
+            CachingDependencies? dependencies = null)
+        {
+            return cache.SetAsync(key, data, new CachingTier(CachingTierType.LocalInMemory, slidingExpiration),
+                dependencies);
+        }
     }
 }

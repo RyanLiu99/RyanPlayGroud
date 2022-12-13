@@ -15,7 +15,7 @@ namespace Medrio.Caching.Abstraction.Caches
             {CachingTierType.Distributed, typeof(IDistributedCache)}
         };
 
-        public ICache GetCaches(CachingTierType cachingTierType)
+        public ICache GetCache(CachingTierType cachingTierType)
         {
             if (!Map.TryGetValue(cachingTierType, out Type cacheType))
             {

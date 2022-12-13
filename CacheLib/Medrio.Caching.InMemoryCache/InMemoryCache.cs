@@ -27,7 +27,8 @@ namespace Medrio.Caching.InMemoryCache
         {
             if (_cache.Contains(key))
             {
-                data = (T?)_cache.Get(key);
+                var dataEntry = (CacheDataEntry<T>)_cache.Get(key);
+                data = dataEntry.Data;
                 return true;
             }
             else
@@ -43,13 +44,13 @@ namespace Medrio.Caching.InMemoryCache
             return result ? TaskResults.True : TaskResults.False;
         }
 
-        public void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption)
+        public void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOptions? cacheEntryOption)
         {
             CacheItemPolicy? policy = cacheEntryOption.ToCacheItemPolicy();
             _cache.Set(key, cacheEntry, policy);
         }
 
-        public Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption)
+        public Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOptions? cacheEntryOption)
         {
             Set(key, cacheEntry, cacheEntryOption);
             return Task.CompletedTask;

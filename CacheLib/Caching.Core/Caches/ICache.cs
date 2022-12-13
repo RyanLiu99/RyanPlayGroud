@@ -8,9 +8,9 @@ namespace Medrio.Caching.Abstraction.Caches
 
         Task<bool> TryGetAsync<T>(string key, out T? data);
 
-        void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption);
+        void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOptions? cacheEntryOption);
 
-        Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption);
+        Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOptions? cacheEntryOption);
 
         void Remove(string key);
 

@@ -2,7 +2,12 @@
 
 namespace Medrio.Caching.Abstraction
 {
-    public class CacheEntryOption
+    /// <summary>
+    /// CacheEntryOptions like expiration.
+    /// <remarks>System.Runtime.Caching does not support both absoluteExpiration and slidingExpiration,
+    /// so no constructor to take both for now.</remarks>
+    /// </summary>
+    public class CacheEntryOptions
     {
         private TimeSpan? _slidingExpiration;
 
@@ -32,18 +37,15 @@ namespace Medrio.Caching.Abstraction
             }
         }
 
-        //System.Runtime.Caching does not support both absoluteExpiration and slidingExpiration, so no constructor to take both for now.
-
-        public CacheEntryOption(DateTimeOffset? absoluteExpiration)
+        public CacheEntryOptions(DateTimeOffset? absoluteExpiration)
         {
             AbsoluteExpiration = absoluteExpiration;
         }
 
-        public CacheEntryOption(TimeSpan? slidingExpiration)
+        public CacheEntryOptions(TimeSpan? slidingExpiration)
         {
             SlidingExpiration = slidingExpiration;
         }
-
 
         //public TimeSpan? AbsoluteExpirationRelativeToNow
         //{

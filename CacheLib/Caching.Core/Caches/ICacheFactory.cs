@@ -3,6 +3,6 @@ namespace Medrio.Caching.Abstraction.Caches
 {
     public interface ICacheFactory
     {
-        ICache GetCaches(CachingTierType cachingTierType);
+        ICache GetCache(CachingTierType cachingTierType);
     }
 }

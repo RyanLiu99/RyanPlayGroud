@@ -5,7 +5,7 @@ namespace Medrio.Caching.InMemoryCache
 {
     internal static class CacheEntryOptionExtension
     {
-        public static CacheItemPolicy ToCacheItemPolicy(this CacheEntryOption? option)
+        public static CacheItemPolicy ToCacheItemPolicy(this CacheEntryOptions? option)
         {
             if (option == null) return null!;
             var result = new CacheItemPolicy();

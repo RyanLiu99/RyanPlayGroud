@@ -59,12 +59,12 @@ namespace Medrio.Caching.RedisDistributedCache
             throw new NotImplementedException();
         }
 
-        public void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption)
+        public void Set<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOptions? cacheEntryOption)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOption? cacheEntryOption)
+        public Task SetAsync<T>(string key, CacheDataEntry<T> cacheEntry, CacheEntryOptions? cacheEntryOption)
         {
             throw new NotImplementedException();
         }
