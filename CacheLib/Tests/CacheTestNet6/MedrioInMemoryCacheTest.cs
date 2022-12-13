@@ -1,11 +1,8 @@
-using System;
-using System.Threading.Tasks;
 using Medrio.Caching.Abstraction;
-using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
+using TestsShared;
 using TestsShared.Entity;
 
-namespace CacheTestNetFramework
+namespace CacheTestNet6
 {
     public class MedrioInMemoryCacheTest
     {

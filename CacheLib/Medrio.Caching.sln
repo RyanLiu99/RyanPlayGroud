@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNetFramework", "CashTest\CacheTestNetFramework.csproj", "{1244615F-3A12-4013-8441-246B1D2D2363}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNet6", "CacheTestNet6\CacheTestNet6.csproj", "{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.Abstraction", "Caching.Core\Medrio.Caching.Abstraction.csproj", "{C27095E8-C809-48ED-881F-5D62EB57934C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.InMemoryCache", "Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj", "{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC}"
@@ -21,13 +17,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.DataChangeNo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{92DACB0F-2234-4B6C-A93A-45A9C5D219AF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{F6965131-5DB2-4509-8C7F-E588D770A026}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F6965131-5DB2-4509-8C7F-E588D770A026}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Invalidation", "Invalidation", "{8AF6E3EB-D9DE-40C7-9AA5-495F14BB909C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.DataChangeNotification.Redis", "Medrio.Caching.DataChangeNotification.Redis\Medrio.Caching.DataChangeNotification.Redis.csproj", "{1CE82D05-D5BA-490F-B487-679F66914FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsShared", "Tests\TestsShared\TestsShared.csproj", "{0234ECD9-2353-49F4-B2AB-51A6AFB6FE2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsShared", "Tests\TestsShared\TestsShared.csproj", "{0234ECD9-2353-49F4-B2AB-51A6AFB6FE2B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNet6", "Tests\CacheTestNet6\CacheTestNet6.csproj", "{01F2CADA-1D7B-421A-B04F-EFBDB6F0348A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheTestNetFramework", "Tests\CacheTestNetFramework\CacheTestNetFramework.csproj", "{B4EFFAFA-A970-4E69-B4DA-FFDA641EE99B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1244615F-3A12-4013-8441-246B1D2D2363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1244615F-3A12-4013-8441-246B1D2D2363}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1244615F-3A12-4013-8441-246B1D2D2363}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1244615F-3A12-4013-8441-246B1D2D2363}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C27095E8-C809-48ED-881F-5D62EB57934C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C27095E8-C809-48ED-881F-5D62EB57934C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C27095E8-C809-48ED-881F-5D62EB57934C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,13 +67,19 @@ Global
 		{0234ECD9-2353-49F4-B2AB-51A6AFB6FE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0234ECD9-2353-49F4-B2AB-51A6AFB6FE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0234ECD9-2353-49F4-B2AB-51A6AFB6FE2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01F2CADA-1D7B-421A-B04F-EFBDB6F0348A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F2CADA-1D7B-421A-B04F-EFBDB6F0348A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F2CADA-1D7B-421A-B04F-EFBDB6F0348A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F2CADA-1D7B-421A-B04F-EFBDB6F0348A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EFFAFA-A970-4E69-B4DA-FFDA641EE99B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4EFFAFA-A970-4E69-B4DA-FFDA641EE99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4EFFAFA-A970-4E69-B4DA-FFDA641EE99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4EFFAFA-A970-4E69-B4DA-FFDA641EE99B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1244615F-3A12-4013-8441-246B1D2D2363} = {F6965131-5DB2-4509-8C7F-E588D770A026}
-		{A0ACC78C-F7C1-494E-892F-E75FD3BB4F4B} = {F6965131-5DB2-4509-8C7F-E588D770A026}
 		{C27095E8-C809-48ED-881F-5D62EB57934C} = {92DACB0F-2234-4B6C-A93A-45A9C5D219AF}
 		{E7F970DE-2DA5-4E59-94FA-39E76BF7C4DC} = {92DACB0F-2234-4B6C-A93A-45A9C5D219AF}
 		{FD92147C-F53C-4286-BC8D-91D704DABA66} = {92DACB0F-2234-4B6C-A93A-45A9C5D219AF}
@@ -90,6 +88,8 @@ Global
 		{6FF18DB7-2918-4F02-856E-A9BDAFC85254} = {8AF6E3EB-D9DE-40C7-9AA5-495F14BB909C}
 		{1CE82D05-D5BA-490F-B487-679F66914FE6} = {8AF6E3EB-D9DE-40C7-9AA5-495F14BB909C}
 		{0234ECD9-2353-49F4-B2AB-51A6AFB6FE2B} = {F6965131-5DB2-4509-8C7F-E588D770A026}
+		{01F2CADA-1D7B-421A-B04F-EFBDB6F0348A} = {F6965131-5DB2-4509-8C7F-E588D770A026}
+		{B4EFFAFA-A970-4E69-B4DA-FFDA641EE99B} = {F6965131-5DB2-4509-8C7F-E588D770A026}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D30E3089-5863-49E3-9313-1CE150A135C4}
