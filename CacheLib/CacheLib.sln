@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.InMemoryCach
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.RedisDistributedCache", "Medrio.Caching.DistributedCache\Medrio.Caching.RedisDistributedCache.csproj", "{FD92147C-F53C-4286-BC8D-91D704DABA66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.Dependencies", "Medrio.Caching.Abstraction.Dependencies\Medrio.Caching.Dependencies.csproj", "{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.Dependencies", "Medrio.Caching.Abstraction.Dependencies\Medrio.Caching.Dependencies.csproj", "{B038AA4C-0E28-4550-B90B-3D540CFD6B3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.Invalidation", "Medrio.Caching.Invalidation\Medrio.Caching.Invalidation.csproj", "{AC44511B-51B1-4160-96F8-0F1DF3CABD32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.InMemoryInvalidationService", "Medrio.Caching.Invalidation\Medrio.Caching.InMemoryInvalidationService.csproj", "{AC44511B-51B1-4160-96F8-0F1DF3CABD32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.DataChangeNotification", "Medrio.Caching.DataChange\Medrio.Caching.DataChangeNotification.csproj", "{6FF18DB7-2918-4F02-856E-A9BDAFC85254}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.DataChangeNotification", "Medrio.Caching.DataChange\Medrio.Caching.DataChangeNotification.csproj", "{6FF18DB7-2918-4F02-856E-A9BDAFC85254}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{92DACB0F-2234-4B6C-A93A-45A9C5D219AF}"
 EndProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Invalidation", "Invalidation", "{8AF6E3EB-D9DE-40C7-9AA5-495F14BB909C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medrio.Caching.DataChangeNotification.Redis", "Medrio.Caching.DataChangeNotification.Redis\Medrio.Caching.DataChangeNotification.Redis.csproj", "{1CE82D05-D5BA-490F-B487-679F66914FE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.Caching.DataChangeNotification.Redis", "Medrio.Caching.DataChangeNotification.Redis\Medrio.Caching.DataChangeNotification.Redis.csproj", "{1CE82D05-D5BA-490F-B487-679F66914FE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

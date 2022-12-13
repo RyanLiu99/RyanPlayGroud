@@ -1,8 +1,4 @@
 ﻿using Medrio.Infrastructure.Ioc.ConfigurationOption;
-using Medrio.Infrastructure.RedisClient.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Medrio.Caching.RedisDistributedCache.Configurations
 {

@@ -1,7 +1,6 @@
 using Medrio.Caching.Abstraction;
 using Medrio.Caching.Abstraction.Caches;
 using Medrio.Caching.InMemoryCache;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 

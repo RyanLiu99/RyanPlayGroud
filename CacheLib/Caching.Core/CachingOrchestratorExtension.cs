@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Medrio.Caching.Dependencies;
 
 namespace Medrio.Caching.Abstraction
 {
-    public static class CachingServiceExtension
+    public static class CachingOrchestratorExtension
     {
 
         public static T? Get<T>(this ICachingOrchestrator cache, string key, params CachingTierType[] tierTypes)

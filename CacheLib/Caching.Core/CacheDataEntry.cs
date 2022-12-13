@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Medrio.Caching.Dependencies;
+﻿using Medrio.Caching.Dependencies;
 
 namespace Medrio.Caching.Abstraction
 {

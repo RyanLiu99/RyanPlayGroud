@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Medrio.Caching.Abstraction
+﻿namespace Medrio.Caching.Abstraction
 {
     public class CachingTier
     {
