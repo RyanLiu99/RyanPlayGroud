@@ -1,11 +1,6 @@
-﻿using Medrio.Infrastructure.Ioc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using NUnit.Framework;
+﻿
 
-namespace CacheTestNetFramework
+namespace CacheTestNet6
 {
     [SetUpFixture]
     internal static class Setup

@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Caching.Core\Medrio.Caching.Abstraction.csproj" />
     <ProjectReference Include="..\Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj" />
+    <ProjectReference Include="..\Tests\TestsShared\TestsShared.csproj" />
   </ItemGroup>
 
 </Project>

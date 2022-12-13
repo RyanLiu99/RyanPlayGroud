@@ -1,6 +1,6 @@
-﻿namespace CacheTestNetFramework.Entity
+﻿namespace TestsShared.Entity
 {
-    internal class Person
+    public class Person
     {
         public string Name { get; set; }
 
