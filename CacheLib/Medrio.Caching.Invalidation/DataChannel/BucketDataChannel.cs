@@ -17,7 +17,11 @@ namespace Medrio.Caching.InMemoryInvalidationService.DataChannel
 
         public void CollectChanges(params T[] dependencies)
         {
-            if (dependencies.Length == 0) return;
+            if (dependencies.Length == 0)
+            {
+                return;
+            }
+
             lock (_lockObj)
             {
                 _collectionBucket.AddRange(dependencies);
@@ -27,9 +31,12 @@ namespace Medrio.Caching.InMemoryInvalidationService.DataChannel
 
         public IList<T>? WaitForData(int millisecondsTimeout = 5000)
         {
-           if(! _autoResetEvent.WaitOne(millisecondsTimeout)) return null;
+           if(! _autoResetEvent.WaitOne(millisecondsTimeout))
+           {
+               return null;
+           }
 
-            _processingBucket.Clear();
+           _processingBucket.Clear();
             lock (_lockObj)
             {
                 (_processingBucket, _collectionBucket) = (_collectionBucket, _processingBucket);

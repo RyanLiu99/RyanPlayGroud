@@ -13,7 +13,10 @@ namespace Medrio.Caching.Abstraction
         public static CachingTierType[] GetDefaultIfNotSpecified(this CachingTierType[] tierTypes)
         {
             if (!tierTypes.Any())
+            {
                 return new CachingTierType[] { CachingTierType.LocalInMemory };
+            }
+
             return tierTypes;
         }
     }

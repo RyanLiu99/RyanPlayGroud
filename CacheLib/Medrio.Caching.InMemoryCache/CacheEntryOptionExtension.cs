@@ -7,13 +7,23 @@ namespace Medrio.Caching.InMemoryCache
     {
         public static CacheItemPolicy ToCacheItemPolicy(this CacheEntryOptions? option)
         {
-            if (option == null) return null!;
+            if (option == null)
+            {
+                return null!;
+            }
+
             var result = new CacheItemPolicy();
 
             if(option.AbsoluteExpiration.HasValue)
+            {
                 result.AbsoluteExpiration = option.AbsoluteExpiration.Value;
+            }
+
             if (option.SlidingExpiration.HasValue)
+            {
                 result.SlidingExpiration = option.SlidingExpiration.Value;
+            }
+
             return result;
         }
     }

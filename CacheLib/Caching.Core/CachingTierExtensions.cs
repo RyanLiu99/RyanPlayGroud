@@ -9,7 +9,9 @@ namespace Medrio.Caching.Abstraction
         public static void MakeSureValid(this IEnumerable<CachingTier> tiers)
         {
             if (tiers == null || !tiers.Any())
+            {
                 throw new ArgumentException($"{nameof(tiers)} must provided.");
+            }
         }
     }
 }

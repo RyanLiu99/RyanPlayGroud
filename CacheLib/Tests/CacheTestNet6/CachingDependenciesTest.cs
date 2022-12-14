@@ -14,7 +14,7 @@ namespace CacheTestNet6
         [Test]
         public void TestCompress()
         {
-            var x = new EntityDependency<CachingDependenciesTest>(new List<object>() { 1, 2, 3 });
+            var x = new EntityDependency<CachingDependenciesTest>(new List<object>() { 1, 2, 3 ,1});
             var cachingDependencies = new List<CachingDependencies>()
             {
                 
