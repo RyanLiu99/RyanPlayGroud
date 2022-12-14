@@ -16,7 +16,7 @@ namespace CacheTestNet6
         {
             var cachingDependencies = new List<CachingDependencies>()
             {
-                new CachingDependencies(new List<EntityDependency>()
+                new(new List<EntityDependency>()
                     {
                         new EntityDependency<CachingDependenciesTest>(new List<object>(){1,2,3}),
                         new EntityDependency<CachingDependenciesTest>(new List<object>(){1,2,4})
@@ -24,38 +24,31 @@ namespace CacheTestNet6
                     new List<CollectionDependency>()
                     {
                         new CollectionDependency<CachingDependenciesTest>(),
-                        new CollectionDependency("Collect1"),
-                        new CollectionDependency("Collect2")
-
-
+                        new("Collect1"),
+                        new("Collect2")
                     }),
 
-                new CachingDependencies(new List<EntityDependency>()
+                new(new List<EntityDependency>()
                     {
                         new EntityDependency<CachingDependenciesTest, int>(new List<int>(){1})
                     },
                     new List<CollectionDependency>()
                     {
                         new CollectionDependency<CachingDependenciesTest>(),
-                        new CollectionDependency("Collect1"),
-                        new CollectionDependency("Collect3")
-
-
+                        new("Collect1"),
+                        new("Collect3")
                     }),
 
-                new CachingDependencies(new List<EntityDependency>()
+                new(new List<EntityDependency>()
                     {
-                        new EntityDependency("CachingDependenciesTest", new object[]{6,7})
+                        new("CachingDependenciesTest", new object[]{6,7})
                     },
                     new List<CollectionDependency>()
                     {
                         new CollectionDependency<CachingDependenciesTest>(),
-                        new CollectionDependency("Collect2"),
-                        new CollectionDependency("Collect4")
-
-
+                        new("Collect2"),
+                        new("Collect4")
                     }),
-
             };
             var result = cachingDependencies.Compress();
             Assert.NotNull(result);
