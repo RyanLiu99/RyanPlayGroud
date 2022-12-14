@@ -4,9 +4,9 @@ namespace Medrio.Caching.Abstraction
 {
     public class CacheDataEntry<T>
     {
-        public T Data { get; private set; }
+        public T Data { get; }
 
-        public CachingDependencies? Dependencies { get; private set; }
+        public CachingDependencies? Dependencies { get; }
 
         public CacheDataEntry(T data, CachingDependencies? dependencies)
         {

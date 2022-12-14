@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Caching.Core\Medrio.Caching.Abstraction.csproj" />
     <ProjectReference Include="..\..\Medrio.Caching.InMemoryCache\Medrio.Caching.InMemoryCache.csproj" />
+    <ProjectReference Include="..\..\Medrio.Caching.Invalidation\Medrio.Caching.InMemoryInvalidationService.csproj" />
     <ProjectReference Include="..\TestsShared\TestsShared.csproj" />
   </ItemGroup>
 

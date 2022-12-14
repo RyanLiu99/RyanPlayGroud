@@ -1,16 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Medrio.Caching.Dependencies
 {
-    public class EntityDependency
+    public class EntityDependency 
     {
-        public string EntityTypeName { get; private set; }
-        public IList<object> Ids { get; private set; }
+        public string EntityTypeName { get; }
+        public IList<object> Ids { get; }
 
-        public EntityDependency(string entityTypeName, IList<object> ids)
+        public EntityDependency(string entityTypeName, in IList<object> ids)
         {
-            EntityTypeName = entityTypeName;
-            Ids = ids;
+            EntityTypeName = string.IsNullOrWhiteSpace(entityTypeName) 
+                ? throw new ArgumentException(nameof(entityTypeName)) : entityTypeName;
+            Ids = ids ?? throw new ArgumentNullException(nameof(ids));
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return base.GetHashCode();
         }
     }
 
@@ -24,9 +33,9 @@ namespace Medrio.Caching.Dependencies
     public class EntityDependency<TEntity, TId> : EntityDependency<TEntity>
     {
 
-        public new IList<TId>[] Ids { get; private set; }
+        public new IList<TId> Ids { get; }
 
-        public EntityDependency(IList<TId>[] ids) : base(ids)
+        public EntityDependency(IList<TId> ids) : base(ids.Cast<object>().ToList())
         {
             Ids = ids;
         }

@@ -8,9 +8,9 @@ namespace Medrio.Caching.Abstraction
     /// </summary>
     public class CachingTier
     {
-        public CachingTierType TierType { get; private set; }
+        public CachingTierType TierType { get; }
 
-        public CacheEntryOptions? CacheEntryOption { get; private set; }
+        public CacheEntryOptions? CacheEntryOption { get; }
 
         public CachingTier(CachingTierType tierType)
         {

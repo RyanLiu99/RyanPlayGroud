@@ -13,10 +13,13 @@ namespace Medrio.Caching.InMemoryInvalidationService
 
             if (c == 0) return null;
 
-            if (c == 1)
-                return dependencies.ElementAt(0);
+            if (c == 1) return dependencies.ElementAt(0);
 
-            throw new NotImplementedException();
+            var entityDependencies = dependencies.SelectMany(d => d.EntityDependencies).Distinct().GroupBy( ed => ed.EntityTypeName, (entityName, items) => new EntityDependency(entityName, items.SelectMany( item =>item.Ids).Distinct().ToList()));
+            var collectionDependencies = dependencies.SelectMany(d => d.CollectionDependencies).Distinct();
+
+            var result = new CachingDependencies(entityDependencies, collectionDependencies);
+            return result;
         }
     }
 }

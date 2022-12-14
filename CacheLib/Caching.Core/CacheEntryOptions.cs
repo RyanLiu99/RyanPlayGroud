@@ -14,7 +14,7 @@ namespace Medrio.Caching.Abstraction
         /// <summary>
         /// Gets or sets an absolute expiration date for the cache entry.
         /// </summary>
-        public DateTimeOffset? AbsoluteExpiration { get; private set; }
+        public DateTimeOffset? AbsoluteExpiration { get; }
 
     
         /// <summary>

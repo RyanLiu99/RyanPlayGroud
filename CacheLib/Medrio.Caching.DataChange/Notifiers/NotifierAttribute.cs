@@ -9,7 +9,7 @@ namespace Medrio.Caching.DataChangeNotification.Notifiers
         /// Notifier type 
         /// <remarks>Usually it is an interface.</remarks>
         /// </summary>
-        public Type NotifierType { get; private set; }
+        public Type NotifierType { get; }
 
         public NotifierAttribute(Type notifierType)
         {

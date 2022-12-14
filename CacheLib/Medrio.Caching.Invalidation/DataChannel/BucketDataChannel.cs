@@ -22,7 +22,6 @@ namespace Medrio.Caching.InMemoryInvalidationService.DataChannel
             {
                 _collectionBucket.AddRange(dependencies);
             }
-
             _autoResetEvent.Set();
         }
 
