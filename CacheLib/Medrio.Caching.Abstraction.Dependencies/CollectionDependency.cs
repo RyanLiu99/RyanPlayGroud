@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Medrio.Caching.Dependencies
 {
@@ -55,6 +56,11 @@ namespace Medrio.Caching.Dependencies
             }
 
             return CollectionItemTypeName == other.CollectionItemTypeName;
+        }
+
+        public override string ToString()
+        {
+            return this.CollectionItemTypeName.ToString();
         }
     }
 
