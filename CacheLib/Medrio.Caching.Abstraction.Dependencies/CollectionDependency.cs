@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace Medrio.Caching.Dependencies
 {
     public class CollectionDependency  : IEquatable<CollectionDependency>
     {
+        [JsonPropertyName("T")]
         public string CollectionItemTypeName { get; }
 
         public CollectionDependency(string collectionItemTypeName)
@@ -60,7 +62,7 @@ namespace Medrio.Caching.Dependencies
 
         public override string ToString()
         {
-            return this.CollectionItemTypeName.ToString();
+            return this.CollectionItemTypeName;
         }
     }
 
