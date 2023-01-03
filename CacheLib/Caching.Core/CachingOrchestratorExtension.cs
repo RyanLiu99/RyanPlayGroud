@@ -64,26 +64,26 @@ namespace Medrio.Caching.Abstraction
             return data;
         }
 
-        public static void SetCache<T>(this ICachingOrchestrator cache, string key, T data, DateTimeOffset? absoluteExpiration=null,
+        public static void Set<T>(this ICachingOrchestrator cache, string key, T data, DateTimeOffset? absoluteExpiration=null,
             CachingDependencies? dependencies = null, CachingTierType cachingTierType = CachingTierType.LocalInMemory)
         {
             cache.Set(key, data, new CachingTier(cachingTierType, absoluteExpiration), dependencies);
         }
 
-        public static Task SetCacheAsync<T>(this ICachingOrchestrator cache, string key, T data, DateTimeOffset? absoluteExpiration = null,
+        public static Task SetAsync<T>(this ICachingOrchestrator cache, string key, T data, DateTimeOffset? absoluteExpiration = null,
             CachingDependencies? dependencies = null, CachingTierType cachingTierType = CachingTierType.LocalInMemory)
         {
             return cache.SetAsync(key, data, new CachingTier(cachingTierType, absoluteExpiration),
                 dependencies);
         }
 
-        public static void SetCache<T>(this ICachingOrchestrator cache, string key, T data, TimeSpan? slidingExpiration = null,
+        public static void Set<T>(this ICachingOrchestrator cache, string key, T data, TimeSpan? slidingExpiration = null,
             CachingDependencies? dependencies = null, CachingTierType cachingTierType = CachingTierType.LocalInMemory)
         {
             cache.Set(key, data, new CachingTier(cachingTierType, slidingExpiration), dependencies);
         }
 
-        public static Task SetCacheAsync<T>(this ICachingOrchestrator cache, string key, T data, TimeSpan? slidingExpiration = null,
+        public static Task SetAsync<T>(this ICachingOrchestrator cache, string key, T data, TimeSpan? slidingExpiration = null,
             CachingDependencies? dependencies = null, CachingTierType cachingTierType = CachingTierType.LocalInMemory)
         {
             return cache.SetAsync(key, data, new CachingTier(cachingTierType, slidingExpiration),

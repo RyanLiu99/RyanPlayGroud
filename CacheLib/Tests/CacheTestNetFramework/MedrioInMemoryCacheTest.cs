@@ -35,7 +35,7 @@ namespace CacheTestNetFramework
 
             string key = Guid.NewGuid().ToString();
             Person person = new Person(key);
-            await cache.SetCacheAsync(key, person, DateTimeOffset.UtcNow + TimeSpan.FromMilliseconds(cacheDuration))
+            await cache.SetAsync(key, person, DateTimeOffset.UtcNow + TimeSpan.FromMilliseconds(cacheDuration))
                 .ConfigureAwait(false);
             var personB = cache.Get<Person>(key);
             Assert.NotNull(personB);
