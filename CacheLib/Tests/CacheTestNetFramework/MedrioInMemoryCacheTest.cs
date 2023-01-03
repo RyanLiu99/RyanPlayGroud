@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Medrio.Caching.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ namespace CacheTestNetFramework
 
             string key = Guid.NewGuid().ToString();
             Person person = new Person(key);
-            await cache.SetInMemoryCacheAsync(key, person, DateTimeOffset.UtcNow + TimeSpan.FromMilliseconds(cacheDuration))
+            await cache.SetCacheAsync(key, person, DateTimeOffset.UtcNow + TimeSpan.FromMilliseconds(cacheDuration))
                 .ConfigureAwait(false);
             var personB = cache.Get<Person>(key);
             Assert.NotNull(personB);
