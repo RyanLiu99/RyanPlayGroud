@@ -8,7 +8,6 @@ using NUnit.Framework;
 
 namespace SmallTests
 {
-    
     public class DelegateExpressionTest
     {
         private readonly List<object> _callTargets = new List<object>();
