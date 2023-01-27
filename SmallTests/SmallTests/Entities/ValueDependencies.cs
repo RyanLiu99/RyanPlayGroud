@@ -70,10 +70,7 @@ namespace SmallTests.Entities
             get { return _collectionDependencies ??= new List<string>(); }
         }
 
-        public ValueDependencies()  // used as JsonConstructor
-        {
 
-        }
 
         /// <summary>
         /// 
@@ -81,7 +78,7 @@ namespace SmallTests.Entities
         /// <param name="entityDependencies"></param>
         /// <param name="collectionDependencies"></param>
         /// <exception cref="ArgumentNullException"></exception>
-
+        [JsonConstructor]//used by Newtonsoft
         public ValueDependencies(IEnumerable<EntityDependency> entityDependencies, IEnumerable<string> collectionDependencies)
         {
             if(entityDependencies!= null) EntityDependencies.AddRange(entityDependencies);

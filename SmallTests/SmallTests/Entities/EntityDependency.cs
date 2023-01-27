@@ -30,7 +30,7 @@ namespace SmallTests.Entities
             Ids = ids ?? throw new ArgumentNullException(nameof(ids));
         }
 
-        public EntityDependency()
+        public EntityDependency()  //used by MessagePack
         {
 
         }
