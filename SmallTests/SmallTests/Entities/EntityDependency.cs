@@ -30,7 +30,7 @@ namespace SmallTests.Entities
             Ids = ids ?? throw new ArgumentNullException(nameof(ids));
         }
 
-        public EntityDependency()  //used by MessagePack
+        public EntityDependency()  //used by MessagePack.  [MessagePack.SerializationConstructor] on another constructor above does not help
         {
 
         }
