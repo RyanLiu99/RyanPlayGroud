@@ -34,7 +34,7 @@ namespace SmallTests.Entities
     }
 
 
-    public class EntityDependency<TEntity, TId> : EntityDependency<TId> where TId: struct
+    public class EntityDependency<TEntity, TId> : EntityDependency<TId> 
     {
         public EntityDependency(IList<TId> ids) : base(typeof(TEntity).FullName, ids)
         {
