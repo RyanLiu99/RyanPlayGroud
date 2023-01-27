@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -41,7 +43,18 @@ namespace SmallTests
         }
 
         [Test]
-        public void TestSerializationValueTuple()
+        public void TestSerializationValueTupleJson()
+        {
+            TestSerializationValueTuple(WireUsingJsonCovert);
+        }
+
+        [Ignore("Not working")]
+        public void TestSerializationValueTupleDataContract()
+        {
+            TestSerializationValueTuple(WireUsingDataContract);
+        }
+
+        private void TestSerializationValueTuple(Func<ValueDependencies, ValueDependencies> transform)
         {
             var entityDependency = new EntityDependency<Person, ValueTuple<int, string>>(
                 (1, "K1"),
@@ -54,17 +67,13 @@ namespace SmallTests
 
             var valueDependencies = new ValueDependencies(new[] { entityDependency }, collectionDependency);
 
-            //var serialized = JsonSerializer.Serialize(valueDependencies);  //cause exception
-            var serialized = JsonConvert.SerializeObject(valueDependencies); //ok
-
-            TestHelpers.Logger.Value.LogInformation("serialized: {serialized}", serialized);
-
-            
-            var deserialized = JsonConvert.DeserializeObject<ValueDependencies>(serialized); 
+            var deserialized = transform(valueDependencies);
 
             Assert.IsNotNull(deserialized);
-            Assert.AreEqual(3,deserialized.CollectionDependencies.Count);
-            Assert.AreEqual(4, deserialized.EntityDependencies[0].Ids.Count);
+            Assert.AreEqual(valueDependencies.CollectionDependencies.Count, deserialized.CollectionDependencies.Count);
+            Assert.AreEqual(valueDependencies.EntityDependencies[0].Ids.Count, deserialized.EntityDependencies[0].Ids.Count);
+
+
 
             var compressed = deserialized.Compress();
             Assert.AreEqual(2, compressed.CollectionDependencies.Count); //one duplicate "Col1" removed
@@ -74,8 +83,35 @@ namespace SmallTests
             Assert.NotNull(entityDepd);
             Assert.AreEqual(typeof(Person).FullName, entityDepd.EntityTypeName);
 
-            Assert.AreEqual(3, entityDepd.Ids.Count); //  2x {1, K1}, (2, K1), (2, K2). Duplicate is not removed yet, it is JObject
+            Assert.AreEqual(4, entityDepd.Ids.Count); //  2x {1, K1}, (2, K1), (2, K2). Duplicate is not removed yet, it is JObject
 
+        }
+
+        private static ValueDependencies WireUsingJsonCovert(ValueDependencies input)
+        {
+            //var serialized = JsonSerializer.Serialize(valueDependencies);  //cause exception
+            var serialized = JsonConvert.SerializeObject(input); //ok
+
+            TestHelpers.Logger.Value.LogInformation("serialized: {serialized}", serialized);
+
+            var deserialized = JsonConvert.DeserializeObject<ValueDependencies>(serialized);
+
+            return deserialized;
+        }
+
+
+        private static ValueDependencies WireUsingDataContract(ValueDependencies input)
+        {
+            DataContractSerializer ser = new DataContractSerializer(typeof(ValueDependencies));
+
+            var stream = new MemoryStream();
+            ser.WriteObject(stream, input); //ok
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var deserialized = ser.ReadObject(stream) as ValueDependencies;
+
+            return deserialized;
         }
     }
 }
