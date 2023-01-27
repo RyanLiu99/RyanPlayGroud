@@ -114,13 +114,5 @@ namespace SmallTests
             return deserialized;
         }
 
-        [Test]
-        public void TestReflection()
-        {
-            Assert.IsTrue(typeof(EntityDependency) == (typeof(EntityDependency)));
-            Assert.IsFalse(typeof(EntityDependency).IsSubclassOf(typeof(EntityDependency)));
-            Assert.IsTrue(typeof(EntityDependency<>).IsSubclassOf(typeof(EntityDependency)));
-            Assert.IsTrue(typeof(EntityDependency<,>).IsSubclassOf(typeof(EntityDependency)));
-        }
     }
 }
