@@ -15,25 +15,23 @@ namespace SmallTests.Entities
     
     public class EntityDependency 
     {
+        //setter needed for both Newtonsoft and MessagePack
         [DataMember]
         [Key(0)]
-        public string EntityTypeName { get; set; }
+        public string EntityTypeName { get; }
 
         [DataMember]
         [Key(1)]
-        public IList<object> Ids { get; set; }
+        public IList<object> Ids { get;  }
 
-        public EntityDependency(string entityTypeName, in IList<object> ids)
+        //[MessagePack.SerializationConstructor], not needed
+        public EntityDependency(string entityTypeName, IList<object> ids)
         {
             EntityTypeName = string.IsNullOrWhiteSpace(entityTypeName) 
                 ? throw new ArgumentException(nameof(entityTypeName)) : entityTypeName;
             Ids = ids ?? throw new ArgumentNullException(nameof(ids));
         }
 
-        public EntityDependency()  //used by MessagePack.  [MessagePack.SerializationConstructor] on another constructor above does not help
-        {
-
-        }
     }
 
     //TId should be value type or string
@@ -44,6 +42,7 @@ namespace SmallTests.Entities
         [DataMember]
         public new IList<TId> Ids { get; }
 
+        [MessagePack.SerializationConstructor]
         public EntityDependency(string entityTypeName, IList<TId> ids) : base(entityTypeName, ids.Cast<object>().ToList())
         {
             Ids = ids;
@@ -59,6 +58,7 @@ namespace SmallTests.Entities
 
     public class EntityDependency<TEntity, TId> : EntityDependency<TId> 
     {
+        [MessagePack.SerializationConstructor]
         public EntityDependency(IList<TId> ids) : base(typeof(TEntity).FullName, ids)
         {
         }
