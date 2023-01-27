@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using MessagePack;
 using Newtonsoft.Json;
 using SmallTests.Helpers;
 
@@ -43,13 +45,15 @@ namespace SmallTests.Entities
             }
 
      */
-
+    [MessagePackObject]
+    [DataContract]
     public class ValueDependencies
     {
         private List<EntityDependency>? _entityDependencies;
         private List<string>? _collectionDependencies;
 
         [JsonProperty("e")]
+        [DataMember]
         public List<EntityDependency> EntityDependencies {
             get
             {
@@ -58,6 +62,7 @@ namespace SmallTests.Entities
         }
 
         [JsonProperty("c")]
+        [DataMember]
         public List<string> CollectionDependencies
         {
             get { return _collectionDependencies ??= new List<string>(); }

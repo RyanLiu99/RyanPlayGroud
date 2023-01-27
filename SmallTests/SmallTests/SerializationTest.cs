@@ -48,7 +48,8 @@ namespace SmallTests
             TestSerializationValueTuple(WireUsingJsonCovert);
         }
 
-        [Ignore("Not working")]
+        [Ignore("Not working, cannot handle open generic , nor VauleTuple")]
+        [Test]
         public void TestSerializationValueTupleDataContract()
         {
             TestSerializationValueTuple(WireUsingDataContract);
@@ -113,6 +114,20 @@ namespace SmallTests
 
             return deserialized;
         }
+
+        //private static ValueDependencies WireUsingMessagePack(ValueDependencies input)
+        //{
+        //    DataContractSerializer ser = new DataContractSerializer(typeof(ValueDependencies));
+
+        //    var stream = new MemoryStream();
+        //    ser.WriteObject(stream, input); //ok
+
+        //    stream.Seek(0, SeekOrigin.Begin);
+
+        //    var deserialized = ser.ReadObject(stream) as ValueDependencies;
+
+        //    return deserialized;
+        //}
 
     }
 }

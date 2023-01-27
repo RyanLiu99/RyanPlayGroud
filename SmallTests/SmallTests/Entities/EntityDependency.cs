@@ -1,13 +1,24 @@
-﻿using System;
+﻿using MessagePack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace SmallTests.Entities
 {
+    [MessagePackObject]
+    [DataContract]
+    [KnownType(typeof(EntityDependency<>))]
+    [KnownType(typeof(EntityDependency<,>))]
+    [KnownType(typeof(EntityDependency<Person, ValueTuple<int, string>>))]
+    
     public class EntityDependency 
     {
-        public string EntityTypeName { get; }
-        public IList<object> Ids { get; }
+        [DataMember]
+        public string EntityTypeName { get; set; }
+
+        [DataMember]
+        public IList<object> Ids { get; set; }
 
         public EntityDependency(string entityTypeName, in IList<object> ids)
         {
@@ -18,8 +29,11 @@ namespace SmallTests.Entities
     }
 
     //TId should be value type or string
+    [DataContract]
+
     public class EntityDependency<TId> : EntityDependency 
     {
+        [DataMember]
         public new IList<TId> Ids { get; }
 
         public EntityDependency(string entityTypeName, IList<TId> ids) : base(entityTypeName, ids.Cast<object>().ToList())
@@ -33,6 +47,7 @@ namespace SmallTests.Entities
         }
     }
 
+    [DataContract]
 
     public class EntityDependency<TEntity, TId> : EntityDependency<TId> 
     {
