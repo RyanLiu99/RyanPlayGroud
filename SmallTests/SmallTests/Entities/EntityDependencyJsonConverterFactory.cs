@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SmallTests.Entities
 {
-    public class EntityDependencyConverterFactory : JsonConverterFactory
+    public class EntityDependencyJsonConverterFactory : JsonConverterFactory
     {
         public override bool CanConvert(Type typeToConvert)
         {
@@ -83,19 +83,19 @@ namespace SmallTests.Entities
             }
         }
 
-        private class EntityDependencyConverterInner<TEntity, TId> : JsonConverter<EntityDependency<TEntity, TId>>
-        {
-            public override EntityDependency<TEntity, TId>? Read(ref Utf8JsonReader reader, Type typeToConvert,
-                JsonSerializerOptions options)
-            {
-                throw new NotImplementedException();
-            }
+        //private class EntityDependencyConverterInner<TEntity, TId> : JsonConverter<EntityDependency<TEntity, TId>>
+        //{
+        //    public override EntityDependency<TEntity, TId>? Read(ref Utf8JsonReader reader, Type typeToConvert,
+        //        JsonSerializerOptions options)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
 
-            public override void Write(Utf8JsonWriter writer, EntityDependency<TEntity, TId> value,
-                JsonSerializerOptions options)
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //    public override void Write(Utf8JsonWriter writer, EntityDependency<TEntity, TId> value,
+        //        JsonSerializerOptions options)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
     }
 }
