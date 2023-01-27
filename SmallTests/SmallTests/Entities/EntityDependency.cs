@@ -10,14 +10,17 @@ namespace SmallTests.Entities
     [DataContract]
     [KnownType(typeof(EntityDependency<>))]
     [KnownType(typeof(EntityDependency<,>))]
+    [KnownType(typeof(EntityDependency<Person, int>))]
     [KnownType(typeof(EntityDependency<Person, ValueTuple<int, string>>))]
     
     public class EntityDependency 
     {
         [DataMember]
+        [Key(0)]
         public string EntityTypeName { get; set; }
 
         [DataMember]
+        [Key(1)]
         public IList<object> Ids { get; set; }
 
         public EntityDependency(string entityTypeName, in IList<object> ids)
@@ -25,6 +28,11 @@ namespace SmallTests.Entities
             EntityTypeName = string.IsNullOrWhiteSpace(entityTypeName) 
                 ? throw new ArgumentException(nameof(entityTypeName)) : entityTypeName;
             Ids = ids ?? throw new ArgumentNullException(nameof(ids));
+        }
+
+        public EntityDependency()
+        {
+
         }
     }
 

@@ -54,6 +54,7 @@ namespace SmallTests.Entities
 
         [JsonProperty("e")]
         [DataMember]
+        [Key(0)]
         public List<EntityDependency> EntityDependencies {
             get
             {
@@ -63,6 +64,7 @@ namespace SmallTests.Entities
 
         [JsonProperty("c")]
         [DataMember]
+        [Key(1)]
         public List<string> CollectionDependencies
         {
             get { return _collectionDependencies ??= new List<string>(); }
