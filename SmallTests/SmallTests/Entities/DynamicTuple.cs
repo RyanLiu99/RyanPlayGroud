@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SmallTests.Entities
 {
-    public struct DynamicTuple : ITuple, IEquatable<DynamicTuple>
+    public struct DynamicTuple : ITuple, IEquatable<DynamicTuple>, IEquatable<ITuple>
     {
         private dynamic[] _values; //cannot be object[], it will cause boxing and equals will compare object references
 
@@ -43,6 +43,20 @@ namespace SmallTests.Entities
                 }
             }
 
+            return true;
+        }
+
+        public bool Equals(ITuple? other)
+        {
+            if (this.Length != other.Length) return false;
+
+            for (int i = 0; i < this.Length; i++)
+            {
+                if (this._values[i] != other[i])
+                {
+                    return false;
+                }
+            }
             return true;
         }
 
