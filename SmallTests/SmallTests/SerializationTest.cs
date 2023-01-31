@@ -20,7 +20,7 @@ namespace SmallTests
             TestSerializationSimple(WireUsingNewton);
         }
 
-        [Test]
+        //[Test]
         [Ignore("Property need has both getter/setter for data contract to work")]
         public void TestSimpleUsingDataContract()
         {
@@ -61,7 +61,7 @@ namespace SmallTests
         #endregion TestSimple
 
         #region TestValueTuple
-        [Test]
+        //[Test]
         [Ignore("Won't pass")]
         public void TestSerializationValueTupleUsingNewton()
         {
@@ -69,7 +69,7 @@ namespace SmallTests
         }
 
         [Ignore("Not working, cannot handle open generic , nor VauleTuple")]
-        [Test]
+        //[Test]
         public void TestSerializationValueTupleDataContract()
         {
             TestSerializationValueTuple(WireUsingDataContract);
