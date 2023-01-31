@@ -22,7 +22,7 @@ namespace SmallTests.Entities
 
         [DataMember]
         [Key(1)]
-        public IList<object> Ids { get;  }
+        public IList<object> Ids { get; private set; }
 
         //[MessagePack.SerializationConstructor], not needed
         public EntityDependency(string entityTypeName, IList<object> ids)
@@ -30,6 +30,11 @@ namespace SmallTests.Entities
             EntityTypeName = string.IsNullOrWhiteSpace(entityTypeName) 
                 ? throw new ArgumentException(nameof(entityTypeName)) : entityTypeName;
             Ids = ids ?? throw new ArgumentNullException(nameof(ids));
+        }
+
+        public void ReSetIds(List<CompositeData> newIds)
+        {
+            Ids = newIds as IList<object> ?? throw new ArgumentNullException(nameof(newIds));
         }
 
     }

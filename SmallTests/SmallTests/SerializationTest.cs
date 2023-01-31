@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using MessagePack;
 using Microsoft.Extensions.Logging;
@@ -146,6 +147,33 @@ namespace SmallTests
         {
             byte[] bytes = MessagePackSerializer.Serialize(input);
             ValueDependencies deserialized = MessagePackSerializer.Deserialize<ValueDependencies>(bytes);
+
+            if (!deserialized.EntityDependencies.IsNullOfEmpty())
+            {
+                for (int i = 0; i < deserialized.EntityDependencies.Count; i++)
+                {
+                    var entityDependency = deserialized.EntityDependencies[i];
+
+                    if (entityDependency.Ids.Count == 0) continue; //No Ids, this should not happen
+
+                    if (entityDependency.Ids[0].GetType().IsArray) //Composite key, turn it into ValueTuple or CompoiteData
+                    {
+
+                        var newIds = entityDependency.Ids.Select(id =>
+                        {
+                            object[] idParts = (object[])id;
+
+                            return new CompositeData(idParts);
+
+                        }).ToList();
+
+                        entityDependency.ReSetIds(newIds);
+
+                    }
+                }
+            }
+
+
             return deserialized;
         }
         #endregion
