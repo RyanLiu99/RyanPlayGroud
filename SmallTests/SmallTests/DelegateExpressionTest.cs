@@ -44,10 +44,10 @@ namespace SmallTests
         [Test]
         public async ValueTask ExpressionsCallingSameMethod()
         {
-            Expression<Func<ValueTask<string>>> exp1 = () => this.DoSth("a");
+            Expression<Func<ValueTask<string>>> exp1 = () => DoSth("a");
 
             var x = await WrappedExp(exp1);
-            var y = await WrappedExp(() => this.DoSth("b"));
+            var y = await WrappedExp(() => DoSth("b"));
 
             Assert.AreEqual(_expsHasCodes[0], _expsHasCodes[1]); //Calling same method
             Assert.AreEqual(_expsMethod[0], _expsMethod[1]); //Calling same method
@@ -72,8 +72,8 @@ namespace SmallTests
         [Test]
         public async ValueTask TestMethodInvokingOn()
         {
-            var x = await WrappedFunc( this.DoSthX);
-            var y = await WrappedFunc( this.DoSthX);
+            var x = await WrappedFunc( DoSthX);
+            var y = await WrappedFunc( DoSthX);
 
             Assert.AreEqual(2, _callTargets.Count);
             Assert.AreEqual(_callTargets[0], _callTargets[1]); //invoking on the same target ("this")
@@ -84,8 +84,8 @@ namespace SmallTests
         [Test]
         public async ValueTask TestMethodInvokingOnSameTargetButDifferentMethod()
         {
-            var x = await WrappedFunc(() => this.DoSth("a"));
-            var y = await WrappedFunc(() => this.DoSth("a"));
+            var x = await WrappedFunc(() => DoSth("a"));
+            var y = await WrappedFunc(() => DoSth("a"));
 
             Assert.AreEqual(2, _callTargets.Count);
             Assert.AreEqual(_callTargets[0], _callTargets[1]); //invoking on the same target ("this")
@@ -96,8 +96,8 @@ namespace SmallTests
         [Test]
         public async ValueTask TestMethodNotEqual()
         {
-            var x = await WrappedFunc(() => this.DoSth("a"));
-            var y = await WrappedFunc(() => this.DoSth2("a")); //sth 2
+            var x = await WrappedFunc(() => DoSth("a"));
+            var y = await WrappedFunc(() => DoSth2("a")); //sth 2
 
             Assert.AreNotEqual(_callMethods[0], _callMethods[1]); //not equal DoSth and DoSth2 are not same
         }

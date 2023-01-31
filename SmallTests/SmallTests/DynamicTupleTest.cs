@@ -13,21 +13,23 @@ namespace SmallTests
         [Test]
         public void TestEq()
         {
-            var stringComposite = new Entities.DynamicTuple(new string[] { "a", "b" });
-            var stringComposite2 = new Entities.DynamicTuple(new List<string> { "a", "b" });
+            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
+            var stringComposite2 = new DynamicTuple(new List<string> { "a", "b" });
             Assert.AreEqual(stringComposite, stringComposite2);
 
-            var intStringComposite = new Entities.DynamicTuple(new object[] { 12, "b" });
-            var intString2 = new Entities.DynamicTuple(new List<object> { 12, "b" });
+            var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
+            var intString2 = new DynamicTuple(new List<object> { 12, "b" });
             Assert.IsTrue(intStringComposite.Equals( intString2));
         }
 
         [Test]
         public void TestNotEq()
         {
-            var stringComposite = new Entities.DynamicTuple(new string[] { "a", "b" });
-            var stringComposite2 = new Entities.DynamicTuple(new List<string> { "a1", "b" });
+            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
+            var stringComposite2 = new DynamicTuple(new List<string> { "a1", "b" });
             Assert.AreNotEqual(stringComposite, stringComposite2);
         }
+
+        
     }
 }

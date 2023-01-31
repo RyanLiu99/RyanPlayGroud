@@ -53,7 +53,7 @@ namespace SmallTests.Entities
         [DataMember]
         public new IList<TId> Ids { get; }
 
-        [MessagePack.SerializationConstructor]
+        [SerializationConstructor]
         public EntityDependency(string entityTypeName, IList<TId> ids) : base(entityTypeName, ids.Cast<object>().ToList())
         {
             Ids = ids;
@@ -69,7 +69,7 @@ namespace SmallTests.Entities
 
     public class EntityDependency<TEntity, TId> : EntityDependency<TId> 
     {
-        [MessagePack.SerializationConstructor]
+        [SerializationConstructor]
         public EntityDependency(IList<TId> ids) : base(typeof(TEntity).FullName, ids)
         {
         }

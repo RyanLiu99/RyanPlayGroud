@@ -21,9 +21,9 @@ namespace SmallTests.Entities
                 throw new ArgumentException("At least 2 values to construct composite data.", nameof(values));
         }
 
-        public object? this[int index] => this._values[index];
+        public object? this[int index] => _values[index];
 
-        public int Length => this._values.Length;
+        public int Length => _values.Length;
 
 
         public override bool Equals(object? obj)
@@ -33,11 +33,11 @@ namespace SmallTests.Entities
 
         public bool Equals(DynamicTuple other)
         {
-            if (this.Length != other.Length) return false;
+            if (Length != other.Length) return false;
 
-            for (int i = 0; i < this.Length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                if (this._values[i] != other._values[i])
+                if (_values[i] != other._values[i])
                 {
                     return false;
                 }
@@ -48,11 +48,11 @@ namespace SmallTests.Entities
 
         public bool Equals(ITuple? other)
         {
-            if (this.Length != other.Length) return false;
+            if (Length != other.Length) return false;
 
-            for (int i = 0; i < this.Length; i++)
+            for (int i = 0; i < Length; i++)
             {
-                if (this._values[i] != other[i])
+                if (_values[i] != other[i])
                 {
                     return false;
                 }
@@ -63,7 +63,7 @@ namespace SmallTests.Entities
 
         public override int GetHashCode()
         {
-            var finalResult = this._values.Aggregate(0, (result, next) => HashCode.Combine(result, next?.GetHashCode() ?? 0));
+            var finalResult = _values.Aggregate(0, (result, next) => HashCode.Combine(result, next?.GetHashCode() ?? 0));
             return finalResult;
         }
     }
