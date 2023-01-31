@@ -8,11 +8,11 @@ using System.Text;
 
 namespace SmallTests.Entities
 {
-    public struct CompositeData : ITuple, IEquatable<CompositeData>
+    public struct DynamicTuple : ITuple, IEquatable<DynamicTuple>
     {
         private dynamic[] _values; //cannot be object[], it will cause boxing and equals will compare object references
 
-        public CompositeData(IEnumerable<dynamic> values)
+        public DynamicTuple(IEnumerable<dynamic> values)
         {
             if (values == null) throw new ArgumentNullException(nameof(values));
             _values = values.ToArray();
@@ -28,10 +28,10 @@ namespace SmallTests.Entities
 
         public override bool Equals(object? obj)
         {
-            return obj is CompositeData && Equals((CompositeData)obj);
+            return obj is DynamicTuple && Equals((DynamicTuple)obj);
         }
 
-        public bool Equals(CompositeData other)
+        public bool Equals(DynamicTuple other)
         {
             if (this.Length != other.Length) return false;
 

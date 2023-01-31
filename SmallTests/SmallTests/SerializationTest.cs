@@ -164,7 +164,7 @@ namespace SmallTests
                         {
                             dynamic[] idParts = (dynamic[])id;
 
-                            return new CompositeData(idParts);
+                            return new DynamicTuple(idParts);
 
                         }).ToList();//.Distinct()
 

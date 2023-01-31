@@ -32,7 +32,7 @@ namespace SmallTests.Entities
             Ids = ids ?? throw new ArgumentNullException(nameof(ids));
         }
 
-        public void ReSetIds(List<CompositeData> newIds)
+        public void ReSetIds(List<DynamicTuple> newIds)
         {
             if (newIds == null)
             {
