@@ -97,7 +97,7 @@ namespace SmallTests
 
             Assert.IsNotNull(deserialized);
             Assert.AreEqual(valueDependencies.CollectionDependencies.Count, deserialized.CollectionDependencies.Count);
-            Assert.AreEqual(valueDependencies.EntityDependencies[0].Ids.Count, deserialized.EntityDependencies[0].Ids.Count);
+            Assert.AreEqual(valueDependencies.EntityDependencies[0].Ids.Count-1, deserialized.EntityDependencies[0].Ids.Count);
 
 
             var compressed = deserialized.Compress();
@@ -108,7 +108,7 @@ namespace SmallTests
             Assert.NotNull(entityDepd);
             Assert.AreEqual(typeof(Person).FullName, entityDepd.EntityTypeName);
 
-            Assert.AreEqual(4, entityDepd.Ids.Count); //  2x {1, K1}, (2, K1), (2, K2). Duplicate is not removed yet, it is JObject
+            Assert.AreEqual(3, entityDepd.Ids.Count); //  2x {1, K1}, (2, K1), (2, K2). Duplicate is not removed yet, it is JObject
 
         }
 
@@ -161,18 +161,16 @@ namespace SmallTests
 
                         var newIds = entityDependency.Ids.Select(id =>
                         {
-                            object[] idParts = (object[])id;
+                            dynamic[] idParts = (dynamic[])id;
 
                             return new CompositeData(idParts);
 
-                        }).ToList();
+                        }).Distinct().ToList();
 
                         entityDependency.ReSetIds(newIds);
-
                     }
                 }
             }
-
 
             return deserialized;
         }

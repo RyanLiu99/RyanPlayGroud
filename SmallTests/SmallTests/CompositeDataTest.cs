@@ -20,7 +20,6 @@ namespace SmallTests
             var intStringComposite = new CompositeData(new object[] { 12, "b" });
             var intString2 = new CompositeData(new List<object> { 12, "b" });
             Assert.IsTrue(intStringComposite.Equals( intString2));
-            //Assert.IsTrue(intStringComposite == intString2);
         }
 
         [Test]

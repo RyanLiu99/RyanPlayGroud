@@ -8,11 +8,11 @@ using System.Text;
 
 namespace SmallTests.Entities
 {
-    public class CompositeData : ITuple, IEquatable<CompositeData>
+    public struct CompositeData : ITuple, IEquatable<CompositeData>
     {
-        private object[] _values;
+        private dynamic[] _values; //cannot be object[], it will cause boxing and equals will compare object references
 
-        public CompositeData(IEnumerable<object> values)
+        public CompositeData(IEnumerable<dynamic> values)
         {
             if (values == null) throw new ArgumentNullException(nameof(values));
             _values = values.ToArray();
@@ -25,16 +25,14 @@ namespace SmallTests.Entities
 
         public int Length => this._values.Length;
 
+
         public override bool Equals(object? obj)
         {
             return obj is CompositeData && Equals((CompositeData)obj);
         }
 
-        public bool Equals(CompositeData? other)
+        public bool Equals(CompositeData other)
         {
-            if (object.ReferenceEquals(this, other)) return true;
-            if (other == null) return false;
-
             if (this.Length != other.Length) return false;
 
             for (int i = 0; i < this.Length; i++)
@@ -48,9 +46,11 @@ namespace SmallTests.Entities
             return true;
         }
 
+
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            var finalResult = this._values.Aggregate(0, (result, next) => HashCode.Combine(result, next?.GetHashCode() ?? 0));
+            return finalResult;
         }
     }
 }

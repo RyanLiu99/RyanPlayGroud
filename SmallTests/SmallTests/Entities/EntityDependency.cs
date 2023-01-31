@@ -34,10 +34,16 @@ namespace SmallTests.Entities
 
         public void ReSetIds(List<CompositeData> newIds)
         {
-            Ids = newIds as IList<object> ?? throw new ArgumentNullException(nameof(newIds));
+            if (newIds == null)
+            {
+                throw new ArgumentNullException(nameof(newIds));
+            }
+
+            Ids = newIds.Cast<object>().ToList();
         }
 
     }
+
 
     //TId should be value type or string
     [DataContract]
