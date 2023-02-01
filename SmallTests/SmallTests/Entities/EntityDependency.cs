@@ -14,10 +14,10 @@ namespace SmallTests.Entities
         public string EntityTypeName { get; }
 
         [Key(1)]
-        public IList<object> Ids { get; private set; }
+        public IList<dynamic> Ids { get; private set; }
 
         //[MessagePack.SerializationConstructor], not needed
-        public EntityDependency(string entityTypeName, IList<object> ids)
+        public EntityDependency(string entityTypeName, IList<dynamic> ids)
         {
             EntityTypeName = string.IsNullOrWhiteSpace(entityTypeName) 
                 ? throw new ArgumentException(nameof(entityTypeName)) : entityTypeName;
