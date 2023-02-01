@@ -21,14 +21,17 @@ namespace SmallTests.Entities
                 throw new ArgumentException("At least 2 values to construct composite data.", nameof(values));
         }
 
-        public object? this[int index] => _values[index];
+        public dynamic this[int index] => _values[index];
 
         public int Length => _values.Length;
 
 
         public override bool Equals(object? obj)
         {
-            return obj is DynamicTuple && Equals((DynamicTuple)obj);
+            var r = obj is DynamicTuple && Equals((DynamicTuple)obj);
+            if (r == true) return r;
+
+            return obj is ITuple && Equals((ITuple)obj);
         }
 
         public bool Equals(DynamicTuple other)
@@ -37,22 +40,23 @@ namespace SmallTests.Entities
 
             for (int i = 0; i < Length; i++)
             {
-                if (_values[i] != other._values[i])
+                if (_values[i] != other[i])  //This won't cast to ITupe's   object? this[int index] { get; }
                 {
                     return false;
                 }
             }
-
             return true;
         }
 
         public bool Equals(ITuple? other)
         {
+            if(other == null) return false;
+
             if (Length != other.Length) return false;
 
             for (int i = 0; i < Length; i++)
             {
-                if (_values[i] != other[i])
+                if (!_values[i].Equals(other[i])) //do not use  != which is by reference 
                 {
                     return false;
                 }

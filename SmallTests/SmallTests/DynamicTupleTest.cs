@@ -30,6 +30,39 @@ namespace SmallTests
             Assert.AreNotEqual(stringComposite, stringComposite2);
         }
 
-        
+        [Test]
+        public void TestNull()
+        {
+            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
+            var nullTuple = null as Tuple<string, string>;
+            Assert.AreNotEqual(stringComposite, nullTuple);
+            Assert.IsFalse(stringComposite.Equals(nullTuple));
+        }
+
+        [Test] public void TestValueTuple()
+        {
+            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
+            var stringComposite2 = new ValueTuple<string, string>( "a", "b" );
+            Assert.AreEqual(stringComposite, stringComposite2);
+
+            var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
+            var intString2 = new ValueTuple<int, string>( 12, "b");
+            Assert.IsTrue(intStringComposite.Equals(intString2));
+        }
+
+        [Test]
+        public void TestTuple()
+        {
+            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
+            var stringComposite2 = new Tuple<string, string>("a", "b");
+            Assert.AreEqual(stringComposite, stringComposite2);
+
+            var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
+            var intString2 = new Tuple<int, string>(12, "b");
+            Assert.IsTrue(intStringComposite.Equals(intString2));
+
+            var intString3 = (Tuple<int, string>)null;
+            Assert.IsFalse(intStringComposite.Equals(intString3));
+        }
     }
 }
