@@ -26,5 +26,18 @@ namespace SmallTests
             Assert.AreEqual(a, b);
             Assert.IsTrue(a == b);
         }
+
+        [Test]
+        public void TestCreateValueTupleDynamically()
+        {
+            object[] a = new object[] { 1, 1, "1", "1", "a", "a", 'a', 'a' }; //final result Item1 will be object, object{int} or object{string}
+            //dynamic[] a = new dynamic[] { 1, 1, "1", "1", "a", "a", 'a', 'a' };  //final result Item1 will be int or string, char
+
+            var result = a.Select(x => ValueTuple.Create(x)).ToArray();
+            Assert.AreEqual(8, result.Length);
+
+            result = result.Distinct().ToArray();
+            Assert.AreEqual(4, result.Length);
+        }
     }
 }

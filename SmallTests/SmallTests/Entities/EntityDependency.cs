@@ -41,7 +41,6 @@ namespace SmallTests.Entities
 
             Ids = newIds.Cast<object>().ToList();
         }
-
     }
 
 
