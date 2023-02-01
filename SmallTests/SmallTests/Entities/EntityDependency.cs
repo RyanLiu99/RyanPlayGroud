@@ -2,25 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace SmallTests.Entities
 {
     [MessagePackObject]
-    [DataContract]
-    [KnownType(typeof(EntityDependency<>))]
-    [KnownType(typeof(EntityDependency<,>))]
-    [KnownType(typeof(EntityDependency<Person, int>))]
-    [KnownType(typeof(EntityDependency<Person, ValueTuple<int, string>>))]
     
     public class EntityDependency 
     {
         //setter needed for both Newtonsoft and MessagePack
-        [DataMember]
         [Key(0)]
         public string EntityTypeName { get; }
 
-        [DataMember]
         [Key(1)]
         public IList<object> Ids { get; private set; }
 
@@ -45,11 +37,8 @@ namespace SmallTests.Entities
 
 
     //TId should be value type or string
-    [DataContract]
-
     public class EntityDependency<TId> : EntityDependency 
     {
-        [DataMember]
         public new IList<TId> Ids { get; }
 
         [SerializationConstructor]
@@ -63,8 +52,6 @@ namespace SmallTests.Entities
             Ids = ids;
         }
     }
-
-    [DataContract]
 
     public class EntityDependency<TEntity, TId> : EntityDependency<TId> 
     {
