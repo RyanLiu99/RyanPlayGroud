@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using System.Data;
 
 namespace SmallTests
 {
@@ -46,32 +47,61 @@ namespace SmallTests
             Assert.IsFalse(stringComposite.Equals(nullTuple));
         }
 
-        [Test] public void TestValueTuple()
+        [Test] public void TestValueTupleEqualsDynamicTuple()
         {
-            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
-            var stringComposite2 = new ValueTuple<string, string>( "a", "b" );
-            Assert.AreEqual(stringComposite, stringComposite2);
+            var dynamicTuple = new DynamicTuple(new string[] { "a", "b" });
+            var valueTuple = new ValueTuple<string, string>( "a", "b" );
 
-            var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
-            var intString2 = new ValueTuple<int, string>( 12, "b");
-            Assert.IsTrue(intStringComposite.Equals(intString2));
+            //these 5 lines are testing different things
+            Assert.AreEqual(dynamicTuple, valueTuple); //call .Equals()
+            Assert.IsTrue(dynamicTuple.Equals(valueTuple));  //I implemented it in DynamicTuple
+            Assert.IsFalse(valueTuple.Equals(dynamicTuple));   // ValueTuple first check if type match, this is different than Tuple
+            Assert.IsTrue(dynamicTuple == valueTuple);  //call public static bool operator ==(DynamicTuple x, ITuple y)
+            Assert.IsTrue(valueTuple == dynamicTuple); //call public static bool operator ==(ITuple y, DynamicTuple x)
+
+
+            var dynamicTuple2 = new DynamicTuple(new object[] { 12, "b" });
+            var valueTuple2 = new ValueTuple<int, string>( 12, "b");
+            //these 5 lines are testing different things
+            Assert.AreEqual(dynamicTuple2, valueTuple2); //call .Equals()
+            Assert.IsTrue(dynamicTuple2.Equals(valueTuple2));  //I implemented it in DynamicTuple
+            Assert.IsFalse(valueTuple2.Equals(dynamicTuple2));   // ValueTuple first check if type match, this is different than Tuple
+            Assert.IsTrue(dynamicTuple2 == valueTuple2);  //call public static bool operator ==(DynamicTuple x, ITuple y)
+            Assert.IsTrue(valueTuple2 == dynamicTuple2); //call public static bool operator ==(ITuple y, DynamicTuple x)
         }
 
         [Test]
-        public void TestTuple()
+        public void TestTupleEqualDynamicTuple()
         {
-            var stringComposite = new DynamicTuple(new string[] { "a", "b" });
-            var stringComposite2 = new Tuple<string, string>("a", "b");
-            Assert.AreEqual(stringComposite, stringComposite2); //these 3 lines are testing different things
-            Assert.IsTrue(stringComposite == stringComposite2);
-            Assert.IsTrue( stringComposite2 == stringComposite);
+            var dynamicTuple = new DynamicTuple(new string[] { "a", "b" });
+            var tuple = new Tuple<string, string>("a", "b");
 
+            //these 5 lines are testing different things
+            Assert.AreEqual(dynamicTuple, tuple); //call .Equals()
+            Assert.IsTrue(dynamicTuple.Equals(tuple));  //I implemented it in DynamicTuple
+            Assert.IsFalse(tuple.Equals(dynamicTuple));   // ((IStructuralEquatable)this).Equals(obj, EqualityComparer<object>.Default);
+            Assert.IsTrue(dynamicTuple == tuple);  //call public static bool operator ==(DynamicTuple x, ITuple y)
+            Assert.IsTrue(tuple == dynamicTuple); //call public static bool operator ==(ITuple y, DynamicTuple x)
+
+
+            var dynamicTuple2 = new DynamicTuple(new object[] { 12, "b" });
+            var tuple2 = new Tuple<int, string>(12, "b");
+            //these 5 lines are testing different things
+            Assert.AreEqual(dynamicTuple2, tuple2); //call .Equals()
+            Assert.IsTrue(dynamicTuple2.Equals(tuple2));  //I implemented it in DynamicTuple
+            Assert.IsFalse(tuple2.Equals(dynamicTuple2));   // ValueTuple first check if type match, this is different than Tuple
+            Assert.IsTrue(dynamicTuple2 == tuple2);  //call public static bool operator ==(DynamicTuple x, ITuple y)
+            Assert.IsTrue(tuple2 == dynamicTuple2); //call public static bool operator ==(ITuple y, DynamicTuple x)            
+        }
+
+        [Test]
+        public void TestEqualCheckWithNullITupleWontCauseException()
+        {
             var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
-            var intString2 = new Tuple<int, string>(12, "b");
-            Assert.IsTrue(intStringComposite.Equals(intString2));
-
+            //just check if null cause exception
             var intString3 = (Tuple<int, string>)null;
             Assert.IsFalse(intStringComposite.Equals(intString3));
+
         }
     }
 }
