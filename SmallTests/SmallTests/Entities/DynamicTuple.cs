@@ -64,6 +64,9 @@ namespace SmallTests.Entities
             return true;
         }
 
+        public static bool operator ==(DynamicTuple x, ITuple y) => x.Equals(y);
+        public static bool operator !=(DynamicTuple x, ITuple y) => !x.Equals(y);
+
 
         public override int GetHashCode()
         {

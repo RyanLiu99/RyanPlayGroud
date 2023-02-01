@@ -56,6 +56,7 @@ namespace SmallTests
             var stringComposite = new DynamicTuple(new string[] { "a", "b" });
             var stringComposite2 = new Tuple<string, string>("a", "b");
             Assert.AreEqual(stringComposite, stringComposite2);
+            Assert.IsTrue(stringComposite == stringComposite2);
 
             var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
             var intString2 = new Tuple<int, string>(12, "b");
