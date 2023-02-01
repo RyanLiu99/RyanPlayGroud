@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -15,7 +16,13 @@ namespace SmallTests
         {
             var stringComposite = new DynamicTuple(new string[] { "a", "b" });
             var stringComposite2 = new DynamicTuple(new List<string> { "a", "b" });
-            Assert.AreEqual(stringComposite, stringComposite2);
+            Assert.AreEqual(stringComposite,   stringComposite2);
+            //Assert.IsTrue(stringComposite == stringComposite2);// Cause compile error , ambiguous overload. Fix as follow, any of 3 works
+            Assert.IsTrue( stringComposite == (ITuple)stringComposite2);// override ==
+            Assert.IsTrue((ITuple)stringComposite == stringComposite2); //override ==
+
+            Assert.IsFalse((ITuple)stringComposite == (ITuple)stringComposite2); // this is false, this is  ref equal!!!
+
 
             var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
             var intString2 = new DynamicTuple(new List<object> { 12, "b" });
@@ -55,8 +62,9 @@ namespace SmallTests
         {
             var stringComposite = new DynamicTuple(new string[] { "a", "b" });
             var stringComposite2 = new Tuple<string, string>("a", "b");
-            Assert.AreEqual(stringComposite, stringComposite2);
+            Assert.AreEqual(stringComposite, stringComposite2); //these 3 lines are testing different things
             Assert.IsTrue(stringComposite == stringComposite2);
+            Assert.IsTrue( stringComposite2 == stringComposite);
 
             var intStringComposite = new DynamicTuple(new object[] { 12, "b" });
             var intString2 = new Tuple<int, string>(12, "b");

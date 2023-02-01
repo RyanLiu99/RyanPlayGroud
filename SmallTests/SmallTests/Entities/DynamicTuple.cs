@@ -28,8 +28,8 @@ namespace SmallTests.Entities
 
         public override bool Equals(object? obj)
         {
-            var r = obj is DynamicTuple && Equals((DynamicTuple)obj);
-            if (r == true) return r;
+            if (obj is DynamicTuple && Equals((DynamicTuple)obj))
+                return true;
 
             return obj is ITuple && Equals((ITuple)obj);
         }
@@ -66,6 +66,9 @@ namespace SmallTests.Entities
 
         public static bool operator ==(DynamicTuple x, ITuple y) => x.Equals(y);
         public static bool operator !=(DynamicTuple x, ITuple y) => !x.Equals(y);
+
+        public static bool operator ==(ITuple y, DynamicTuple x) => x.Equals(y);
+        public static bool operator !=(ITuple y, DynamicTuple x) => !x.Equals(y);
 
 
         public override int GetHashCode()
