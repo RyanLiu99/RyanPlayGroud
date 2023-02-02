@@ -76,9 +76,8 @@ namespace SmallTests
         [TestMethod]
         public void TestMemoryT()
         {
-            
             string s = "123";
-            foreach (var x in GetChunks(s, 20))
+            foreach (ReadOnlyMemory<char> x in GetChunks(s, 20))
             {
                 Console.WriteLine(x);
             }
