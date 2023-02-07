@@ -109,7 +109,6 @@ namespace SmallTests
             {
                 yield return spans.Slice(totalLength - remain, remain);
             }
-
         }
     }
 }

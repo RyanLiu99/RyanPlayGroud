@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SmallTests.Entities;
 
 namespace SmallTests
 {
@@ -38,6 +39,24 @@ namespace SmallTests
 
             result = result.Distinct().ToArray();
             Assert.AreEqual(4, result.Length);
+        }
+
+        [Test]
+        public void ValueTupleInCanBeDictionaryKey()
+        {
+            var p1 = new Person("1a");
+            var p1x = new Person("1ax");
+            var p2 = new Person("2b");
+
+            var dict = new Dictionary<ValueTuple<int, string>, Person>()
+            {
+                { (1, "a"), p1 },
+                { (2, "b"), p2 },
+            };
+
+
+            Assert.AreEqual(2, dict.Count);
+            Assert.AreEqual(p1, dict[(1, "a")]);
         }
     }
 }
