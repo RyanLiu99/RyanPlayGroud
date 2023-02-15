@@ -57,14 +57,14 @@ namespace SmallTests
             Test(csBoth.Token, cs1, cs1.Token, waitTask, TaskStatus.Canceled, true);
         }
 
-        //[Test]
-        //public void TestCT6([Values(true, false)] bool waitTask)
-        //{
-        //    using CancellationTokenSource cs1 = new CancellationTokenSource();
-        //    using CancellationTokenSource cs2 = new CancellationTokenSource();
-        //    using CancellationTokenSource csBoth = CancellationTokenSource.CreateLinkedTokenSource(cs1.Token, cs2.Token);
-        //    Test(csBoth.Token, cs1, cs1.Token, waitTask, TaskStatus.Running, false);
-        //}
+        [Test]
+        public void TestCT6([Values(true, false)] bool waitTask)
+        {
+            using CancellationTokenSource cs1 = new CancellationTokenSource();
+            using CancellationTokenSource cs2 = new CancellationTokenSource();
+            using CancellationTokenSource csBoth = CancellationTokenSource.CreateLinkedTokenSource(cs1.Token, cs2.Token);
+            Test(csBoth.Token, cs1, cs2.Token, waitTask, TaskStatus.Canceled, true);  //cs1 cancel, and check if cancelled on cs2, how can that work?
+        }
 
         //=====================
         [Test]
