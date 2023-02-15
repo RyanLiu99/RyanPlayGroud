@@ -163,6 +163,10 @@ namespace SmallTests
                     Assert.IsTrue(t.Exception.GetBaseException() is OperationCanceledException);
                     Assert.IsFalse(t.Exception.GetBaseException() is TaskCanceledException);
                 }
+                else
+                {
+                    Assert.IsNull(t.Exception);
+                }
             }).Wait(600), "timeout on continue");
 
 
@@ -184,6 +188,10 @@ namespace SmallTests
                 Assert.IsTrue(task.Exception is AggregateException);
                 Assert.IsTrue(task.Exception.GetBaseException() is OperationCanceledException);
                 Assert.IsFalse(task.Exception.GetBaseException() is TaskCanceledException);
+            }
+            else
+            {
+                Assert.IsNull(task.Exception);
             }
         }
         
@@ -239,6 +247,10 @@ namespace SmallTests
                     Assert.IsTrue(t.Exception.GetBaseException() is OperationCanceledException);
                     Assert.IsFalse(t.Exception.GetBaseException() is TaskCanceledException);
                 }
+                else
+                {
+                    Assert.IsNull(t.Exception);
+                }
             });
 
 
@@ -260,6 +272,10 @@ namespace SmallTests
                 Assert.IsTrue(task.Exception is AggregateException);
                 Assert.IsTrue(task.Exception.GetBaseException() is OperationCanceledException);
                 Assert.IsFalse(task.Exception.GetBaseException() is TaskCanceledException);
+            }
+            else
+            {
+                Assert.IsNull(task.Exception);
             }
         }
     }
