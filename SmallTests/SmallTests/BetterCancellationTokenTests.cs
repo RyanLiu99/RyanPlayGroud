@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SmallTests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,8 @@ namespace SmallTests
         }
 
         [Test]
+        // Wait() it will cause cancel, not caused by CancellToken
+        // So TestCTAsync6_2 is real test
         public void TestCT6([Values(true, false)] bool waitTask)
         {
             using CancellationTokenSource cs1 = new CancellationTokenSource();
@@ -112,6 +115,26 @@ namespace SmallTests
             await TestAsync(csBoth.Token, cs1, cs1.Token, waitTask, TaskStatus.Canceled, true);
         }
 
+        [Test]
+        // Wait() it will cause cancel, not caused by CancellToken
+        // So TestCTAsync6_2 is real test
+        public async Task TestCTAsync6([Values(true, false)] bool waitTask)
+        {
+            using CancellationTokenSource cs1 = new CancellationTokenSource();
+            using CancellationTokenSource cs2 = new CancellationTokenSource();
+            using CancellationTokenSource csBoth = CancellationTokenSource.CreateLinkedTokenSource(cs1.Token, cs2.Token);
+            await TestAsync(csBoth.Token, cs1, cs2.Token, waitTask, TaskStatus.Canceled, true);
+        }
+
+        [Test]
+        public async Task TestCTAsync6_2([Values(true, false)] bool waitTask)
+        {
+            using CancellationTokenSource cs1 = new CancellationTokenSource();
+            using CancellationTokenSource cs2 = new CancellationTokenSource();
+            using CancellationTokenSource csBoth = CancellationTokenSource.CreateLinkedTokenSource(cs1.Token, cs2.Token);
+            await TestAsync(csBoth.Token, cs1, cs2.Token, waitTask, TaskStatus.Running, true, false);
+        }
+
         public void Test(
             CancellationToken assignedToTask,
             CancellationTokenSource theOneCallsCancel,
@@ -135,7 +158,7 @@ namespace SmallTests
                         Thread.Sleep(5);
                         ((CancellationToken)state).ThrowIfCancellationRequested();
                     }
-
+                    Console.WriteLine("Out of loop, task wil finish");
                 }, checkAndThrowIfCancellationRequestedOn, assignedToTask);
                 // token task is on can be csBoth or cs1, no difference
 
@@ -143,12 +166,13 @@ namespace SmallTests
 
                 if (waitTask)
                 {
-                    Assert.IsTrue(task.Wait(600), "Timed out"); //However, if the calling thread is not waiting on the task, this specific exception will not be propagated. 
+                    //This line iself can throw AggregateException [TaskCanceledException], not cancelled by CancellationToken
+                    Assert.IsTrue(task.Wait(700), "Task Timed out"); //However, if the calling thread is not waiting on the task, this specific exception will not be propagated. 
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Log :Test 2 Exception occurred : {e}"); //since waited , here it got TaskCanceledException which is subclass of OperationCanceledException
+                Console.WriteLine($"Log :  Exception occurred when run task : {ex}"); //since waited , here it got TaskCanceledException which is subclass of OperationCanceledException
                 e = ex;
             }
 
@@ -172,7 +196,7 @@ namespace SmallTests
 
             //Thread.Sleep(20); //More then sleep in while
 
-            Assert.AreEqual(waitTask, e != null); // if waited,there is exception. If not waited, there is no exception. (even task in on different token, this is same as task on right token)
+            Assert.AreEqual(waitTask, e != null && taskWillStop); // if waited,there is exception. If not waited, there is no exception. (even task in on different token, this is same as task on right token)
             if (waitTask)
             {
                 Assert.IsTrue(e is AggregateException); //strange, 
@@ -201,7 +225,8 @@ namespace SmallTests
             CancellationToken checkAndThrowIfCancellationRequestedOn,
             bool waitTask,
             TaskStatus expectedTaskStatus,
-            bool taskWillStop
+            bool taskWillStop,
+            bool addContinue = true
             )
         {
             bool expectIsFaulted = expectedTaskStatus == TaskStatus.Faulted;
@@ -232,51 +257,68 @@ namespace SmallTests
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Log :Test 2 Exception occurred : {e}"); //since waited , here it got TaskCanceledException which is subclass of OperationCanceledException
+                Console.WriteLine($"Log : Exception occurred when run task in TestAsync: {ex}"); //since waited , here it got TaskCanceledException which is subclass of OperationCanceledException
                 e = ex;
             }
 
-            await task.ContinueWith((t) =>
+            if (addContinue)
             {
-                Assert.AreEqual(expectIsFaulted, t.IsFaulted);
-                Assert.AreEqual(expectedTaskStatus, t.Status);
-                if (expectIsFaulted)
+                await task.ContinueWith((t) =>
                 {
-                    Assert.IsNotNull(t.Exception);
-                    Assert.IsTrue(t.Exception is AggregateException);
-                    Assert.IsTrue(t.Exception.GetBaseException() is OperationCanceledException);
-                    Assert.IsFalse(t.Exception.GetBaseException() is TaskCanceledException);
-                }
-                else
-                {
-                    Assert.IsNull(t.Exception);
-                }
-            });
+                    Assert.AreEqual(expectIsFaulted, t.IsFaulted);
+                    Assert.AreEqual(expectedTaskStatus, t.Status);
+                    if (expectIsFaulted)
+                    {
+                        Assert.IsNotNull(t.Exception);
+                        Assert.IsTrue(t.Exception is AggregateException);
+                        Assert.IsTrue(t.Exception.GetBaseException() is OperationCanceledException);
+                        Assert.IsFalse(t.Exception.GetBaseException() is TaskCanceledException);
+                    }
+                    else
+                    {
+                        Assert.IsNull(t.Exception);
+                    }
+                });
+            }
 
 
-            //Thread.Sleep(20); //More then sleep in while
 
-            Assert.AreEqual(waitTask, e != null); // if waited,there is exception. If not waited, there is no exception. (even task in on different token, this is same as task on right token)
+            Assert.AreEqual(waitTask, e != null && taskWillStop); // if waited,there is exception. If not waited, there is no exception. (even task in on different token, this is same as task on right token)
+            
             if (waitTask)
             {
                 Assert.IsTrue(e is AggregateException); //strange
                 Assert.IsTrue(e.GetBaseException() is OperationCanceledException);
             }
 
-            //No matter waited or not waited, task is in same state:
-            Assert.AreEqual(expectIsFaulted, task.IsFaulted);
-            Assert.AreEqual(expectedTaskStatus, task.Status);
-            if (expectIsFaulted)
+            if (addContinue)
             {
-                Assert.IsNotNull(task.Exception);
-                Assert.IsTrue(task.Exception is AggregateException);
-                Assert.IsTrue(task.Exception.GetBaseException() is OperationCanceledException);
-                Assert.IsFalse(task.Exception.GetBaseException() is TaskCanceledException);
+                //No matter waited or not waited, task is in same state:
+                Assert.AreEqual(expectIsFaulted, task.IsFaulted);
+                Assert.AreEqual(expectedTaskStatus, task.Status);
+                if (expectIsFaulted)
+                {
+                    Assert.IsNotNull(task.Exception);
+                    Assert.IsTrue(task.Exception is AggregateException);
+                    Assert.IsTrue(task.Exception.GetBaseException() is OperationCanceledException);
+                    Assert.IsFalse(task.Exception.GetBaseException() is TaskCanceledException);
+                }
+                else
+                {
+                    Assert.IsNull(task.Exception);
+                }
             }
             else
             {
-                Assert.IsNull(task.Exception);
+                Assert.AreEqual(taskWillStop, WaitHelper.SpinWait(() => task.IsCompleted), "Task should keep running");
+
+                if (!taskWillStop)
+                {
+                    Assert.AreEqual(expectedTaskStatus, task.Status);
+                }
             }
         }
+      
+
     }
 }
