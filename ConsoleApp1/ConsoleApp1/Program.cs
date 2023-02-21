@@ -20,12 +20,53 @@ namespace ConsoleApp1
             //TestLogFactory();
             //TestLogFactory2();
 
-            OneTimeSetup();
+            //OneTimeSetup();
             //TestDateTime.Test(); //long delay, for testing date time over new year midnight
             //TestValidation.Test();
-            TestJsonLogging.Test();
+           // TestJsonLogging.Test();
 
             //TestRegex.RunTests();
+
+            //TestDynamic();
+            TestTupleValueTuple();
+        }
+
+        private static void TestTupleValueTuple()
+        {
+            Console.WriteLine( "ValueTuple equals Tuple:" + ("name", 18).Equals(Tuple.Create("name", 18)) ); //ValueTuple equals Tuple:False
+
+            Dictionary<object, string> dic = new Dictionary<object, string>()
+            {
+                { ("name", 1), "ValueTuple 123" },
+                { Tuple.Create("name", 1), "Tuple 999" }
+            };
+
+            Console.WriteLine("valueTuple is :" + dic[("name", 1)]);  //ValueTuple 123
+            Console.WriteLine("Tuple is :" + dic[Tuple.Create("name", 1)]); //Tuple 999
+
+
+
+            Dictionary<object, string> dic2 = new Dictionary<object, string>()
+            {
+                { Tuple.Create("name", 1), "Tuple 222" }
+            };
+
+            var found = dic2.TryGetValue(("name", 1), out string tt);
+            Console.WriteLine($"valueTuple found {found}, is : {tt}");  //  valueTuple found False, is :
+            Console.WriteLine("Tuple is :" + dic2[Tuple.Create("name", 1)]); //Tuple is :Tuple 222
+        }
+
+        private static void TestDynamic()
+        {
+            dynamic s = "============";
+            dynamic d = "abcd222"; //will be gone, GC away
+            d = 2;
+
+            int i = 3;
+            dynamic ii = 33;   //it will also boxed to object, same as below. dynamic is compile time concept, 
+            object iii = 333;
+            
+            Debugger.Break();
         }
 
         private static void OneTimeSetup()
