@@ -10,11 +10,7 @@ namespace SmallTests
         [Test]
         public void TestSerializationTuple([Values(SerializerTypeEnum.MessagePack, SerializerTypeEnum.NewtonSoft)]SerializerTypeEnum type)
         {
-            TestSerializationTupleImp(type);
-        }
-
-        private void TestSerializationTupleImp(SerializerTypeEnum type)
-        {
+            
             var entityDependency = new EntityDependency<Person, Tuple<int, string>>(
                 new Tuple<int, string>(1, "K1"),
                 new Tuple<int, string>(1, "K1"),
@@ -29,7 +25,7 @@ namespace SmallTests
             );
             var collectionDependency = new string[] { "Col1", "Col1", "Coll2" };
 
-            var valueDependencies = new ValueDependencies(new EntityDependency[] { entityDependency }, collectionDependency);
+            var valueDependencies = new ValueDependencies(new EntityDependency[] { entityDependency, entityDependency2 }, collectionDependency);
 
             var deserialized = SerializerFactory.GetSerializer<ValueDependencies>(type).SerializeDeSerializeTuple(valueDependencies);
 
@@ -46,7 +42,7 @@ namespace SmallTests
             Assert.NotNull(entityDepd);
             Assert.AreEqual(typeof(Person).FullName, entityDepd.EntityTypeName);
 
-            Assert.AreEqual(3, entityDepd.Ids.Count); //  2x {1, K1}, (2, K1), (2, K2). For NewtonJson, Duplicate is not removed yet, it is JObject.
+            Assert.AreEqual(5, entityDepd.Ids.Count); //  2x {1, K1}, (2, K1), (2, K2). For NewtonJson, Duplicate is not removed yet, it is JObject.
         }
     }
 }

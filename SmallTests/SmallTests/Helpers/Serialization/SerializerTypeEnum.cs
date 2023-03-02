@@ -6,4 +6,15 @@
         NewtonSoft,
         DataContract
     }
+
+    public static class SerializerTypeSources
+    {
+        public static SerializerTypeEnum[] Types =>
+
+            new SerializerTypeEnum[]
+            {
+                SerializerTypeEnum.MessagePack,
+                SerializerTypeEnum.NewtonSoft,
+            };
+    }
 }

@@ -7,80 +7,62 @@ namespace SmallTests
 {
     internal class SerializationSimpleTest
     {
-        #region test guid
+     
         [Test]
-        public void TestGuidMessagePack()
+
+        public void TestGuid([Values(SerializerTypeEnum.MessagePack, SerializerTypeEnum.NewtonSoft)] SerializerTypeEnum type)
         {
-            TestGuidImp(SerializationHelper.WireUsingMessagePack);
+            var input = new Guid();
+            var result = SerializerFactory.GetSerializer<Guid>(type).SerializeDeSerialize(input);
+
+            Assert.AreEqual(input, result);
+
+            var input2 = Guid.Empty;
+            var result2 = SerializerFactory.GetSerializer<Guid>(type).SerializeDeSerialize(input2);
+
+            Assert.AreEqual(input2, result2);
         }
 
-        private void TestGuidImp(Func<Guid, Guid> transform)
-        {
-            var guid = new Guid();
-            var result = transform(guid);
-            Assert.AreEqual(guid, result);
-
-            guid = Guid.Empty;
-            result = transform(guid);
-            Assert.AreEqual(guid, result);
-        }
-
-        #endregion test guid
-
-        #region test decimal
         [Test]
-        public void TestDecimal()
-        {
-            TestDecimalImp(SerializationHelper.WireUsingMessagePack);
-        }
-
-        private void TestDecimalImp(Func<decimal, decimal> transform)
+        public void TestDecimal([Values(SerializerTypeEnum.MessagePack, SerializerTypeEnum.NewtonSoft)] SerializerTypeEnum type)
         {
             decimal input = 10.23m;
-            var result = transform(input);
+            var result = SerializerFactory.GetSerializer<decimal>(type).SerializeDeSerialize(input);
             Assert.AreEqual(input, result);
         }
 
-        #endregion test guid
 
-        #region test datetime
-        [Test]
-        public void TestDateTime()
+        private void TestDateTimeImp([Values(SerializerTypeEnum.MessagePack, SerializerTypeEnum.NewtonSoft)] SerializerTypeEnum type)
         {
-            TestDateTimeImp(SerializationHelper.WireUsingMessagePack);
-        }
-
-        private void TestDateTimeImp(Func<DateTime, DateTime> transform)
-        {
-            DateTime input = DateTime.UtcNow; //DateTime.Now will fail
-            var result = transform(input);
+            var input = DateTime.UtcNow; //DateTime.Now will fail
+            var result = SerializerFactory.GetSerializer<DateTime>(type).SerializeDeSerialize(input);
             Assert.AreEqual(input, result);
+
+            var input2 = DateTime.MaxValue;
+            var results = SerializerFactory.GetSerializer<DateTime>(type).SerializeDeSerialize(input2);
+            Assert.AreEqual(input2, results);
         }
-
-        #endregion test guid
-
-        #region test simpe
+        
         [Test]
         public void TestSimpleUsingNewton()
         {
-            TestSerializationSimple(SerializationHelper.WireUsingNewton);
+            TestSerializationSimpleValueDependencies(SerializationHelper.WireUsingNewton);
         }
 
         //[Test]
         [Ignore("Property need has both getter/setter for data contract to work")]
         public void TestSimpleUsingDataContract()
         {
-            TestSerializationSimple(SerializationHelper.WireUsingDataContract);
+            TestSerializationSimpleValueDependencies(SerializationHelper.WireUsingDataContract);
         }
 
         [Test]
         public void TestSimpleUsingMessagePack()
         {
-            TestSerializationSimple(SerializationValueDependenciesHelper.WireUsingMessagePack);
+            TestSerializationSimpleValueDependencies(SerializationValueDependenciesHelper.WireUsingMessagePack);
         }
 
-
-        private void TestSerializationSimple(Func<ValueDependencies, ValueDependencies> transform)
+        private void TestSerializationSimpleValueDependencies(Func<ValueDependencies, ValueDependencies> transform)
         {
             var entityDependency = new EntityDependency<Person, int>(1, 1, 2, 2);
 
@@ -103,8 +85,5 @@ namespace SmallTests
 
             Assert.AreEqual(2, entityDepd.Ids.Count); //[1,2],  duplicate is removed
         }
-
-        #endregion TestSimple
-        
     }
 }

@@ -74,5 +74,10 @@ namespace SmallTests.Entities
             var finalResult = _values.Aggregate(0, (result, next) => HashCode.Combine(result, next?.GetHashCode() ?? 0));
             return finalResult;
         }
+
+        public string ToDebugString()
+        {
+            return string.Join('|', _values);
+        }
     }
 }

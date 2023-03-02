@@ -14,7 +14,7 @@ namespace SmallTests.Helpers.Serialization
             //var serialized = JsonSerializer.Serialize(valueDependencies);  //cause exception
             var serialized = JsonConvert.SerializeObject(input); //ok
 
-            TestHelpers.Logger.Value.LogInformation("serialized: {serialized}", serialized);
+         //   TestHelpers.Logger.Value.LogInformation("serialized: {serialized}", serialized);
 
             var deserialized = JsonConvert.DeserializeObject<T>(serialized);
 

@@ -64,7 +64,6 @@ namespace SmallTests.Helpers.Serialization
 
                     if (entityDependency.Ids[0].GetType().IsArray) //Composite key, turn it into ValueTuple or CompoiteData
                     {
-
                         var newIds = entityDependency.Ids.Select(id =>
                         {
                             dynamic[] idParts = (dynamic[])id;
