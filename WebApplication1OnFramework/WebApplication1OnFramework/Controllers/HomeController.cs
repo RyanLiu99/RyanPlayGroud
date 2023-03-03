@@ -32,7 +32,7 @@ namespace WebApplication1OnFramework.Controllers
         }
 
 
-
+        
         public async Task<ActionResult> Report()
         {
             Request.InputStream.Seek(0, SeekOrigin.Begin);
@@ -48,7 +48,13 @@ namespace WebApplication1OnFramework.Controllers
 
         public ActionResult Reports()
         {
-            return new ContentResult() { Content = string.Join(" ;\r\n", _reports) };
+            return new ContentResult() { Content = "<pre>" +  string.Join("<br/><br/>", _reports) + "</pre>" };
+        }
+
+        public ActionResult Reset()
+        {
+          _reports.Clear();
+          return new EmptyResult();
         }
     }
 }
