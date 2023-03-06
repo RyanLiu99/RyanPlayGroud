@@ -21,7 +21,7 @@ namespace Net6Web1.Controllers
 
 
         [EnableCors(Constants.Cors_CspReportPolicy)]
-        [HttpPost("Report")]
+        [HttpPost("")]
         public async Task<string> Report()
         {
             if(Request.Body.CanSeek) Request.Body.Seek(0, SeekOrigin.Begin);
