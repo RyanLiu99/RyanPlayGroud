@@ -4,21 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace Net6Web1.Controllers
 {
     [ApiController]
-    
     [Route("[controller]")]
     public class CspReportController : ControllerBase
     {
-
         private readonly ILogger<WeatherForecastController> _logger;
         private static List<string> _reports = new List<string>();
-
 
         public CspReportController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
         }
-
-
 
         [EnableCors(Constants.Cors_CspReportPolicy)]
         [HttpPost("")]
@@ -29,18 +24,8 @@ namespace Net6Web1.Controllers
             var result = await reader.ReadToEndAsync();
             _reports.Add(result);
 
-
-            //ReadResult readResult;
-
-            //do
-            //{
-            //    readResult = await Request.BodyReader.ReadAsync().ConfigureAwait(false);
-            //    readResult.Buffer
-
-            //} while (readResult.IsCompleted);
-            return "Added";
+            return "Received";
         }
-
 
         [HttpGet("Reports")]
         public List<string> Reports()
@@ -51,9 +36,9 @@ namespace Net6Web1.Controllers
         [HttpGet("Reset")]
         public int Reset()
         {
+            int c = _reports.Count;
             _reports.Clear();
-            return _reports.Count;
+            return c;
         }
-
     }
 }
