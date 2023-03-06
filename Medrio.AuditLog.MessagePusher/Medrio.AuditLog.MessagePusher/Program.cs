@@ -1,7 +1,19 @@
+using Medrio.AuditLog.MessagePusher;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(Constants.Cors_CspReportPolicy,
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .WithMethods("POST");
+        });
+});
 
+// Add services to the container.
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -10,6 +22,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();

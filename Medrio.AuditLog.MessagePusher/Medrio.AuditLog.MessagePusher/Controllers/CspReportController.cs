@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Net6Web1.Controllers
+namespace Medrio.AuditLog.MessagePusher.Controllers
 {
     [ApiController]
     [Route("[controller]")]

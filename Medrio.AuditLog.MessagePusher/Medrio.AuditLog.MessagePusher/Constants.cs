@@ -1,4 +1,4 @@
-﻿namespace Net6Web1
+﻿namespace Medrio.AuditLog.MessagePusher
 {
     internal class Constants
     {
