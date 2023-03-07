@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Medrio.AuditLog.MessagePusher.Controllers
 {
@@ -22,6 +23,14 @@ namespace Medrio.AuditLog.MessagePusher.Controllers
             if(Request.Body.CanSeek) Request.Body.Seek(0, SeekOrigin.Begin);
             using var reader = new StreamReader(Request.Body);
             var result = await reader.ReadToEndAsync();
+
+            //var logEntry = new LogEntry()
+            //{
+            //    Severity = LogSeverity.Info,
+            //    Timestamp = Timestamp.FromDateTime(message.UtcDateTime), //must be UTC to pass in.
+            //    JsonPayload = CreateJsonPayLoad(message)
+            //};
+
             _reports.Add(result);
 
             return "Received";
