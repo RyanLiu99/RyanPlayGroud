@@ -1,6 +1,6 @@
+using Medrio.CspReport.GcpLogging;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Medrio.AuditLog.MessagePusher.Controllers
 {
@@ -8,11 +8,13 @@ namespace Medrio.AuditLog.MessagePusher.Controllers
     [Route("[controller]")]
     public class CspReportController : ControllerBase
     {
+        private readonly ICspReportPusher _pusher;
         private readonly ILogger<WeatherForecastController> _logger;
         private static List<string> _reports = new List<string>();
 
-        public CspReportController(ILogger<WeatherForecastController> logger)
+        public CspReportController(ICspReportPusher pusher, ILogger<WeatherForecastController> logger)
         {
+            _pusher = pusher;
             _logger = logger;
         }
 
@@ -20,18 +22,13 @@ namespace Medrio.AuditLog.MessagePusher.Controllers
         [HttpPost("")]
         public async Task<string> Report()
         {
-            if(Request.Body.CanSeek) Request.Body.Seek(0, SeekOrigin.Begin);
-            using var reader = new StreamReader(Request.Body);
-            var result = await reader.ReadToEndAsync();
+            //if(Request.Body.CanSeek) Request.Body.Seek(0, SeekOrigin.Begin);
+            //using var reader = new StreamReader(Request.Body);
+            //var result = await reader.ReadToEndAsync();
 
-            //var logEntry = new LogEntry()
-            //{
-            //    Severity = LogSeverity.Info,
-            //    Timestamp = Timestamp.FromDateTime(message.UtcDateTime), //must be UTC to pass in.
-            //    JsonPayload = CreateJsonPayLoad(message)
-            //};
+            _reports.Add("Reported once");
 
-            _reports.Add(result);
+            await _pusher.PushReport(Request.Body);
 
             return "Received";
         }

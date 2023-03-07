@@ -1,6 +1,10 @@
+
 using Medrio.AuditLog.MessagePusher;
+using Medrio.Infrastructure.Ioc;
+
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AutoRegisterServices(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -16,7 +20,10 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 
+
 var app = builder.Build();
+
+app.Services.SetUpIocAdapter();
 
 // Configure the HTTP request pipeline.
 
