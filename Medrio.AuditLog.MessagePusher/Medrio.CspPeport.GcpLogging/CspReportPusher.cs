@@ -64,7 +64,8 @@ namespace Medrio.CspReport.GcpLogging
             {
                 Severity = LogSeverity.Info,
                 Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
-                JsonPayload = Struct.Parser.ParseJson(result) 
+               // JsonPayload = Struct.Parser.ParseJson(result) 
+               TextPayload = result
             };
 
             return logEntry;
