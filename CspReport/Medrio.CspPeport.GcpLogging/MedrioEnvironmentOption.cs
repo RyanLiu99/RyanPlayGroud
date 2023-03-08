@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Medrio.Infrastructure.Ioc.ConfigurationOption;
 
-namespace Medrio.AuditLog.MessagePusher.Gcp.Configurations
+namespace Medrio.CspPeport.GcpLogging
 {
     public class MedrioEnvironmentOption : AutoBindOption<MedrioEnvironmentOption>
     {

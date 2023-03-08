@@ -1,5 +1,4 @@
-
-using Medrio.AuditLog.MessagePusher;
+using Medrio.CspReport;
 using Medrio.Infrastructure.Ioc;
 
 var builder = WebApplication.CreateBuilder(args);

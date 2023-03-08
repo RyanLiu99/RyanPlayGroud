@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Cloud.Logging.V2;
-using Medrio.AuditLog.MessagePusher.Gcp.Configurations;
+﻿using Google.Cloud.Logging.V2;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Medrio.AuditLog.MessagePusher.Gcp
+namespace Medrio.CspPeport.GcpLogging
 {
     [RegisterAs(typeof(IGcpLogPusherHelper))]
     internal class GcpLogPusherHelper : IGcpLogPusherHelper

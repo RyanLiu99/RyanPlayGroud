@@ -1,4 +1,4 @@
-namespace Medrio.AuditLog.MessagePusher
+namespace Medrio.CspReport
 {
     public class WeatherForecast
     {

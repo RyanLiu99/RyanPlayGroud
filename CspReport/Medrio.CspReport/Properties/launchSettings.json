@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Medrio.AuditLog.MessagePusher": {
+    "Medrio.CspReport": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

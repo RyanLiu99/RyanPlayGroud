@@ -2,13 +2,12 @@
 using Google.Cloud.Logging.Type;
 using Google.Cloud.Logging.V2;
 using Google.Protobuf.WellKnownTypes;
-using Medrio.AuditLog.MessagePusher.Gcp;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Medrio.CspReport.GcpLogging
+namespace Medrio.CspPeport.GcpLogging
 {
     public interface ICspReportPusher
     {

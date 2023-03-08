@@ -1,8 +1,8 @@
-using Medrio.CspReport.GcpLogging;
+using Medrio.CspPeport.GcpLogging;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Medrio.AuditLog.MessagePusher.Controllers
+namespace Medrio.CspReport.Controllers
 {
     [ApiController]
     [Route("[controller]")]
