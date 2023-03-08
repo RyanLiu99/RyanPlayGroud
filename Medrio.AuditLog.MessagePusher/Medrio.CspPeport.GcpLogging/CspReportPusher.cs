@@ -42,9 +42,9 @@ namespace Medrio.CspReport.GcpLogging
 
         public async Task PushReport(Stream body)
         {
-            LogEntry entry = await BuildLogEntry(body);
-            var batch = new[] { entry };
-
+            //TODO: optimize, push logs from  multiple posts, de-duplicate
+            LogEntry[] batch = await BuildLogEntry(body);
+            
             WriteLogEntriesResponse response = await _client.WriteLogEntriesAsync(
                 _logName,
                 _resource,
@@ -54,21 +54,39 @@ namespace Medrio.CspReport.GcpLogging
             _logger.LogInformation("GCP client log response is {response}", response.ToString());
         }
 
-        private async Task<LogEntry> BuildLogEntry(Stream body)
+        private async Task<LogEntry[]> BuildLogEntry(Stream body)
         {
-            if (body.CanSeek) body.Seek(0, SeekOrigin.Begin);
-            using var reader = new StreamReader(body);
-            var result = await reader.ReadToEndAsync();
-            
-            var logEntry = new LogEntry()
-            {
-                Severity = LogSeverity.Info,
-                Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
-               // JsonPayload = Struct.Parser.ParseJson(result) 
-               TextPayload = result
-            };
+            string? result = null;
 
-            return logEntry;
+            //if (body.CanSeek) body.Seek(0, SeekOrigin.Begin);
+            using (var reader = new StreamReader(body))  //pass stream direct to ListValue.Parser cause error, let get string first
+            {
+                result = await reader.ReadToEndAsync();
+            }
+
+            try
+            {
+                var parsed = ListValue.Parser.ParseJson(result);
+                return parsed.Values.Select(x => new LogEntry()
+                {
+                    Severity = LogSeverity.Info,
+                    Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
+                    JsonPayload = x.StructValue
+                }).ToArray();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Cannot parse json, upload as plain text.");
+                return new[]
+                {
+                    new LogEntry()
+                    {
+                        Severity = LogSeverity.Info,
+                        Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
+                        TextPayload = result
+                    }
+                };
+            }
         }
     }
 }
