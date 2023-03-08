@@ -1,9 +1,6 @@
 
-using Google.Api;
 using Medrio.AuditLog.MessagePusher;
 using Medrio.Infrastructure.Ioc;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AutoRegisterServices(builder.Configuration);
@@ -19,19 +16,10 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.Configure<KestrelServerOptions>(options =>
-{
-    options.AllowSynchronousIO = true;
-});
-
 var app = builder.Build();
-
 app.Services.SetUpIocAdapter();
-
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
