@@ -1,6 +1,6 @@
 ﻿using Google.Cloud.Logging.V2;
 
-namespace Medrio.CspPeport.GcpLogging
+namespace Medrio.CspReport.GcpLogging
 {
     internal interface IGcpLogPusherHelper
     {

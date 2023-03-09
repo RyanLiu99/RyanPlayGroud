@@ -1,4 +1,4 @@
-using Medrio.CspPeport.GcpLogging;
+using Medrio.CspReport.GcpLogging;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 

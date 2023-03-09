@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Medrio.CspPeport.GcpLogging\Medrio.CspPeport.GcpLogging.csproj" />
+    <ProjectReference Include="..\Medrio.CspPeport.GcpLogging\Medrio.CspReport.GcpLogging.csproj" />
   </ItemGroup>
 
 </Project>

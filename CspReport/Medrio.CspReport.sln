@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.CspPeport.GcpLogging", "Medrio.CspPeport.GcpLogging\Medrio.CspPeport.GcpLogging.csproj", "{05F70C49-5E72-48C1-9042-E4F19127B5E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.CspReport.GcpLogging", "Medrio.CspPeport.GcpLogging\Medrio.CspReport.GcpLogging.csproj", "{05F70C49-5E72-48C1-9042-E4F19127B5E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.CspReport", "Medrio.CspReport\Medrio.CspReport.csproj", "{40EFE0C6-94E4-4C48-B320-2214B03A45BC}"
 EndProject

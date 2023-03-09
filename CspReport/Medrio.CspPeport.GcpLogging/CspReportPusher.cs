@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Medrio.CspPeport.GcpLogging
+namespace Medrio.CspReport.GcpLogging
 {
     public interface ICspReportPusher
     {

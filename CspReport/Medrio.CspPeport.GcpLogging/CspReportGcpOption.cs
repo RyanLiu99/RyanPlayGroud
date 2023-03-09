@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Medrio.Infrastructure.Ioc.ConfigurationOption;
 
-namespace Medrio.CspPeport.GcpLogging
+namespace Medrio.CspReport.GcpLogging
 {
     public class CspReportGcpOption : AutoBindOption<CspReportGcpOption>
     {

@@ -3,7 +3,7 @@ using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Medrio.CspPeport.GcpLogging
+namespace Medrio.CspReport.GcpLogging
 {
     [RegisterAs(typeof(IGcpLogPusherHelper))]
     internal class GcpLogPusherHelper : IGcpLogPusherHelper
