@@ -10,10 +10,15 @@ namespace Medrio.CspReport.Controllers
     {
         private readonly ICspReportPusher _pusher;
 
-        public CspReportController(ICspReportPusher pusher, ILogger<WeatherForecastController> logger)
+        public CspReportController(ICspReportPusher pusher)
         {
             _pusher = pusher;
         }
+
+
+        [HttpGet("/")]
+        public string Index() => "Welcome to Medrio CSP report site.";
+        
 
         [EnableCors(Constants.Cors_CspReportPolicy)]
         [HttpPost("")]

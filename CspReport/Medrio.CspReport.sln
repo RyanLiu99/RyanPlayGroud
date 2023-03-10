@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.CspReport.GcpLogging
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Medrio.CspReport", "Medrio.CspReport\Medrio.CspReport.csproj", "{40EFE0C6-94E4-4C48-B320-2214B03A45BC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2645B0EA-76D2-4C95-A54A-14EB252E5760}"
+	ProjectSection(SolutionItems) = preProject
+		Build\BuildAndPushDockierImage.ps1 = Build\BuildAndPushDockierImage.ps1
+		Build\DeployToGcpCloudRun.ps1 = Build\DeployToGcpCloudRun.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
