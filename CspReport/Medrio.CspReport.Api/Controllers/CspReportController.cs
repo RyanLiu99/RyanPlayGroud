@@ -8,13 +8,12 @@ namespace Medrio.CspReport.Controllers
     [Route("[controller]")]
     public class CspReportController : ControllerBase
     {
-        private readonly ICspReportPusher _pusher;
+        private readonly ICspViolationCollector _collector;
 
-        public CspReportController(ICspReportPusher pusher)
+        public CspReportController(ICspViolationCollector collector)
         {
-            _pusher = pusher;
+            _collector = collector;
         }
-
 
         [HttpGet("/")]
         public string Index() => "Welcome to Medrio CSP report site.";
@@ -24,7 +23,7 @@ namespace Medrio.CspReport.Controllers
         [HttpPost("")]
         public Task Report()
         {
-            return _pusher.PushReport(Request.Body);
+            return _collector.Collect(Request.Body);
         }
     }
 }

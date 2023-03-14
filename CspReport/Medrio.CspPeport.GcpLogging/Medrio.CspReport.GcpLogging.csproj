@@ -9,12 +9,16 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Logging.V2" Version="4.0.0" />
-    <PackageReference Include="Medrio.BulkDataChannel" Version="100.0.227" />
+    <PackageReference Include="Medrio.BulkDataChannel" Version="100.0.229" />
     <PackageReference Include="Medrio.Infrastructure.Ioc" Version="100.0.198" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Medrio.CspReport\Medrio.CspReport.csproj" />
   </ItemGroup>
 
 </Project>

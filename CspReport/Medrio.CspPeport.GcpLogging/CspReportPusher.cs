@@ -2,28 +2,32 @@
 using Google.Cloud.Logging.Type;
 using Google.Cloud.Logging.V2;
 using Google.Protobuf.WellKnownTypes;
+using Medrio.BulkDataChannel;
 using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using static Google.Rpc.PreconditionFailure.Types;
 
 namespace Medrio.CspReport.GcpLogging
 {
-    public interface ICspReportPusher
-    {
-        Task PushReport(Stream body);
-    }
 
     [RegisterAs(typeof(ICspReportPusher), Lifetime = ServiceLifetime.Singleton)]
-    internal class CspReportPusher : ICspReportPusher
+    internal class CspReportGcpPusher : ICspReportPusher
     {
-        private readonly ILogger<CspReportPusher> _logger;
+        private readonly ILogger<CspReportGcpPusher> _logger;
         private readonly LoggingServiceV2Client _client;
         private readonly LogName _logName;
         private readonly MonitoredResource _resource;
         private readonly IDictionary<string, string> _entryLabels;
 
-        public CspReportPusher(IOptions<CspReportGcpOption> gcpLogOptionAccessor, IGcpLogPusherHelper helper, ILogger<CspReportPusher> logger)
+        private readonly IBufferedBulkDataChannel<string> _bulkDataChannel;
+
+        public CspReportGcpPusher(
+            IOptions<CspReportOption> cspReportOptionAccessor,
+            IOptions<CspReportGcpOption> gcpLogOptionAccessor, 
+            IGcpLogPusherHelper helper,
+            ILogger<CspReportGcpPusher> logger)
         {
             _logger = logger;
             CspReportGcpOption gcpLogOption = gcpLogOptionAccessor.Value;
@@ -37,13 +41,15 @@ namespace Medrio.CspReport.GcpLogging
             _logName = new LogName(gcpLogOption.GcpProjectId, gcpLogOption.GcpLogId);
             _entryLabels = helper.CreateEntryLabels(_logName);
             _client = LoggingServiceV2Client.Create();
+
+            var bufferTime = TimeSpan.FromMilliseconds(cspReportOptionAccessor.Value.BufferTimeInMs);
+            _bulkDataChannel = new BufferedBucketDataChannel<string>(cspReportOptionAccessor.Value.BufferSize,bufferTime);
         }
 
-        public async Task PushReport(Stream body)
+        public async Task Push(IList<string> violations)
         {
-            //TODO: optimize, push logs from  multiple posts, de-duplicate
-            LogEntry[] batch = await BuildLogEntry(body);
-            
+            LogEntry[] batch = violations.SelectMany(BuildLogEntry).ToArray();
+
             WriteLogEntriesResponse response = await _client.WriteLogEntriesAsync(
                 _logName,
                 _resource,
@@ -53,23 +59,15 @@ namespace Medrio.CspReport.GcpLogging
             _logger.LogInformation("GCP client log response is {response}", response.ToString());
         }
 
-        private async Task<LogEntry[]> BuildLogEntry(Stream body)
+        private LogEntry[] BuildLogEntry(string violation)
         {
-            string? result = null;
-
-            //if (body.CanSeek) body.Seek(0, SeekOrigin.Begin);
-            using (var reader = new StreamReader(body))  //pass stream direct to ListValue.Parser cause error, let get string first
-            {
-                result = await reader.ReadToEndAsync();
-            }
-
             try
             {
-                var parsed = ListValue.Parser.ParseJson(result);
-                return parsed.Values.Select(x => new LogEntry()
+                ListValue? parsed = ListValue.Parser.ParseJson(violation);
+                return parsed.Values.Select((Value x) => new LogEntry()
                 {
                     Severity = LogSeverity.Info,
-                    Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
+                    //Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
                     JsonPayload = x.StructValue
                 }).ToArray();
             }
@@ -80,9 +78,8 @@ namespace Medrio.CspReport.GcpLogging
                 {
                     new LogEntry()
                     {
-                        Severity = LogSeverity.Info,
-                        Timestamp = Timestamp.FromDateTime(DateTime.UtcNow), // must in UTC 
-                        TextPayload = result
+                        Severity = LogSeverity.Warning,
+                        TextPayload = violation
                     }
                 };
             }
