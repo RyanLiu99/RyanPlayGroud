@@ -15,7 +15,7 @@ namespace Medrio.CspReport.Controllers
         }
 
         [HttpGet("/")]
-        public string Index() => "Welcome to Medrio CSP report site.";
+        public string Index() => "Welcome to Medrio CSP report API.";
         
 
         [EnableCors(Constants.Cors_CspReportPolicy)]

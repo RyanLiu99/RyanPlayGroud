@@ -62,6 +62,7 @@ namespace Medrio.CspReport
                 try
                 {
                     _pusher.Push(distinct);
+                    _logger.LogInformation("Distinct() reduced from {from} to {to}", violations.Count, distinct.Length);
                 }
                 catch (Exception e)
                 {

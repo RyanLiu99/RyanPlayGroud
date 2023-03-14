@@ -9,13 +9,13 @@ WORKDIR /src
 COPY . .
 RUN dotnet restore "Medrio.CspReport.sln"
 
-WORKDIR "/src/Medrio.CspReport"
-RUN dotnet build "Medrio.CspReport.csproj" -c Release -o /app/build --no-restore
+WORKDIR "/src/Medrio.CspReport.Api"
+RUN dotnet build "Medrio.CspReport.Api.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Medrio.CspReport.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Medrio.CspReport.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Medrio.CspReport.dll"]
+ENTRYPOINT ["dotnet", "Medrio.CspReport.Api.dll"]

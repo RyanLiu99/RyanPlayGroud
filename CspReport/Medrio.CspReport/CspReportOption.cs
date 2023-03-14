@@ -26,7 +26,5 @@ namespace Medrio.CspReport
         [Required]
         [Range(0, 1800000)] // Max 30 minutes
         public double BufferTimeInMs { get; set; } = TimeSpan.FromMinutes(5).TotalMilliseconds;
-
-
     }
 }

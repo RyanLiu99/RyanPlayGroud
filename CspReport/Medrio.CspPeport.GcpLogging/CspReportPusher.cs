@@ -20,8 +20,6 @@ namespace Medrio.CspReport.GcpLogging
         private readonly MonitoredResource _resource;
         private readonly IDictionary<string, string> _entryLabels;
 
-        private readonly IBufferedBulkDataChannel<string> _bulkDataChannel;
-
         public CspReportGcpPusher(
             IOptions<CspReportOption> cspReportOptionAccessor,
             IOptions<CspReportGcpOption> gcpLogOptionAccessor, 
@@ -42,7 +40,6 @@ namespace Medrio.CspReport.GcpLogging
             _client = LoggingServiceV2Client.Create();
 
             var bufferTime = TimeSpan.FromMilliseconds(cspReportOptionAccessor.Value.BufferTimeInMs);
-            _bulkDataChannel = new BufferedBucketDataChannel<string>(cspReportOptionAccessor.Value.BufferSize,bufferTime);
         }
 
         public async Task Push(IList<string> violations)

@@ -16,6 +16,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddHostedService<CspPushService>();
 
 var app = builder.Build();
 app.Services.SetUpIocAdapter();
