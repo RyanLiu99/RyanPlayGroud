@@ -7,7 +7,6 @@ using Medrio.Infrastructure.Ioc.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using static Google.Rpc.PreconditionFailure.Types;
 
 namespace Medrio.CspReport.GcpLogging
 {

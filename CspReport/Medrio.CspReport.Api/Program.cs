@@ -1,6 +1,5 @@
 using Medrio.CspReport;
 using Medrio.Infrastructure.Ioc;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AutoRegisterServices(builder.Configuration);
