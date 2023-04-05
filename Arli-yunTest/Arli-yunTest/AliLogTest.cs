@@ -48,7 +48,7 @@ namespace Arli_yunTest
             var logInfo = new LogInfo();
             logInfo.Time = DateTimeOffset.UtcNow; //or DateTime.UtcNow; //or DateTime.Now; seems either way is fine and shown on aliyun as local time of PDT.
             logInfo.Contents.Add("method", "post");
-            logInfo.Contents.Add("body", "new pkgs");
+            logInfo.Contents.Add("body", "no extra pkgs");
             logInfo.Contents.Add("header", "header1");
             logInfo.Contents.Add("random", "random");
             logInfo.Contents.Add("header:colon", ":");
