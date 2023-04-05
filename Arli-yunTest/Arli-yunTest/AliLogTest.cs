@@ -54,6 +54,9 @@ namespace Arli_yunTest
             logInfo.Contents.Add("header:colon", ":");
             logInfo.Contents.Add("header/slash", "/");
             logInfo.Contents.Add("header.dot", "dot^");
+
+            //https://www.alibabacloud.com/help/en/log-service/latest/query-and-analyze-json-logs
+            //For JSON, you must enclose a field name in double quotation marks ("") and enclose a string in single quotation marks ('').
             logInfo.Contents.Add("json", @"
             {
                 ""a"": 666,
