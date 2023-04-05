@@ -46,20 +46,21 @@ namespace Arli_yunTest
 
             //all 3 headers just treated as regular string, nothing special
             var logInfo = new LogInfo();
-            logInfo.Time = DateTime.UtcNow; //DateTime.Now; seems either way is fine and shown on aliyun as local time of PDT.
-            logInfo.Contents.Add("method", "put");
+            logInfo.Time = DateTimeOffset.UtcNow; //or DateTime.UtcNow; //or DateTime.Now; seems either way is fine and shown on aliyun as local time of PDT.
+            logInfo.Contents.Add("method", "method1");
             logInfo.Contents.Add("body", "new  http body");
             logInfo.Contents.Add("header", "header1");
+            logInfo.Contents.Add("random", "random");
             logInfo.Contents.Add("header:colon", ":");
             logInfo.Contents.Add("header/slash", "/");
-            logInfo.Contents.Add("header.dot", ".");
+            logInfo.Contents.Add("header.dot", "dot^");
             logInfo.Contents.Add("json", @"
             {
-                'a': 666,
-                's': 'I am string',
-                'inside': {
-                    'total': 1,
-                    'items': [777]
+                ""a"": 666,
+                ""s"": 'I am string',
+                ""inside"": {
+                    ""total"": 1,
+                    ""items"": [777]
                 }
             }");
             logGroup.Logs.Add(logInfo);
