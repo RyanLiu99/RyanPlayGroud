@@ -13,8 +13,8 @@ namespace Arli_yunTest
         private const string endpoint = "us-west-1.log.aliyuncs.com";
         private const string projectName = "ryan-log-proj-1";
         private const string logstore = "ryan-logstore-1";
-        private const string accessKeyId = "LTAI5tE7pj2TkWZhgQEFcPua";
-        private const string accessKey = "ghAwibLAIDIIlbhdvP6siGF54LNQFu";
+        private const string accessKeyId = "LTAI5t5sc1UeNsh44gGvF1yi";
+        private const string accessKey = "QOcUCHDapSvsiAo6C76Ue8mKvcfdJb";
         
         [SetUp]
         public void Setup()
@@ -47,8 +47,8 @@ namespace Arli_yunTest
             //all 3 headers just treated as regular string, nothing special
             var logInfo = new LogInfo();
             logInfo.Time = DateTimeOffset.UtcNow; //or DateTime.UtcNow; //or DateTime.Now; seems either way is fine and shown on aliyun as local time of PDT.
-            logInfo.Contents.Add("method", "method1");
-            logInfo.Contents.Add("body", "new  http body");
+            logInfo.Contents.Add("method", "post");
+            logInfo.Contents.Add("body", "new pkgs");
             logInfo.Contents.Add("header", "header1");
             logInfo.Contents.Add("random", "random");
             logInfo.Contents.Add("header:colon", ":");
