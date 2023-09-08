@@ -2,7 +2,7 @@
 
 namespace Log.Imp.DotNetStandardHttp
 {
-    public class Class1
+    public class LoggerFramework
     {
 
     }
