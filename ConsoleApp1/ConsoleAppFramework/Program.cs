@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleAppFramework
 {
@@ -11,24 +14,38 @@ namespace ConsoleAppFramework
         static async Task Main(string[] args)
         {
             Console.WriteLine("ConsoleAppFramework start...");
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            //  new TestAsyncLocal().Test();
+
+            await TestException();
+
+        }
+
+        private static async Task TestException()
+        {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException; //does not work, caught nothing
+            Process.GetCurrentProcess().ErrorDataReceived += Program_ErrorDataReceived; //does not work, caught nothing
             try
             {
-                //  new TestAsyncLocal().Test();
-
                 await new TestAsyncLambdaReturnTypeAndException().TestTask();
                 new TestAsyncLambdaReturnTypeAndException().TestAsyncVoid();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Main caught exception:" + e);
+                Console.WriteLine("Main caught exception:" + e.Message);
+            }
+
+            void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+            {
+                Console.WriteLine("CurrentDomain____UnhandledException: " + e.ToString());
+            }
+
+            void Program_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+            {
+                Console.WriteLine("Program____ErrorDataReceived: " + e.ToString());
             }
         }
 
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Console.WriteLine("CurrentDomain_UnhandledException: " + e.ToString());
-            
-        }
+        
     }
 }

@@ -17,14 +17,14 @@ namespace ConsoleAppFramework
             {
                 RunVoidAsync(async () =>
                 {
-                    Console.WriteLine("RunVoidAsync");
+                    Console.WriteLine("RunVoidAsync starts ...");
                     await Task.Delay(1);
-                    throw new Exception("RunVoidAsync");
+                    throw new Exception("RunVoidAsync ex");
                 });
             }
             catch (Exception e)
             {
-                Console.WriteLine("RunVoidAsync exception: " +  e);
+                Console.WriteLine("RunVoidAsync exception caught: " +  e.Message);
                 
             }
         }
@@ -36,14 +36,14 @@ namespace ConsoleAppFramework
             {
                 await RunTask(async () =>
                 {
-                    Console.WriteLine("RunTask");
+                    Console.WriteLine("RunTask starts...");
                     await Task.Delay(1);
-                    throw new Exception("RunTask");
+                    throw new Exception("RunTask Ex");
                 });
             }
             catch (Exception e)
             {
-                Console.WriteLine("RunVoidAsync exception: " + e);
+                Console.WriteLine("RunTask exception caught: " + e.Message);
                 
 
             }
