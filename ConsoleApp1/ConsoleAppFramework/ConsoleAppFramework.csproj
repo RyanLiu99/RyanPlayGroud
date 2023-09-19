@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ConsoleAppFramework</RootNamespace>
     <AssemblyName>ConsoleAppFramework</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestAsyncLambdaReturnTypeAndException.cs" />
     <Compile Include="TestAsyncLocal.cs" />
   </ItemGroup>
   <ItemGroup>
