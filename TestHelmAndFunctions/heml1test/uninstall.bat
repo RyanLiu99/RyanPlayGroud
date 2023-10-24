@@ -1,0 +1,1 @@
+helm uninstall ryanhem1test --namespace ryantest
