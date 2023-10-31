@@ -27,7 +27,7 @@ namespace ConsoleAppFramework
 
             t1.AssureEnd();
             t2.AssureEnd();
-            Console.WriteLine( $"==== AsyncLocal value in Main is {TestAsyncLocalInThreads.LocalAsync.Value}");
+            Console.WriteLine( $"==== AsyncLocal value in Main is {TestAsyncLocalInThreads.LocalAsync.Value} sine it was set in main thread");
 
         }
 
