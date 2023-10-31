@@ -48,6 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAsyncLambdaReturnTypeAndException.cs" />
     <Compile Include="TestAsyncLocal.cs" />
+    <Compile Include="TestAsyncLocalInThreads.cs" />
+    <Compile Include="TestAsyncLocalInTasks.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

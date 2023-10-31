@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleAppFramework
 {
@@ -17,7 +16,18 @@ namespace ConsoleAppFramework
 
             //  new TestAsyncLocal().Test();
 
-            await TestException();
+            //  await TestException();
+
+            var t1 = new TestAsyncLocalInThreads("Test1");
+                t1.Test();
+            var t2 = new TestAsyncLocalInThreads("Test2");
+                t2.Test();
+
+            new TestAsyncLocalInTasks("Task1").Test();
+
+            t1.AssureEnd();
+            t2.AssureEnd();
+            Console.WriteLine( $"==== AsyncLocal value in Main is {TestAsyncLocalInThreads.LocalAsync.Value}");
 
         }
 
