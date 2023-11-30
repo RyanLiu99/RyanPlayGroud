@@ -13,7 +13,7 @@ namespace AmbientContext.Shared.DotNetStandardLib
 
             Assert(medrioPrincipal!.Study != null, "Can not get study back from thread!");
 
-            Assert(medrioPrincipal!.Study!.ID == expectedStudyId, $"StudyId expected {expectedStudyId}, but got {medrioPrincipal.Study.ID}");
+            Assert(medrioPrincipal!.Study!.ID == expectedStudyId, $"StudyId expected {expectedStudyId}, but got {medrioPrincipal.Study.ID}");  // +1 to test
         }
 
         public static void Assert(bool condition, string message)

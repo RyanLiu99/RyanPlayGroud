@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -41,8 +42,12 @@ namespace AmbientContextDotNetFrameworkWebLib
         private void Context_EndRequest(object sender, EventArgs e)
         {
             var context = ((HttpApplication)sender).Context;
-            
-            TestHelper.Verify(context);
+            var notVerifyAtEnd = context.Request.QueryString.AllKeys.Contains("notVerifyAtEndRequest");
+
+            if (notVerifyAtEnd)
+                return;  // for tests that try to change study
+            else 
+                TestHelper.Verify(context); 
         }
 
         public void Dispose()

@@ -8,6 +8,11 @@ namespace AmbientContextDotNetFrameworkWebLib
     {
         public static RequestData GetDataFromRequest(HttpRequest request)
         {
+            return GetDataFromRequest(new HttpRequestWrapper(request));
+        }
+
+        public static RequestData GetDataFromRequest(HttpRequestBase request)
+        {
             return new RequestData(
                 request.QueryString["userName"],
                 long.Parse(request.QueryString["studyId"])
@@ -15,6 +20,11 @@ namespace AmbientContextDotNetFrameworkWebLib
         }
 
         public static void Verify(HttpContext ctx)
+        {
+            Verify(new HttpContextWrapper(ctx));
+        }
+
+        public static void Verify(HttpContextBase ctx)
         {
             if (!AuthHelper.IsMainRequest(ctx.Request.Url.AbsolutePath)) return;
 

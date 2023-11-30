@@ -29,6 +29,7 @@ namespace AmbientContext.Shared.DotNetStandardLib
             var study = new ResearchStudy(data.StudyId);
             var principal = new MedrioPrincipal(user, study);
             Thread.CurrentPrincipal = principal;
+            ThreadDataStore.AddObject(ThreadDataStoreCommonKeys.Study, study);
         }
 
         public static async Task SetStudyAsync(long studyId)
@@ -36,6 +37,7 @@ namespace AmbientContext.Shared.DotNetStandardLib
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             var principal = GetCurrentPrincipal();
             principal.Study = new ResearchStudy(studyId);
+            ThreadDataStore.AddObject(ThreadDataStoreCommonKeys.Study, principal.Study);
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
         }
 
@@ -47,6 +49,14 @@ namespace AmbientContext.Shared.DotNetStandardLib
         public static long GetCurrentStudyId()
         {
             return GetCurrentPrincipal().Study.ID;
+        }
+
+        public static async Task OverwriteStudyIdInManualTask(long newStudyId)
+        {
+            await Task.Run(async () =>
+            {
+                await AuthHelper.SetStudyAsync(newStudyId).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
     }
 }
