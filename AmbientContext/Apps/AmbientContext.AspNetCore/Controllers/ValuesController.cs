@@ -12,40 +12,29 @@ namespace AmbientContext_AspNetCore.Controllers
     {
         // GET: api/<ValuesController>
         [HttpGet]
-        public async Task<object> Get()
+        public async Task<long> Get()
         {
-            var principal = (MedrioPrincipal)Thread.CurrentPrincipal;
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
-            return new { userName = principal.User.UserName, studyId = principal.Study.ID };
+            return AuthHelper.GetCurrentStudyId();
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{studyId}")]
-        public async Task<object> Get(string userName, long studyId)
+        public async Task<long> Get(long studyId)
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
-            var principal = (MedrioPrincipal)Thread.CurrentPrincipal;
-            var oldStudyId = principal?.Study?.ID;
-            principal.Study.ID = studyId;
-            return new { userName= principal.User.UserName, studyId= principal.Study.ID, oldStudyId };
+            await AuthHelper.SetStudyAsync(studyId);
+            await AsyncActor.DoSthAsync().ConfigureAwait(false);
+
+            return AuthHelper.GetCurrentStudyId();
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<long> Post([FromBody] string value)
         {
-        }
-
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            await AsyncActor.DoSthAsync().ConfigureAwait(false);
+            return AuthHelper.GetCurrentStudyId();
         }
     }
 }

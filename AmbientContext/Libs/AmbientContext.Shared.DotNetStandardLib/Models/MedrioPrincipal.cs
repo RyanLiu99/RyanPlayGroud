@@ -17,7 +17,7 @@ namespace AmbientContext.Shared.DotNetStandardLib.Models
             User = user;
         }
 
-        public ResearchStudy? Study { get; }
+        public ResearchStudy? Study { get; set; }
 
         public User User { get; }
 

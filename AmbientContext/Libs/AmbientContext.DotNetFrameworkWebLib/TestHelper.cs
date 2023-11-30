@@ -16,11 +16,11 @@ namespace AmbientContextDotNetFrameworkWebLib
 
         public static void Verify(HttpContext ctx)
         {
-            if (!Verifier.IsVerifyRequired(ctx.Request.Url.AbsolutePath)) return;
+            if (!AuthHelper.IsMainRequest(ctx.Request.Url.AbsolutePath)) return;
 
             var data = TestHelper.GetDataFromRequest(ctx.Request);
 
-            Verifier.VerifyAgainstThreadData(ctx.Request.Url.AbsolutePath, data.StudyId);
+            Verifier.VerifyThreadData(data.StudyId);
         }
     }
 }

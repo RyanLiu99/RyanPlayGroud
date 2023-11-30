@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using AmbientContext.Shared.DotNetStandardLib.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AmbientContext.Shared.DotNetStandardLib
 {
@@ -6,11 +8,8 @@ namespace AmbientContext.Shared.DotNetStandardLib
     {
         public static async Task DoSthAsync()
         {
-            
             await Task.Delay(10);
-
             await Task.Delay(10).ConfigureAwait(false);
-         
         }
     }
 }

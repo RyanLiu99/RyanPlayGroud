@@ -16,12 +16,16 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseDeveloperExceptionPage();
-app.UseMiddleware<AuthMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<AuthMiddleware>();
+
 app.UseStaticFiles();
 
+
 app.UseRouting();
+
 
 app.UseAuthorization();
 

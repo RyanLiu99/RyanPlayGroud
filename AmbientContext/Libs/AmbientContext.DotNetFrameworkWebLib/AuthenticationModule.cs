@@ -26,7 +26,7 @@ namespace AmbientContextDotNetFrameworkWebLib
 
             Verifier.Assert(HttpContext.Current == null, "After async call, HttpContext.Current should be null but not.");
 
-            if (!Verifier.IsVerifyRequired(ctx.Request.Url.AbsolutePath)) return;
+            if (!AuthHelper.IsMainRequest(ctx.Request.Url.AbsolutePath)) return;
 
             var data = TestHelper.GetDataFromRequest(ctx.Request);
 
