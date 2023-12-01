@@ -30,7 +30,7 @@ namespace AmbientContextDotNetFrameworkWebLib
 
             var data = TestHelper.GetDataFromRequest(ctx.Request);
 
-            Verifier.VerifyThreadData(data.StudyId);
+            Verifier.VerifyContextData(data.StudyId);
         }
     }
 }

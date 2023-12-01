@@ -43,7 +43,7 @@ namespace AmbientContextWebForm.Controllers
                 try
                 {
                     TestHelper.Verify(this.HttpContext);
-                    Verifier.VerifyThreadData((long)expectedStudyId);  // +2 to test
+                    Verifier.VerifyContextData((long)expectedStudyId);  // +2 to test
                 }
                 catch (Exception e)
                 {
@@ -76,7 +76,7 @@ namespace AmbientContextWebForm.Controllers
             
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-            Verifier.VerifyThreadData((long)newStudyId);
+            Verifier.VerifyContextData((long)newStudyId);
 
             return Content(AuthHelper.GetCurrentStudyId().ToString());
         }
@@ -94,7 +94,7 @@ namespace AmbientContextWebForm.Controllers
            
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-            Verifier.VerifyThreadData((long)newStudyId);
+            Verifier.VerifyContextData((long)newStudyId);
 
             return Content(AuthHelper.GetCurrentStudyId().ToString());
         }

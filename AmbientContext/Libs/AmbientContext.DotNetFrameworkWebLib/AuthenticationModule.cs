@@ -12,20 +12,42 @@ namespace AmbientContextDotNetFrameworkWebLib
     {
         public void Init(HttpApplication context)
         {
-            var wrapper = new EventHandlerTaskAsyncHelper(AuthAsync);
-            context.AddOnAuthenticateRequestAsync(wrapper.BeginEventHandler, wrapper.EndEventHandler);
+            #region chose either one
+            //1, this one works
+            context.AuthenticateRequest += Context_AuthenticateRequest;
+
+            //2, this one will make Context_EndRequest cannot access data in ThreadDataStore, but always can access data in Thread.Principle 
+            //no matter there is await code in AuthAsync() or not
+            //var wrapper = new EventHandlerTaskAsyncHelper(AuthAsync);
+            //context.AddOnAuthenticateRequestAsync(wrapper.BeginEventHandler, wrapper.EndEventHandler);
+            #endregion
+
             context.EndRequest += Context_EndRequest;
         }
 
+        private void Context_AuthenticateRequest(object sender, EventArgs e)
+        {
+            var app = (HttpApplication)sender;
+            var ctx = app.Context;
+
+            if (!AuthHelper.IsMainRequest(ctx.Request.Url.AbsolutePath)) return;
+
+            var data = TestHelper.GetDataFromRequest(ctx.Request);
+
+            AuthHelper.SetThreadData(data);
+
+            ctx.User = Thread.CurrentPrincipal;
+
+            TestHelper.Verify(ctx);
+        }
 
         async Task AuthAsync(object sender, EventArgs e)
         {
             var app = (HttpApplication)sender;
             var ctx = app.Context;
 
-            await AsyncActor.DoSthAsync().ConfigureAwait(false);
-
-            Verifier.Assert(HttpContext.Current == null, "After async call, HttpContext.Current should be null but not.");
+            //await AsyncActor.DoSthAsync().ConfigureAwait(false);
+            //Verifier.Assert(HttpContext.Current == null, "After async call, HttpContext.Current should be null but not.");
 
             if (!AuthHelper.IsMainRequest(ctx.Request.Url.AbsolutePath)) return;
 
@@ -33,7 +55,7 @@ namespace AmbientContextDotNetFrameworkWebLib
 
            AuthHelper.SetThreadData(data);
            
-           await AsyncActor.DoSthAsync().ConfigureAwait(false);
+           //await AsyncActor.DoSthAsync().ConfigureAwait(false);
             ctx.User = Thread.CurrentPrincipal;
 
             TestHelper.Verify(ctx);

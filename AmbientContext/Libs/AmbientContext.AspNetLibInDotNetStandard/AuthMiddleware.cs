@@ -27,7 +27,7 @@ namespace AmbientContext.AspNetLibInDotNetStandard
                 AuthHelper.SetThreadData(data);
                 await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-                Verifier.VerifyThreadData(data.StudyId);
+                Verifier.VerifyContextData(data.StudyId);
                 await _next(context).ConfigureAwait(false);
             }
             catch (Exception ex) 
