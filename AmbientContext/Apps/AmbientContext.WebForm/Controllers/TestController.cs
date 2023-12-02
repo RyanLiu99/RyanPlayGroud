@@ -64,7 +64,7 @@ namespace AmbientContextWebForm.Controllers
             }
         }
 
-        [System.Web.Mvc.HttpPut]
+        [System.Web.Mvc.HttpGet]
         public async Task<ContentResult> UpdateStudyIdBy5000()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
@@ -81,7 +81,7 @@ namespace AmbientContextWebForm.Controllers
             return Content(AuthHelper.GetCurrentStudyId().ToString());
         }
 
-        [System.Web.Mvc.HttpPut]
+        [System.Web.Mvc.HttpGet]
         public async Task<ContentResult> UpdateStudyIdBy5000InTask()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);

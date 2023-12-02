@@ -290,7 +290,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\AmbientContext.DotNetFrameworkWebLib\AmbientContext.DotNetFrameworkWebLib.csproj">
       <Project>{46019aa8-f123-4159-9b85-469b39f7db37}</Project>
-      <Name>AmbientContextDotNetFrameworkWebLib</Name>
+      <Name>AmbientContext.DotNetFrameworkWebLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libs\AmbientContext.Shared.DotNetStandardLib\AmbientContext.Shared.DotNetStandardLib.csproj">
       <Project>{AE7D890C-7942-467C-B571-CB27A694B92E}</Project>

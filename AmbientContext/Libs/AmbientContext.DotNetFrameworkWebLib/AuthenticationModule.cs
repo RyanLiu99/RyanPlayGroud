@@ -13,13 +13,13 @@ namespace AmbientContextDotNetFrameworkWebLib
         public void Init(HttpApplication context)
         {
             #region chose either one
-            //1, this one works
-            context.AuthenticateRequest += Context_AuthenticateRequest;
+            //1, this one works for aspx file, but for MVC controller, still cannot get study back from store
+            //context.AuthenticateRequest += Context_AuthenticateRequest;
 
             //2, this one will make Context_EndRequest cannot access data in ThreadDataStore, but always can access data in Thread.Principle 
             //no matter there is await code in AuthAsync() or not
-            //var wrapper = new EventHandlerTaskAsyncHelper(AuthAsync);
-            //context.AddOnAuthenticateRequestAsync(wrapper.BeginEventHandler, wrapper.EndEventHandler);
+            var wrapper = new EventHandlerTaskAsyncHelper(AuthAsync);
+            context.AddOnAuthenticateRequestAsync(wrapper.BeginEventHandler, wrapper.EndEventHandler);
             #endregion
 
             context.EndRequest += Context_EndRequest;
@@ -46,16 +46,16 @@ namespace AmbientContextDotNetFrameworkWebLib
             var app = (HttpApplication)sender;
             var ctx = app.Context;
 
-            //await AsyncActor.DoSthAsync().ConfigureAwait(false);
-            //Verifier.Assert(HttpContext.Current == null, "After async call, HttpContext.Current should be null but not.");
+            await AsyncActor.DoSthAsync().ConfigureAwait(false);
+            Verifier.Assert(HttpContext.Current == null, "After async call, HttpContext.Current should be null but not.");
 
             if (!AuthHelper.IsMainRequest(ctx.Request.Url.AbsolutePath)) return;
 
             var data = TestHelper.GetDataFromRequest(ctx.Request);
 
-           AuthHelper.SetThreadData(data);
-           
-           //await AsyncActor.DoSthAsync().ConfigureAwait(false);
+            AuthHelper.SetThreadData(data);
+
+            await AsyncActor.DoSthAsync().ConfigureAwait(false);
             ctx.User = Thread.CurrentPrincipal;
 
             TestHelper.Verify(ctx);
