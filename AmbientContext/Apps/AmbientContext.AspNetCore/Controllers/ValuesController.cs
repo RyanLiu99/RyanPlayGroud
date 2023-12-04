@@ -34,8 +34,9 @@ namespace AmbientContext_AspNetCore.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task<long> Post([FromBody] string value)
+        public async Task<long> Post()
         {
+            var body = Request.ContentLength;
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             return AuthHelper.GetCurrentStudyIdFromThread();
         }
