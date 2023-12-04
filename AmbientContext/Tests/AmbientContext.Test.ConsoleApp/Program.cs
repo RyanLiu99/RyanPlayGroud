@@ -1,4 +1,5 @@
-﻿using static System.Net.Mime.MediaTypeNames;
+﻿using System.Buffers;
+using static System.Net.Mime.MediaTypeNames;
 
 await TestIISUrls().ConfigureAwait(false);
 await TestDotNet6Urls().ConfigureAwait(false);
@@ -54,8 +55,10 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
     var tasks = Enumerable.Range(0, n).Select(i =>
     {
         var studyId = i;
-
-        var task = httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(httpMethod), string.Format(subUrlTemplate, studyId)));
+        string uri = string.Format(subUrlTemplate, studyId);
+        var task = !httpMethod.Equals("POST")
+            ? httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(httpMethod), uri))
+            : httpClient.PostAsync(uri, new StringContent( new string('a', 20000000)));   
 
         var taskTask = task.ContinueWith(async (t, studyIdState) =>
         {

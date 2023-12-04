@@ -36,7 +36,9 @@ namespace AmbientContext_AspNetCore.Controllers
         [HttpPost]
         public async Task<long> Post()
         {
-            var body = Request.ContentLength;
+            var bodyLength = Request.ContentLength;
+            //var body = await Request.BodyReader.ReadAsync();
+            
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             return AuthHelper.GetCurrentStudyIdFromThread();
         }
