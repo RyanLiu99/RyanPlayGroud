@@ -1,10 +1,12 @@
 ﻿using static System.Net.Mime.MediaTypeNames;
 
-await TestIISUrls();
+await TestIISUrls().ConfigureAwait(false);
+await TestDotNet6Urls().ConfigureAwait(false);
 
 async Task TestIISUrls()
 {
-    Console.WriteLine("Start test IIS");
+    Console.Clear();
+    Console.WriteLine(" =========================== Start test IIS ... ==========================");
 
     var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://ambientcontextwebform.local.medrio.com:8443/");
@@ -15,17 +17,34 @@ async Task TestIISUrls()
         ("Test/CheckInTask?userName=Ryan&studyId={0}", null),
         ("Test/CheckInThread?userName=Ryan&studyId={0}", null),
         ("Test/UpdateStudyIdBy5000?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 ),
-        ("Test/UpdateStudyIdBy5000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 )
+        ("Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 )
     };
 
     var tests = from t in subUrlTemplates
-        select TestIISUrl(httpClient, 60, t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 60, t.template, t.studyIdVerifier);
     await Task.WhenAll(tests).ConfigureAwait(false);
 }
 
-async Task TestIISUrl(HttpClient httpClient, int n, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier  = null)
+async Task TestDotNet6Urls()
 {
-    Console.WriteLine($"Start test IIS {subUrlTemplate} .........");
+    Console.WriteLine(" ==========================Start test .NET 6 endpoints ... ==========================");
+
+    var httpClient = new HttpClient();
+    httpClient.BaseAddress = new Uri("https://localhost:7062/api/");
+
+    (string template, Func<int, int, bool>? studyIdVerifier)[] subUrlTemplates = new (string template, Func<int, int, bool>? studyIdVerifier)[] {
+        ("Values?userName=Ryan&StudyId={0}", null),
+        ("Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135)
+    };
+
+    var tests = from t in subUrlTemplates
+        select TestEndpoint(httpClient, 60, t.template, t.studyIdVerifier);
+    await Task.WhenAll(tests).ConfigureAwait(false);
+}
+
+async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier  = null)
+{
+    Console.WriteLine($"Start test ep {subUrlTemplate} .........");
     studyIdVerifier ??= (int passIn, int result) => passIn == result;
 
     var results = new (int studyId, bool isOk, int studyIdResult, string? message)[n];
@@ -73,7 +92,7 @@ async Task TestIISUrl(HttpClient httpClient, int n, string subUrlTemplate, Func<
         }
         else
         {
-            Console.WriteLine($"All {n} good for IIS - {subUrlTemplate} <<<<<<<<<<<<<<<< ");
+            Console.WriteLine($"All {n} good for ep - {httpClient.BaseAddress}{subUrlTemplate} <<<<<<<<<<<<<<<< ");
         }
     }
 

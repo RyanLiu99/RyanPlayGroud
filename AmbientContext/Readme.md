@@ -1,22 +1,30 @@
-# This demo is to show Thread and AsyncLocal works in all environments.  
+# This demo is to test Thread and AsyncLoca in all environments.  
+* Thread works everywhere in any environments in any case.
+* AsyncLocal works in .NET Core/.NET 5+, but does not in all cases in classic ASP.NET 
+  - For web forms/http modules, cannot get data back from AsyncLocal after async life event handler
+  - For mix of async MVC action + HttpModule, Context_EndRequest in http module cannot get data from AsyncLocal
 
-In all kinds of applications/ environments, in httpModules (.NET framework) or middleware (.NET/Core), it get studyId 
+# How it works
+In all kinds of applications/ environments, in httpModules (.NET framework) or middleware (.NET/Core), its get studyId 
 and user name from query string, and set them into Thread using the shared library.
 
 After various async calls, finally it can still return studyId.  So you can verify it on the client side.
 
-For each call, it is also veriified on the server side at various points.
+For each call, it is also compare data in Thread and AsyncLocal againt data in query string on the server side at various points:
 
 	* .NET framework
 	  - OnAuthenticateRequest
-	  - OnEndRequest
+	  - OnEndRequest  (Exceptions apply)
 	  - On Page_Load (.aspx only) 
 	* .NET / Core
-	  - In a custom Middleware
+	  - In a custom Middleware, before and after (exceptions apply) call next middleware.
     * In Both
 	  - In Applicaton code, in a manually created Task or Thread
 
-If expected threadId is not found in the current threrad, an exception will be thrown and propagate to the caller 
+If the code further change data in Thread or AsyncLocal, then no verification at OnEndRequest or after calling next middle ware.
+
+Along the way, .ConfigureAwait(false) is used at many places.  
+If expected data is not found in the current thread, an exception will be thrown and propagate to the caller 
 (e.g. browser or Postman).  To see that, you can temporariliy change this line in   
 
 > AmbientContext\Libs\AmbientContext.Shared.DotNetStandardLib\Verifier.cs  
@@ -43,6 +51,8 @@ Two main hosting models we have for production.
 * Libs\AmbientContext.Shared.DotNetStandardLib -- main lib, used by both .NET framework and .NET/Core apps
 * Libs\AmbientContext.DotNetFrameworkWebLib -- .NET framework lib, mainly contains httpModule
 * Libs\AmbientContext.AspNetLibInDotNetStandard -- written in .NET standard, by used by .NET/core app only, mainly contains middleware
+ 
+## Tests
 
 	 
 # End Points 

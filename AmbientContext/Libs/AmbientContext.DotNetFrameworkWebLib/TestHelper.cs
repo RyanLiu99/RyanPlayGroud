@@ -30,7 +30,8 @@ namespace AmbientContextDotNetFrameworkWebLib
 
             var data = TestHelper.GetDataFromRequest(ctx.Request);
 
-            Verifier.VerifyContextData(data.StudyId);
+            Verifier.VerifyThreadData(data.StudyId);
+            // Verifier.VerifyStoreData(data.StudyId); //Can not get study back from store!
         }
     }
 }

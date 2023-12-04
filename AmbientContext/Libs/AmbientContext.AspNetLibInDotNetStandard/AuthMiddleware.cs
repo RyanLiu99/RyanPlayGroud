@@ -27,8 +27,18 @@ namespace AmbientContext.AspNetLibInDotNetStandard
                 AuthHelper.SetThreadData(data);
                 await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-                Verifier.VerifyContextData(data.StudyId);
+                Verifier.VerifyThreadData(data.StudyId);
+                Verifier.VerifyStoreData(data.StudyId);
+
                 await _next(context).ConfigureAwait(false);
+
+                var notVerifyAtEnd = context.Request.Query.ContainsKey("notVerifyAtEndRequest");
+
+                if (!notVerifyAtEnd) // studyId manually changed, not long as the one in query string
+                {
+                    Verifier.VerifyThreadData(data.StudyId);
+                    Verifier.VerifyStoreData(data.StudyId);
+                }
             }
             catch (Exception ex) 
             {

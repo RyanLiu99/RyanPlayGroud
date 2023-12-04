@@ -66,9 +66,7 @@ namespace AmbientContextDotNetFrameworkWebLib
             var context = ((HttpApplication)sender).Context;
             var notVerifyAtEnd = context.Request.QueryString.AllKeys.Contains("notVerifyAtEndRequest");
 
-            if (notVerifyAtEnd)
-                return;  // for tests that try to change study
-            else 
+            if (!notVerifyAtEnd)
                 TestHelper.Verify(context); 
         }
 

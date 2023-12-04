@@ -43,7 +43,6 @@ namespace AmbientContextWebForm.Controllers
                 try
                 {
                     TestHelper.Verify(this.HttpContext);
-                    Verifier.VerifyContextData((long)expectedStudyId);  // +2 to test
                 }
                 catch (Exception e)
                 {
@@ -76,25 +75,27 @@ namespace AmbientContextWebForm.Controllers
             
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-            Verifier.VerifyContextData((long)newStudyId);
+            Verifier.VerifyThreadData(newStudyId); 
+            // Verifier.VerifyStoreData(newStudyId); //Can not get study back from store!
 
             return Content(AuthHelper.GetCurrentStudyId().ToString());
         }
 
         [System.Web.Mvc.HttpGet]
-        public async Task<ContentResult> UpdateStudyIdBy5000InTask()
+        public async Task<ContentResult> UpdateStudyIdBy3000InTask()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             TestHelper.Verify(this.HttpContext);
             var queryStudyId = TestHelper.GetDataFromRequest(Request).StudyId;
 
-            long newStudyId = queryStudyId + 5000;
+            long newStudyId = queryStudyId + 3000;
 
             await AuthHelper.OverwriteStudyIdInManualTask(newStudyId).ConfigureAwait(false);
            
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-            Verifier.VerifyContextData((long)newStudyId);
+            Verifier.VerifyThreadData(newStudyId);
+            // Verifier.VerifyStoreData(newStudyId); //Can not get study back from store!
 
             return Content(AuthHelper.GetCurrentStudyId().ToString());
         }
