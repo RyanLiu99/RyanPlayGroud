@@ -3,7 +3,7 @@ using System.Linq;
 using AmbientContext.Shared.DotNetStandardLib.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace AmbientContext.AspNetLibInDotNetStandard
+namespace AmbientContext.AspNetCoreLibInDotNetStandard
 {
     public class TestHelper
     {

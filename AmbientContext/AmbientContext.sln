@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{53063C50-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{1D0D1A96-EEAA-42BE-BD74-2610BA198A64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbientContext.AspNetLibInDotNetStandard", "Libs\AmbientContext.AspNetLibInDotNetStandard\AmbientContext.AspNetLibInDotNetStandard.csproj", "{E9FBA5C8-FC2B-42DF-AA16-2B9F008915B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbientContext.AspNetCoreLibInDotNetStandard", "Libs\AmbientContext.AspNetLibInDotNetStandard\AmbientContext.AspNetCoreLibInDotNetStandard.csproj", "{E9FBA5C8-FC2B-42DF-AA16-2B9F008915B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.DotNetFrameworkWebLib", "Libs\AmbientContext.DotNetFrameworkWebLib\AmbientContext.DotNetFrameworkWebLib.csproj", "{46019AA8-F123-4159-9B85-469B39F7DB37}"
 EndProject
@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9B59B42E-17D0-4865-A6FE-F73B25231F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbientContext.Test.ConsoleApp", "Tests\AmbientContext.Test.ConsoleApp\AmbientContext.Test.ConsoleApp.csproj", "{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbientContext.Test.ConsoleApp", "Tests\AmbientContext.Test.ConsoleApp\AmbientContext.Test.ConsoleApp.csproj", "{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using AmbientContext.Shared.DotNetStandardLib;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 
-namespace AmbientContext.AspNetLibInDotNetStandard
+namespace AmbientContext.AspNetCoreLibInDotNetStandard
 {
     public class AuthMiddleware
     {

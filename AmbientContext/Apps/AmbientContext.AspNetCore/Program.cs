@@ -1,4 +1,4 @@
-using AmbientContext.AspNetLibInDotNetStandard;
+using AmbientContext.AspNetCoreLibInDotNetStandard;
 
 var builder = WebApplication.CreateBuilder(args);
 
