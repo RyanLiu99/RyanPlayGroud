@@ -76,7 +76,7 @@ namespace AmbientContextWebForm.Controllers
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
             Verifier.VerifyThreadData(newStudyId); 
-            // Verifier.VerifyStoreData(newStudyId); //Can not get study back from store!
+            Verifier.VerifyStoreData(newStudyId); //Can not get study back from store if use asyncLocal version ThreadDataStore imp
 
             return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
         }
@@ -95,7 +95,7 @@ namespace AmbientContextWebForm.Controllers
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
             Verifier.VerifyThreadData(newStudyId);
-            // Verifier.VerifyStoreData(newStudyId); //Can not get study back from store!
+            Verifier.VerifyStoreData(newStudyId); //Can not get study back from store if use asyncLocal version ThreadDataStore imp
 
             return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
         }
