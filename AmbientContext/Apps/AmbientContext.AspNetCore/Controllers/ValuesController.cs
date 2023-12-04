@@ -14,7 +14,7 @@ namespace AmbientContext_AspNetCore.Controllers
         public async Task<long> Get()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
-            return AuthHelper.GetCurrentStudyId();
+            return AuthHelper.GetCurrentStudyIdFromThread();
         }
 
         // GET api/<ValuesController>/5
@@ -22,10 +22,14 @@ namespace AmbientContext_AspNetCore.Controllers
         public async Task<long> Get(long studyId)
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
-            await AuthHelper.SetStudyAsync(studyId);
+            await AuthHelper.ChangeThreadStudyAsync(studyId); //over write study from query string with value from route data
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
-            return AuthHelper.GetCurrentStudyId();
+
+            Verifier.VerifyThreadData(studyId);
+            Verifier.VerifyStoreData(studyId);
+
+            return AuthHelper.GetCurrentStudyIdFromThread();
         }
 
         // POST api/<ValuesController>
@@ -33,7 +37,7 @@ namespace AmbientContext_AspNetCore.Controllers
         public async Task<long> Post([FromBody] string value)
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
-            return AuthHelper.GetCurrentStudyId();
+            return AuthHelper.GetCurrentStudyIdFromThread();
         }
     }
 }

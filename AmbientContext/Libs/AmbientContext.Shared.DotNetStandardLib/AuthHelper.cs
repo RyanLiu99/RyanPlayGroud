@@ -32,7 +32,7 @@ namespace AmbientContext.Shared.DotNetStandardLib
             ThreadDataStore.AddObject(ThreadDataStoreCommonKeys.Study, study);
         }
 
-        public static async Task SetStudyAsync(long studyId)
+        public static async Task ChangeThreadStudyAsync(long studyId)
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             var principal = GetCurrentPrincipal();
@@ -46,16 +46,16 @@ namespace AmbientContext.Shared.DotNetStandardLib
             return (MedrioPrincipal)Thread.CurrentPrincipal;
         }
 
-        public static long GetCurrentStudyId()
+        public static long GetCurrentStudyIdFromThread()
         {
             return GetCurrentPrincipal().Study.ID;
         }
 
-        public static async Task OverwriteStudyIdInManualTask(long newStudyId)
+        public static async Task OverwriteThreadStudyIdInManualTask(long newStudyId)
         {
             await Task.Run(async () =>
             {
-                await AuthHelper.SetStudyAsync(newStudyId).ConfigureAwait(false);
+                await AuthHelper.ChangeThreadStudyAsync(newStudyId).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
     }

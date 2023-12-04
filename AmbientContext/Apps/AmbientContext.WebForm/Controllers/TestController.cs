@@ -28,7 +28,7 @@ namespace AmbientContextWebForm.Controllers
                 await AsyncActor.DoSthAsync().ConfigureAwait(false);
                 TestHelper.Verify(this.HttpContext);
             });
-            return Content(AuthHelper.GetCurrentStudyId().ToString());
+            return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
         }
 
         public async Task<ContentResult> CheckInThread()
@@ -55,7 +55,7 @@ namespace AmbientContextWebForm.Controllers
 
             if (ex == null)
             {
-                return Content(AuthHelper.GetCurrentStudyId().ToString());
+                return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
             }
             else
             {
@@ -71,14 +71,14 @@ namespace AmbientContextWebForm.Controllers
             var queryStudyId = TestHelper.GetDataFromRequest(Request).StudyId;
             
             long newStudyId = queryStudyId + 5000;
-            await AuthHelper.SetStudyAsync(newStudyId).ConfigureAwait(false);
+            await AuthHelper.ChangeThreadStudyAsync(newStudyId).ConfigureAwait(false);
             
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
             Verifier.VerifyThreadData(newStudyId); 
             // Verifier.VerifyStoreData(newStudyId); //Can not get study back from store!
 
-            return Content(AuthHelper.GetCurrentStudyId().ToString());
+            return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
         }
 
         [System.Web.Mvc.HttpGet]
@@ -90,14 +90,14 @@ namespace AmbientContextWebForm.Controllers
 
             long newStudyId = queryStudyId + 3000;
 
-            await AuthHelper.OverwriteStudyIdInManualTask(newStudyId).ConfigureAwait(false);
+            await AuthHelper.OverwriteThreadStudyIdInManualTask(newStudyId).ConfigureAwait(false);
            
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
 
             Verifier.VerifyThreadData(newStudyId);
             // Verifier.VerifyStoreData(newStudyId); //Can not get study back from store!
 
-            return Content(AuthHelper.GetCurrentStudyId().ToString());
+            return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
         }
     }
 }

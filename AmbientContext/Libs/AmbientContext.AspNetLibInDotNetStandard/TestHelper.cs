@@ -7,7 +7,7 @@ namespace AmbientContext.AspNetCoreLibInDotNetStandard
 {
     public class TestHelper
     {
-        public static RequestData GetDataFromRequest(HttpRequest request)
+        public static RequestData GetDataFromQueryString(HttpRequest request)
         {
             var userNameQuery = request.Query["userName"];
 

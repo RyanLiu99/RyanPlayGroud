@@ -22,7 +22,7 @@ namespace AmbientContext.AspNetCoreLibInDotNetStandard
                 if (!AuthHelper.IsMainRequest(context.Request.Path.Value))
                     return;
 
-                var data = TestHelper.GetDataFromRequest(context.Request);
+                var data = TestHelper.GetDataFromQueryString(context.Request);
 
                 AuthHelper.SetThreadData(data);
                 await AsyncActor.DoSthAsync().ConfigureAwait(false);
