@@ -17,7 +17,7 @@ async Task TestIISUrls()
         ("Test/CheckInTask?userName=Ryan&studyId={0}", null),
         ("Test/CheckInThread?userName=Ryan&studyId={0}", null),
         ("Test/UpdateStudyIdBy5000?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 ),
-        ("Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 )
+        ("Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 3000 )
     };
 
     var tests = from t in subUrlTemplates
@@ -27,7 +27,7 @@ async Task TestIISUrls()
 
 async Task TestDotNet6Urls()
 {
-    Console.WriteLine(" ==========================Start test .NET 6 endpoints ... ==========================");
+    Console.WriteLine(" ==========================  Start test .NET 6 endpoints ... ==========================");
 
     var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://localhost:7062/api/");
@@ -42,7 +42,7 @@ async Task TestDotNet6Urls()
     await Task.WhenAll(tests).ConfigureAwait(false);
 }
 
-async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier  = null)
+async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier = null)
 {
     Console.WriteLine($"Start test ep {subUrlTemplate} .........");
     studyIdVerifier ??= (int passIn, int result) => passIn == result;
@@ -50,7 +50,7 @@ async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Fun
     var results = new (int studyId, bool isOk, int studyIdResult, string? message)[n];
     var tasks = Enumerable.Range(0, n).Select(i =>
     {
-        var studyId =  i;
+        var studyId = i;
         var task = httpClient.GetAsync(string.Format(subUrlTemplate, studyId));
 
         var taskTask = task.ContinueWith(async (t, studyIdState) =>
@@ -73,11 +73,12 @@ async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Fun
     await Task.WhenAll(tasks).ConfigureAwait(false);
 
     PrintResults(results);
+    var end = $" For ep - {httpClient.BaseAddress}{subUrlTemplate} <<<<<<<<<<<<<<<< \r\n\r\n";
 
     var failedCount = results.Count(r => r.isOk == false);
     if (failedCount != 0)
     {
-        Console.WriteLine($"{failedCount} out of {n} API called Failed.");
+        Console.WriteLine($"{failedCount} out of {n} API called Failed. {end}");
         Console.WriteLine(results.First(r => r.isOk == false).message);
     }
     else
@@ -88,13 +89,16 @@ async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Fun
 
         if (wrongCount != 0)
         {
-            Console.WriteLine($"{wrongCount} out of {n} got wrong studyId back");
+            Console.WriteLine($"{wrongCount} out of {n} got wrong studyId back. {end}");
         }
         else
         {
-            Console.WriteLine($"All {n} good for ep - {httpClient.BaseAddress}{subUrlTemplate} <<<<<<<<<<<<<<<< ");
+            Console.WriteLine($"All {n} good. {end}");
         }
+
     }
+
+
 
     void PrintResults((int studyId, bool isOk, int studyIdResult, string? message)[] results)
     {
@@ -102,7 +106,8 @@ async Task TestEndpoint(HttpClient httpClient, int n, string subUrlTemplate, Fun
         {
             Console.WriteLine(r);
         }
-        Console.WriteLine( "... ...");
+
+        Console.WriteLine("... ...");
     }
 }
 
