@@ -63,7 +63,7 @@ namespace AmbientContext_AspNetCore.Controllers
 
             ReadResult readResult = await Request.BodyReader.ReadAsync();
             var read = Encoding.UTF8.GetString(readResult.Buffer);
-            _logger.LogInformation("Read from post: " + read.Substring(0, Math.Min(5000, read.Length)));
+            _logger.LogInformation("Read from post: " + read.Substring(0, Math.Min(200, read.Length)) + "..");
 
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             return AuthHelper.GetCurrentStudyIdFromThread();

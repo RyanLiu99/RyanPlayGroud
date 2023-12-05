@@ -1,15 +1,18 @@
 ﻿using System.Buffers;
 using static System.Net.Mime.MediaTypeNames;
 
-await TestIISUrls().ConfigureAwait(false);
+var BigStringContent = new StringContent(new string('a', 10_000_000));
+
+//await TestIISUrls().ConfigureAwait(false);
 await TestDotNet6Urls().ConfigureAwait(false);
+
 
 async Task TestIISUrls()
 {
     Console.Clear();
     Console.WriteLine(" =========================== Start test IIS ... ==========================");
 
-    using var httpClient = new HttpClient();
+    var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://ambientcontextwebform.local.medrio.com:8443/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{ 
@@ -31,12 +34,12 @@ async Task TestDotNet6Urls()
 {
     Console.WriteLine(" ==========================  Start test .NET 6 endpoints ... ==========================");
 
-    using var httpClient = new HttpClient();
+    var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://localhost:7062/api/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{
-        ("GET", "Values?userName=Ryan&StudyId={0}", null),
-        ("GET", "Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
+      //  ("GET", "Values?userName=Ryan&StudyId={0}", null),
+      //  ("GET", "Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
         ("POST","Values?userName=Ryan&StudyId={0}",  null),
     };
 
@@ -48,6 +51,9 @@ async Task TestDotNet6Urls()
 
 async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier = null)
 {
+    //using HttpClient httpClient2 = new HttpClient((HttpMessageHandler)new HttpClientHandler(), false) { BaseAddress = httpClient.BaseAddress };
+    //httpClient.Dispose();
+
     Console.WriteLine($"Start test {httpMethod} ep {subUrlTemplate} .........");
     studyIdVerifier ??= (int passIn, int result) => passIn == result;
 
@@ -61,7 +67,7 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
 
         if (httpMethod.Equals("POST"))
         {
-            task = httpClient.PostAsync(uri, new StringContent(new string('a', 5)));
+            task = httpClient.PostAsync(uri, BigStringContent);
         }
         else
         {
@@ -128,5 +134,11 @@ void PrintResults((int studyId, bool isOk, int studyIdResult, string? message)[]
     Console.WriteLine("... ...");
 }
 
-
+//ResiliencePipeline Retry()
+//{
+//    ResiliencePipeline pipeline = new ResiliencePipelineBuilder()
+//        .AddRetry(new RetryStrategyOptions() { Delay = TimeSpan.FromMilliseconds(50)}) 
+//        .Build();
+//    return pipeline;
+//}
 
