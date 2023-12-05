@@ -35,7 +35,7 @@ async Task TestDotNet6Urls()
     Console.WriteLine(" ==========================  Start test .NET 6 endpoints ... ==========================");
 
     using var httpClient = new HttpClient();
-    httpClient.BaseAddress = new Uri("https://localhost:7062/api/");
+    httpClient.BaseAddress = new Uri("https://localhost:7062/api/"); //32780 for docker, 7062 for local
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{
         ("GET", "Values?userName=Ryan&StudyId={0}", null),
