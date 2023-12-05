@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using static System.Net.Mime.MediaTypeNames;
 
-var BigStringContent = new StringContent(new string('a', 1_000_000));
+var BigStringContent = new StringContent(new string('a', 10_000_000));
 
 //await TestIISUrls().ConfigureAwait(false);
 await TestDotNet6Urls().ConfigureAwait(false);
@@ -44,7 +44,7 @@ async Task TestDotNet6Urls()
     };
 
     var tests = from t in subUrlTemplates
-        select TestEndpoint(httpClient, 50, t.httpMethod,  t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 1, t.httpMethod,  t.template, t.studyIdVerifier);
     var results = await Task.WhenAll(tests).ConfigureAwait(false);
     Console.WriteLine($" ----------------------- {results.Count(x => x)} out of {results.Length}  .NET 6 endpoints succeeded... ------------------------");
 }
