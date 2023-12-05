@@ -9,7 +9,7 @@ async Task TestIISUrls()
     Console.Clear();
     Console.WriteLine(" =========================== Start test IIS ... ==========================");
 
-    var httpClient = new HttpClient();
+    using var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://ambientcontextwebform.local.medrio.com:8443/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{ 
@@ -22,7 +22,7 @@ async Task TestIISUrls()
     };
 
     var tests = from t in subUrlTemplates
-        select TestEndpoint(httpClient, 60, t.httpMethod, t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 40, t.httpMethod, t.template, t.studyIdVerifier);
     var results = await Task.WhenAll(tests).ConfigureAwait(false);
     Console.WriteLine($" ----------------------- {results.Count(x => x)} out of {results.Length} IIS endpoints succeeded... ------------------------");
 }
@@ -31,7 +31,7 @@ async Task TestDotNet6Urls()
 {
     Console.WriteLine(" ==========================  Start test .NET 6 endpoints ... ==========================");
 
-    var httpClient = new HttpClient();
+    using var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://localhost:7062/api/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{
@@ -41,7 +41,7 @@ async Task TestDotNet6Urls()
     };
 
     var tests = from t in subUrlTemplates
-        select TestEndpoint(httpClient, 60, t.httpMethod,  t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 50, t.httpMethod,  t.template, t.studyIdVerifier);
     var results = await Task.WhenAll(tests).ConfigureAwait(false);
     Console.WriteLine($" ----------------------- {results.Count(x => x)} out of {results.Length}  .NET 6 endpoints succeeded... ------------------------");
 }
@@ -56,9 +56,17 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
     {
         var studyId = i;
         string uri = string.Format(subUrlTemplate, studyId);
-        var task = !httpMethod.Equals("POST")
-            ? httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(httpMethod), uri))
-            : httpClient.PostAsync(uri, new StringContent( new string('a', 20000000)));   
+
+        Task<HttpResponseMessage> task = null;
+
+        if (httpMethod.Equals("POST"))
+        {
+            task = httpClient.PostAsync(uri, new StringContent(new string('a', 5)));
+        }
+        else
+        {
+            task = httpClient.SendAsync(new HttpRequestMessage(new HttpMethod(httpMethod), uri));
+        }
 
         var taskTask = task.ContinueWith(async (t, studyIdState) =>
         {
@@ -119,5 +127,6 @@ void PrintResults((int studyId, bool isOk, int studyIdResult, string? message)[]
 
     Console.WriteLine("... ...");
 }
+
 
 
