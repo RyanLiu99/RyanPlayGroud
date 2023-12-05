@@ -1,18 +1,18 @@
-﻿using System.Buffers;
-using static System.Net.Mime.MediaTypeNames;
+﻿
 
 var BigStringContent = new StringContent(new string('a', 10_000_000));
 
-//await TestIISUrls().ConfigureAwait(false);
+Console.Clear();
+
+await TestIISUrls().ConfigureAwait(false);
 await TestDotNet6Urls().ConfigureAwait(false);
 
 
 async Task TestIISUrls()
 {
-    Console.Clear();
     Console.WriteLine(" =========================== Start test IIS ... ==========================");
 
-    var httpClient = new HttpClient();
+    using var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://ambientcontextwebform.local.medrio.com:8443/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{ 
@@ -34,25 +34,24 @@ async Task TestDotNet6Urls()
 {
     Console.WriteLine(" ==========================  Start test .NET 6 endpoints ... ==========================");
 
-    var httpClient = new HttpClient();
+    using var httpClient = new HttpClient();
     httpClient.BaseAddress = new Uri("https://localhost:7062/api/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{
-      //  ("GET", "Values?userName=Ryan&StudyId={0}", null),
-      //  ("GET", "Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
+        ("GET", "Values?userName=Ryan&StudyId={0}", null),
+        ("GET", "Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
         ("POST","Values?userName=Ryan&StudyId={0}",  null),
     };
 
     var tests = from t in subUrlTemplates
-        select TestEndpoint(httpClient, 1, t.httpMethod,  t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 20, t.httpMethod,  t.template, t.studyIdVerifier);
     var results = await Task.WhenAll(tests).ConfigureAwait(false);
     Console.WriteLine($" ----------------------- {results.Count(x => x)} out of {results.Length}  .NET 6 endpoints succeeded... ------------------------");
+
 }
 
 async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier = null)
 {
-    //using HttpClient httpClient2 = new HttpClient((HttpMessageHandler)new HttpClientHandler(), false) { BaseAddress = httpClient.BaseAddress };
-    //httpClient.Dispose();
 
     Console.WriteLine($"Start test {httpMethod} ep {subUrlTemplate} .........");
     studyIdVerifier ??= (int passIn, int result) => passIn == result;
@@ -67,6 +66,7 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
 
         if (httpMethod.Equals("POST"))
         {
+            
             task = httpClient.PostAsync(uri, BigStringContent);
         }
         else

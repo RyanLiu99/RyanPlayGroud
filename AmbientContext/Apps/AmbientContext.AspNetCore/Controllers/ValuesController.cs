@@ -40,26 +40,14 @@ namespace AmbientContext_AspNetCore.Controllers
             return AuthHelper.GetCurrentStudyIdFromThread();
         }
 
-
-        //// POST api/<ValuesController>
-        //[HttpPost]
-        //public async Task<long> Post([FromBody] IFormFile file)
-        //{
-        //    var bodyLength = Request.ContentLength;
-
-        //    file.OpenReadStream();
-        //    ReadResult readResult = await Request.BodyReader.ReadAsync();
-        //    var read = Encoding.UTF8.GetString(readResult.Buffer);
-        //    Console.Write(read.Substring(0, Math.Min(5000, read.Length)));
-
-        //    await AsyncActor.DoSthAsync().ConfigureAwait(false);
-        //    return AuthHelper.GetCurrentStudyIdFromThread();
-        //}
-
         // POST api/<ValuesController>
         [HttpPost]
         public async Task<long> Post()
         {
+            //Without buffering, there will be problem with big payload like 10M.  1M is fine.
+            //Will cause ConnectionAbortedException: The connection was aborted by the application
+            //with System.InvalidOperationException: Reading is already in progress. 
+            Request.EnableBuffering(); 
 
             ReadResult readResult = await Request.BodyReader.ReadAsync();
             var read = Encoding.UTF8.GetString(readResult.Buffer);
