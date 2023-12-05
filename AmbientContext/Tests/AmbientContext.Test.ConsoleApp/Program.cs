@@ -1,7 +1,7 @@
 ﻿using System.Buffers;
 using static System.Net.Mime.MediaTypeNames;
 
-var BigStringContent = new StringContent(new string('a', 10_000_000));
+var BigStringContent = new StringContent(new string('a', 1_000_000));
 
 //await TestIISUrls().ConfigureAwait(false);
 await TestDotNet6Urls().ConfigureAwait(false);
