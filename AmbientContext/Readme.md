@@ -57,6 +57,7 @@ Two main hosting models we have for production.
 ## .NET framework - Apps/AmbientContext.WebForm  
 
 ### .aspx page  
+
 https://ambientcontextwebform.local.medrio.com:8443/?userName=Ryan&studyId=100  
 Home page, it should can be load correctly, menas all server side verification should pass (so are other endpoints).
 
@@ -64,6 +65,7 @@ https://ambientcontextwebform.local.medrio.com:8443/Data.aspx?userName=Ryan&stud
 Data aspx page, it should return studyId set in the query string.
 
 ## MVC Controller  
+
 https://ambientcontextwebform.local.medrio.com:8443/Test/Index?userName=Ryan&studyId=200  
 MVC controller returns view, it should return studyId set in the query string.
 
@@ -82,7 +84,9 @@ https://ambientcontextwebform.local.medrio.com:8443/Test/UpdateStudyIdBy5000InTa
 Update current studyId asynchronously in a subroutin in which it manually creates a task to update studyId. The chagne is seen everywhere afterwards.
 
 ## .NET 6 - Apps\AmbientContext.AspNetCore  
-### WER API  
+
+### WEB API  
+
 https://localhost:7062/api/Values?userName=Ryan&StudyId=130  
 API controller, it should return studyId set in the query string.  
 
@@ -90,6 +94,7 @@ https://localhost:7062/api/Values/135?userName=Ryan&StudyId=130
 API controller, it sets studyId set in the query string (130), but then overitten by route data and return 135.  
 
 ### Razor Page  
+
 GET https://localhost:7062/Data?userName=Ryan&studyId=190  
 .NET core Razor page.  
 
