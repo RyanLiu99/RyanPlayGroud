@@ -1,6 +1,10 @@
 ﻿
 
-var BigStringContent = new StringContent(new string('a', 10_000_000));
+using System.Net.Http.Headers;
+using System.Text;
+
+var BigString = new string('a', 10_000_000);
+var BigStringContent = new StringContent(BigString);
 
 Console.Clear();
 
@@ -16,16 +20,23 @@ async Task TestIISUrls()
     httpClient.BaseAddress = new Uri("https://ambientcontextwebform.local.medrio.com:8443/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{ 
-        ("GET", "Data?userName=Ryan&studyId={0}", null),
+        ("GET", "Data.aspx?userName=Ryan&studyId={0}", null),
         ("GET", "Test/Index?userName=Ryan&studyId={0}" , null),
         ("GET", "Test/CheckInTask?userName=Ryan&studyId={0}", null),
         ("GET", "Test/CheckInThread?userName=Ryan&studyId={0}", null),
         ("GET", "Test/UpdateStudyIdBy5000?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 ),
-        ("GET", "Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 3000 )
+        ("GET", "Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 3000 ),
+        ("POST", "Upload.aspx?UserName=Ryan&StudyId={0}", null)
+    };
+
+    ByteArrayContent fileContent = new ByteArrayContent(Encoding.UTF8.GetBytes(BigString));
+    fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+    {
+        FileName = "myFilename.txt"
     };
 
     var tests = from t in subUrlTemplates
-        select TestEndpoint(httpClient, 40, t.httpMethod, t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 40, t.httpMethod, t.template, t.studyIdVerifier, t.httpMethod == "POST" ? fileContent : null);
     var results = await Task.WhenAll(tests).ConfigureAwait(false);
     Console.WriteLine($" ----------------------- {results.Count(x => x)} out of {results.Length} IIS endpoints succeeded... ------------------------");
 }
@@ -44,13 +55,13 @@ async Task TestDotNet6Urls()
     };
 
     var tests = from t in subUrlTemplates
-        select TestEndpoint(httpClient, 20, t.httpMethod,  t.template, t.studyIdVerifier);
+        select TestEndpoint(httpClient, 20, t.httpMethod,  t.template, t.studyIdVerifier, t.httpMethod == "POST" ? BigStringContent : null);
     var results = await Task.WhenAll(tests).ConfigureAwait(false);
     Console.WriteLine($" ----------------------- {results.Count(x => x)} out of {results.Length}  .NET 6 endpoints succeeded... ------------------------");
 
 }
 
-async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier = null)
+async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier = null, HttpContent? content= null)
 {
 
     Console.WriteLine($"Start test {httpMethod} ep {subUrlTemplate} .........");
@@ -67,7 +78,7 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
         if (httpMethod.Equals("POST"))
         {
             
-            task = httpClient.PostAsync(uri, BigStringContent);
+            task = httpClient.PostAsync(uri, content ?? BigStringContent);
         }
         else
         {
