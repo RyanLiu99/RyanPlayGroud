@@ -12,13 +12,14 @@ namespace AmbientContextWebForm.Controllers
 {
     public class TestController : Controller
     {
-        // GET: Test
+        // return view
         public async Task<ActionResult> Index()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
             return View();
         }
 
+        //check in Task, return content
         public async Task<ContentResult> CheckInTask()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);
@@ -31,6 +32,7 @@ namespace AmbientContextWebForm.Controllers
             return Content(AuthHelper.GetCurrentStudyIdFromThread().ToString());
         }
 
+        //check in thread, return content
         public async Task<ContentResult> CheckInThread()
         {
             await AsyncActor.DoSthAsync().ConfigureAwait(false);

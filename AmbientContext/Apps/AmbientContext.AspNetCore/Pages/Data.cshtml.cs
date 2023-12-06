@@ -23,6 +23,7 @@ namespace AmbientContext_AspNetCore.Pages
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> OnPostAsync()
         {
+            //Read from Thread, double it and put it back
             var old = AuthHelper.GetCurrentStudyIdFromThread();
             await AuthHelper.OverwriteThreadStudyIdInManualTask(old * 2).ConfigureAwait(false);
             return Page();

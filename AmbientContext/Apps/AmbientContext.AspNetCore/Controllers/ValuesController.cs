@@ -17,7 +17,7 @@ namespace AmbientContext_AspNetCore.Controllers
         {
             _logger = logger;
         }
-        // GET: api/<ValuesController>
+        // GET: api/<ValuesController>?studyId=100
         [HttpGet]
         public async Task<long> Get()
         {
@@ -25,7 +25,7 @@ namespace AmbientContext_AspNetCore.Controllers
             return AuthHelper.GetCurrentStudyIdFromThread();
         }
 
-        // GET api/<ValuesController>/5
+        // GET api/<ValuesController>/5?studyId=100
         [HttpGet("{studyId}")]
         public async Task<long> Get(long studyId)
         {
@@ -40,7 +40,7 @@ namespace AmbientContext_AspNetCore.Controllers
             return AuthHelper.GetCurrentStudyIdFromThread();
         }
 
-        // POST api/<ValuesController>
+        // POST api/<ValuesController>?studyId=100
         [HttpPost]
         public async Task<long> Post()
         {
