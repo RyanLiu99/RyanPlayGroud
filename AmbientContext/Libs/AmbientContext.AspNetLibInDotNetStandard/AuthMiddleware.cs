@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AmbientContext.Shared.DotNetStandardLib;
+using AmbientContext.Shared.DotNetStandardLib.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
 
 namespace AmbientContext.AspNetCoreLibInDotNetStandard
 {
@@ -19,11 +24,21 @@ namespace AmbientContext.AspNetCoreLibInDotNetStandard
         {
             try
             {
-                if (!AuthHelper.IsMainRequest(context.Request.Path.Value))
+                var request = context.Request;
+                if (!AuthHelper.IsMainRequest(request.Path.Value))
                     return;
-
-                var data = TestHelper.GetDataFromQueryString(context.Request);
-
+                RequestData data;
+                try
+                {
+                    data = TestHelper.GetDataFromQueryString(request);
+                }
+                catch (Exception e)
+                {
+                    var query = "userName=Ryan&studyId=130";
+                    context.Response.Redirect($"{request.PathBase}{request.Path}?{query}");
+                    return;
+                }
+                
                 AuthHelper.SetThreadData(data);
                 await AsyncActor.DoSthAsync().ConfigureAwait(false);
 

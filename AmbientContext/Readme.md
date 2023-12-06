@@ -51,42 +51,47 @@ Two main hosting models we have for production.
 * Libs\AmbientContext.Shared.DotNetStandardLib -- main lib, used by both .NET framework and .NET/Core apps
 * Libs\AmbientContext.DotNetFrameworkWebLib -- .NET framework lib, mainly contains httpModule
 * Libs\AmbientContext.AspNetLibInDotNetStandard -- written in .NET standard, by used by .NET/core app only, mainly contains middleware
- 
-## Tests
-
 	 
-# End Points 
+# End Points  
 
-## .NET framework - Apps/AmbientContext.WebForm
+## .NET framework - Apps/AmbientContext.WebForm  
 
-### .aspx page
+### .aspx page  
 https://ambientcontextwebform.local.medrio.com:8443/?userName=Ryan&studyId=100  
 Home page, it should can be load correctly, menas all server side verification should pass (so are other endpoints).
 
-https://ambientcontextwebform.local.medrio.com:8443/Data?userName=Ryan&studyId=1500  
+https://ambientcontextwebform.local.medrio.com:8443/Data.aspx?userName=Ryan&studyId=1500  
 Data aspx page, it should return studyId set in the query string.
 
+## MVC Controller  
 https://ambientcontextwebform.local.medrio.com:8443/Test/Index?userName=Ryan&studyId=200  
 MVC controller returns view, it should return studyId set in the query string.
 
-https://ambientcontextwebform.local.medrio.com:8443/Test/CheckInTask?userName=Ryan&studyId=200
+https://ambientcontextwebform.local.medrio.com:8443/Test/CheckInTask?userName=Ryan&studyId=200  
 MVC controller returns content result, it should return studyId set in the query string.  
 It also verify studyId in a manually created task.
 
-https://ambientcontextwebform.local.medrio.com:8443/Test/CheckInThread?userName=Ryan&studyId=277
+https://ambientcontextwebform.local.medrio.com:8443/Test/CheckInThread?userName=Ryan&studyId=277  
 MVC controller returns content result, it should return studyId set in the query string.  
 It also verify studyId in a manually created Thread.
 
-https://ambientcontextwebform.local.medrio.com:8443/Test/UpdateStudyIdBy5000?userName=Ryan&studyId=277&notVerifyAtEndRequest=
+https://ambientcontextwebform.local.medrio.com:8443/Test/UpdateStudyIdBy5000?userName=Ryan&studyId=277&notVerifyAtEndRequest=  
 Update current studyId asynchronously. The chagne is seen afterwards.
-
 
 https://ambientcontextwebform.local.medrio.com:8443/Test/UpdateStudyIdBy5000InTask?userName=Ryan&studyId=277&notVerifyAtEndRequest=
 Update current studyId asynchronously in a subroutin in which it manually creates a task to update studyId. The chagne is seen everywhere afterwards.
 
-## .NET 6 - Apps\AmbientContext.AspNetCore
+## .NET 6 - Apps\AmbientContext.AspNetCore  
+### WER API  
 https://localhost:7062/api/Values?userName=Ryan&StudyId=130  
-API controller, it should return studyId set in the query string.
+API controller, it should return studyId set in the query string.  
 
 https://localhost:7062/api/Values/135?userName=Ryan&StudyId=130  
-API controller, it sets studyId set in the query string (130), but then overitten by route data and return 135 .
+API controller, it sets studyId set in the query string (130), but then overitten by route data and return 135.  
+
+### Razor Page  
+GET https://localhost:7062/Data?userName=Ryan&studyId=190  
+.NET core Razor page.  
+
+POST https://localhost:7062/Data?userName=Ryan&studyId=190&notVerifyAtEndRequest=  
+.NET core Razor page, double studyId in manual task in POST action.  

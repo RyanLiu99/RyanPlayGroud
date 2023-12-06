@@ -2,6 +2,7 @@
 
 using System.Net.Http.Headers;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 var BigString = new string('a', 10_000_000);
 var BigStringContent = new StringContent(BigString);
@@ -46,12 +47,15 @@ async Task TestDotNet6Urls()
     Console.WriteLine(" ==========================  Start test .NET 6 endpoints ... ==========================");
 
     using var httpClient = new HttpClient();
-    httpClient.BaseAddress = new Uri("https://localhost:7062/api/"); //32780 for docker, 7062 for local
+    httpClient.BaseAddress = new Uri("https://localhost:7062/"); //32780 for docker, 7062 for local
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{
-        ("GET", "Values?userName=Ryan&StudyId={0}", null),
-        ("GET", "Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
-        ("POST","Values?userName=Ryan&StudyId={0}",  null),
+        ("GET", "api/Values?userName=Ryan&StudyId={0}", null),
+        ("GET", "api/Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
+        ("POST","api/Values?userName=Ryan&StudyId={0}",  null),
+        ("GET", "Data?userName=Ryan&studyId={0}", null),
+        ("POST", "Data?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId *2),
+
     };
 
     var tests = from t in subUrlTemplates
