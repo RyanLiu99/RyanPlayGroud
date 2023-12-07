@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net47, net5.0, net6</TargetFrameworks>
+  </PropertyGroup>
+
+	<Target Name="EchoDebugInfo" BeforeTargets="CoreCompile">
+		<Message Importance="high" Text="Just before building, for $(TargetFramework),current compile defines are $(DefineConstants)"></Message>
+	</Target>
+</Project>
