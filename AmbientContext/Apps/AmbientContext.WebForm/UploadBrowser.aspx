@@ -7,10 +7,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Upload B</title>
+    <title><%=((AmbientContext.Shared.DotNetStandardLib.Models.MedrioPrincipal)Thread.CurrentPrincipal).Study!.ID %></title>
 </head>
 <body>
-<%=(((AmbientContext.Shared.DotNetStandardLib.Models.MedrioPrincipal)Thread.CurrentPrincipal).Study!.ID) %>
+<%=((AmbientContext.Shared.DotNetStandardLib.Models.MedrioPrincipal)Thread.CurrentPrincipal).Study!.ID %>
 
 
 <%=this.FileContent%>
