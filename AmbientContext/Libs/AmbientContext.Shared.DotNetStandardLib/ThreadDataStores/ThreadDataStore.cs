@@ -8,12 +8,15 @@ namespace AmbientContext.Shared.DotNetStandardLib.ThreadDataStores
 {
     public static class ThreadDataStore
     {
-        // works with .NET core/.NET, but not all cases in .NET framework
-        // private static readonly IImpThreadDataStore ImpInstance = new AsyncLocalThreadDataStore(); 
 
 
+#if NETFRAMEWORK
         // works in .NET core/.NET, and .NET framework, works everywhere
         private static readonly IImpThreadDataStore ImpInstance = new PrincipalThreadDataStore();
+#else
+        // works with .NET core/.NET, but not all cases in .NET framework
+        private static readonly IImpThreadDataStore ImpInstance = new AsyncLocalThreadDataStore(); 
+#endif
 
         public static void AddObject(string key, object value)
         {
@@ -22,7 +25,7 @@ namespace AmbientContext.Shared.DotNetStandardLib.ThreadDataStores
 
         public static object GetObject(string key)
         {
-          return ImpInstance.GetObject(key);
+            return ImpInstance.GetObject(key);
         }
 
         public static T GetObject<T>(string key) where T : class

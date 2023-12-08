@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net48;netstandard2.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<LangVersion>9.0</LangVersion>
 	</PropertyGroup>
+
+	<Target Name="EchoDebugInfo" BeforeTargets="CoreCompile">
+		<Message Importance="high" Text="Just before building, for $(TargetFramework),current compile defines are $(DefineConstants)"></Message>
+	</Target>
 
 </Project>
