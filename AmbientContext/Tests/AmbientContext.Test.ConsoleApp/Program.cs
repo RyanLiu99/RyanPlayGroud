@@ -21,13 +21,13 @@ async Task TestIISUrls()
     httpClient.BaseAddress = new Uri("https://ambientcontextwebform.local.medrio.com:8443/");
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{ 
-        ("GET", "Data.aspx?userName=Ryan&studyId={0}", null),
-        ("GET", "Test/Index?userName=Ryan&studyId={0}" , null),
-        ("GET", "Test/CheckInTask?userName=Ryan&studyId={0}", null),
-        ("GET", "Test/CheckInThread?userName=Ryan&studyId={0}", null),
-        ("GET", "Test/UpdateStudyIdBy5000?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 ),
-        ("GET", "Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 3000 ),
-        ("POST", "Upload.aspx?UserName=Ryan&StudyId={0}", null)
+        ("GET", "Data.aspx?userName=Ryan&studyId={0}", null),               //web form
+        ("GET", "Test/Index?userName=Ryan&studyId={0}" , null),             // mvc view
+        ("GET", "Test/CheckInTask?userName=Ryan&studyId={0}", null),        // api, separate task 
+        ("GET", "Test/CheckInThread?userName=Ryan&studyId={0}", null),      // api, separate thread
+        ("GET", "Test/UpdateStudyIdBy5000?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 5000 ),       // modify
+        ("GET", "Test/UpdateStudyIdBy3000InTask?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId + 3000 ), // modify in new task
+        ("POST", "Upload.aspx?UserName=Ryan&StudyId={0}", null)             // post big payload to web form
     };
 
     ByteArrayContent fileContent = new ByteArrayContent(Encoding.UTF8.GetBytes(BigString));
@@ -50,11 +50,11 @@ async Task TestDotNet6Urls()
     httpClient.BaseAddress = new Uri("https://localhost:7062/"); //32780 for docker, 7062 for local
 
     var subUrlTemplates = new (string httpMethod, string template, Func<int, int, bool>? studyIdVerifier)[]{
-        ("GET", "api/Values?userName=Ryan&StudyId={0}", null),
-        ("GET", "api/Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),
-        ("POST","api/Values?userName=Ryan&StudyId={0}",  null),
-        ("GET", "Data?userName=Ryan&studyId={0}", null),
-        ("POST", "Data?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId *2),
+        ("GET", "api/Values?userName=Ryan&StudyId={0}", null),              // api 
+        ("GET", "api/Values/135?userName=Ryan&StudyId={0}&notVerifyAtEndRequest=",  (int studyId, int studyIdResult) => studyIdResult == 135),  //modify
+        ("POST","api/Values?userName=Ryan&StudyId={0}",  null),             // post big payload to api
+        ("GET", "Data?userName=Ryan&studyId={0}", null),                    // Razor page
+        ("POST", "Data?userName=Ryan&studyId={0}&notVerifyAtEndRequest=", (int studyId, int studyIdResult) => studyIdResult == studyId *2),  //Post to Razor page with big payload
 
     };
 
@@ -65,6 +65,9 @@ async Task TestDotNet6Urls()
 
 }
 
+//Make n times call to one endpoint concurrently with different data.
+//Return overall result for one endpoint for all n calls. 
+//Only return true if all n calls are succeed and all n results are correct
 async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, string subUrlTemplate, Func<int, int, bool>? studyIdVerifier = null, HttpContent? content= null)
 {
 
@@ -94,6 +97,7 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
             int studyIdPassIn = (int)studyIdState!;
             if (t.IsCompletedSuccessfully)
             {
+                // Result in array  (studyId passed in, wasCallSucceed, returned studyId)
                 results[studyIdPassIn] = (studyIdPassIn, true, int.Parse(await t.Result.Content.ReadAsStringAsync()), null);
             }
             else
@@ -104,7 +108,7 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
         }, studyId);
 
         return taskTask.Unwrap();
-
+        
     });
 
     await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -133,7 +137,7 @@ async Task<bool> TestEndpoint(HttpClient httpClient, int n, string httpMethod, s
         else
         {
             Console.WriteLine($"All {n} good. {end}");
-            return true;
+            return true;  // overall result for one endpoint being called n times.
         }
 
     }
