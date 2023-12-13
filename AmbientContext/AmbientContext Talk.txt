@@ -1,0 +1,80 @@
+	
+Current
+
+EDC code, esp Core library, heavily depends on Ambient Context, like user, study and current db transaction, session etc
+	User, Study is saved in Thread.CurrentPrincipal which is MedrioPrincipal and 
+	Current db transaction, session, Inceptor etc are in ThreadDataStore which indded backed up by HttpContext.Current.Items
+	
+
+Challange
+	Libs Need be used by legacy and new apps, in  .NET 4.8, .NET core and .NET 5+ 
+	Different stack: web forms, ASP.NET MVC/Web Api, ASP.NET core api, Razor page ..
+	Different integration point -- like life cycle event handler, middleware ...
+	async code could run on different thread 	
+	async code will lost httpContext
+	EDC code has large and complex code base and not full Ioc friendly. 
+	
+https://medrio.atlassian.net/wiki/spaces/EN/pages/3057647617/EDC+Business+Logic+Modernization
+
+
+Goal
+	Mininal change, works everywhere reliably
+	
+Approach
+	Test to understand key technologies and their drawbacks
+		Readme.md
+	Try in EDC itself
+
+
+Test sln
+	md file
+	2 apps, different stacks
+	1 "core" lib
+	the way to test
+	different tests
+	postmand and webload
+
+
+Problem when it run in EDC
+	PR in EDC
+
+
+
+
+
+
+
+
+https://na-bitbucket-01.medrio.org:8443/projects/EN/repos/ambientcontext/browse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Conclusion:
+	Thread is not the problem, it is most reliably solution. Works everywhere.
+		But extra data is not neat
+		But not "EDC friendly"...
+	AsyncLocal works in .NET Core/.NET 5+
+	Thus multi-targetting
+	
