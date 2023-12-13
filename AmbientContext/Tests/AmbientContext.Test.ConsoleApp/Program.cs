@@ -149,11 +149,5 @@ void PrintResults((int studyId, bool isOk, int studyIdResult, string? message)[]
     Console.WriteLine("... ...");
 }
 
-//ResiliencePipeline Retry()
-//{
-//    ResiliencePipeline pipeline = new ResiliencePipelineBuilder()
-//        .AddRetry(new RetryStrategyOptions() { Delay = TimeSpan.FromMilliseconds(50)}) 
-//        .Build();
-//    return pipeline;
-//}
+
 
