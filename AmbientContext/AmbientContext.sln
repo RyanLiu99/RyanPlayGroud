@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9B59B42E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbientContext.Test.ConsoleApp", "Tests\AmbientContext.Test.ConsoleApp\AmbientContext.Test.ConsoleApp.csproj", "{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "Tests\UnitTest\UnitTest.csproj", "{FDAC8A0F-88FA-4182-B820-0568CEF50002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDAC8A0F-88FA-4182-B820-0568CEF50002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDAC8A0F-88FA-4182-B820-0568CEF50002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDAC8A0F-88FA-4182-B820-0568CEF50002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDAC8A0F-88FA-4182-B820-0568CEF50002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{F9093327-111F-45C8-A5A3-9199B022388D} = {53063C50-BE99-4133-9286-38D9C8CD8E1E}
 		{1DAE4E0D-48A1-4755-A517-6E9E90013EDC} = {53063C50-BE99-4133-9286-38D9C8CD8E1E}
 		{6AFF41A9-CD75-4B2B-A0B3-488FA1E5C11C} = {9B59B42E-17D0-4865-A6FE-F73B25231F62}
+		{FDAC8A0F-88FA-4182-B820-0568CEF50002} = {9B59B42E-17D0-4865-A6FE-F73B25231F62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FD489B5-93BC-48C6-8129-1319DFDF108F}
