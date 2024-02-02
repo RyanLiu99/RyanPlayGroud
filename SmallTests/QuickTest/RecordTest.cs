@@ -32,7 +32,7 @@ public class Tests
         Assert.IsTrue(r11.Name == "Liu2");
         Assert.IsTrue(r11 != r11Old);
 
-        var r11With = r11 with { Name = r11Old.Name};
+        var r11With = r11 with { Name = r11Old.Name };
         Assert.That(r11Old, Is.EqualTo(r11With));
         Assert.IsTrue(r11 != r11Old);
         Assert.IsTrue(r11With == r11Old);
@@ -47,6 +47,48 @@ public class Tests
 
         Assert.IsTrue(r11 == r22);
         Assert.IsTrue(r22.Name == "Liu");
+    }
+
+    [Test]
+    public void EquateTwoTuplesWithSameContent()
+    {
+        var t1 = Tuple.Create("S");
+        var t2 = Tuple.Create(t1.Item1);
+        Assert.IsTrue(t1.Equals(t2));
+        Assert.IsFalse(t1 == t2);  //!!!
+        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
+    }
+
+    [Test]
+    public void EquateTwoTuplesWithSameContentDifferentType()
+    {
+        var t1 = Tuple.Create("S");
+        var t2 = Tuple.Create((object)t1.Item1);
+        Assert.IsFalse(t1.Equals(t2));
+        // Assert.IsFalse(t1 == t2); // Won't even compile, since they are different type
+        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
+
+    }
+
+    [Test]
+    public void EquateTwoValueTuplesWithSameContent()
+    {
+        var t1 = ValueTuple.Create("S");
+        var t2 = ValueTuple.Create(t1.Item1);
+        Assert.IsTrue(t1.Equals(t2));
+        // Assert.IsFalse(t1 == t2);  //!!! won't even compile even same type, worked with Tuple
+        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
+    }
+
+    [Test]
+    public void EquateTwoValueTuplesWithSameContentDifferentType()
+    {
+        var t1 = ValueTuple.Create("S");
+        var t2 = ValueTuple.Create((object)t1.Item1);
+        Assert.IsFalse(t1.Equals(t2));
+        // Assert.IsFalse(t1 == t2); // Won't even compare, since different type
+        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
+
     }
 }
 
