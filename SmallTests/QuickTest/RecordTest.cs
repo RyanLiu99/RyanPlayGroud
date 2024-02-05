@@ -4,7 +4,6 @@ namespace QuickTest;
 
 public class Tests
 {
-
     [Test]
     public void TestRC()
     {
@@ -12,7 +11,9 @@ public class Tests
         var r22 = new RC1("Liu", 30);
 
         Assert.IsTrue(r11 == r22);
+        Assert.IsTrue(r11.Equals(r22));
 
+        Assert.IsFalse(object.ReferenceEquals(r11, r22));
     }
 
     [Test]
@@ -23,19 +24,25 @@ public class Tests
 
         Assert.IsTrue(r11 == r22);
         Assert.IsTrue(r11.Name == "Liu");
+        Assert.IsTrue(r11.Equals(r22));
 
-        var r11Old = r11;
-        Assert.IsTrue(r11 == r11Old);
+         Assert.IsFalse(object.ReferenceEquals(r11, r22));//make no sense since boxing
 
-        r11.Name = "Liu2";  // can modify
+        var r11Original = r11; // a new copy
+        Assert.IsTrue(r11 == r11Original);  // it is value type
+
+        r11.Name = "Liu2";  // can modify, r11 changed
 
         Assert.IsTrue(r11.Name == "Liu2");
-        Assert.IsTrue(r11 != r11Old);
+        Assert.IsTrue(r11 != r11Original); // it is stuct, and value changed
 
-        var r11With = r11 with { Name = r11Old.Name };
-        Assert.That(r11Old, Is.EqualTo(r11With));
-        Assert.IsTrue(r11 != r11Old);
-        Assert.IsTrue(r11With == r11Old);
+        var r11With = r11 with { Name = r11Original.Name }; // value go back to original
+        Assert.That(r11Original, Is.EqualTo(r11With));
+        
+        Assert.IsTrue(r11With == r11Original); //just compare value
+
+        Assert.IsTrue(r11With.Equals(r11Original));
+        Assert.IsFalse(object.ReferenceEquals(r11With, r11Original)); //Boxing cause them not same
 
     }
 
@@ -49,47 +56,8 @@ public class Tests
         Assert.IsTrue(r22.Name == "Liu");
     }
 
-    [Test]
-    public void EquateTwoTuplesWithSameContent()
-    {
-        var t1 = Tuple.Create("S");
-        var t2 = Tuple.Create(t1.Item1);
-        Assert.IsTrue(t1.Equals(t2));
-        Assert.IsFalse(t1 == t2);  //!!!
-        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
-    }
 
-    [Test]
-    public void EquateTwoTuplesWithSameContentDifferentType()
-    {
-        var t1 = Tuple.Create("S");
-        var t2 = Tuple.Create((object)t1.Item1);
-        Assert.IsFalse(t1.Equals(t2));
-        // Assert.IsFalse(t1 == t2); // Won't even compile, since they are different type
-        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
 
-    }
-
-    [Test]
-    public void EquateTwoValueTuplesWithSameContent()
-    {
-        var t1 = ValueTuple.Create("S");
-        var t2 = ValueTuple.Create(t1.Item1);
-        Assert.IsTrue(t1.Equals(t2));
-        // Assert.IsFalse(t1 == t2);  //!!! won't even compile even same type, worked with Tuple
-        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
-    }
-
-    [Test]
-    public void EquateTwoValueTuplesWithSameContentDifferentType()
-    {
-        var t1 = ValueTuple.Create("S");
-        var t2 = ValueTuple.Create((object)t1.Item1);
-        Assert.IsFalse(t1.Equals(t2));
-        // Assert.IsFalse(t1 == t2); // Won't even compare, since different type
-        Assert.IsFalse(Object.ReferenceEquals(t1, t2));
-
-    }
 }
 
 
@@ -108,7 +76,7 @@ public record struct RS1(string Name, int Age) //primary constructor
 
 public record struct RS2
 {
-    public required string Name { get; init; }
-    public required int Age { get; init; }
+    public  string Name { get; init; }
+    public  int Age { get; init; }
 
 }
