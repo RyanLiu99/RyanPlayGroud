@@ -26,7 +26,7 @@ public class Tests
         Assert.IsTrue(r11.Name == "Liu");
         Assert.IsTrue(r11.Equals(r22));
 
-         Assert.IsFalse(object.ReferenceEquals(r11, r22));//make no sense since boxing
+        Assert.IsFalse(object.ReferenceEquals(r11, r22));//make no sense since boxing
 
         var r11Original = r11; // a new copy
         Assert.IsTrue(r11 == r11Original);  // it is value type
@@ -38,7 +38,7 @@ public class Tests
 
         var r11With = r11 with { Name = r11Original.Name }; // value go back to original
         Assert.That(r11Original, Is.EqualTo(r11With));
-        
+
         Assert.IsTrue(r11With == r11Original); //just compare value
 
         Assert.IsTrue(r11With.Equals(r11Original));
@@ -76,7 +76,27 @@ public record struct RS1(string Name, int Age) //primary constructor
 
 public record struct RS2
 {
-    public  string Name { get; init; }
-    public  int Age { get; init; }
+    public string Name { get; init; }
+    public int Age { get; init; }
 
+}
+
+
+public struct K<T1, T2>
+{
+    public T1 Item1;
+    public T2 Item2;
+
+    public double d;
+
+    public static bool operator ==(K<T1, T2> t1, K<T1, T2> t2)
+    {
+        return (t1.Item1?.Equals(t2.Item1)?? false)  // but == and Equals means different thing
+        && (t1.Item2?.Equals(t2.Item2) ?? false);
+    }
+
+    public static bool operator !=(K<T1, T2> t1, K<T1, T2> t2)
+    {
+        return !(t1 == t2);
+    }
 }
