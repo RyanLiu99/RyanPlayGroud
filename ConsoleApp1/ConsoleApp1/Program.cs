@@ -30,7 +30,29 @@ namespace ConsoleApp1
             //TestDynamic();
             //TestTupleValueTuple();
 
-           new TestAsyncLocal().Test();
+            //new TestAsyncLocal().Test();
+
+            TestSpan();
+        }
+
+        
+        public static void TestSpan()
+        {
+
+            var seperator = new ReadOnlySpan<char>(new[] { ' ' });
+
+            ReadOnlySpan<char> span = "Hello world!".AsMemory().Span;
+            //Span<Range> destination = new Span<Range>();
+            int count = span.Split(' ');
+
+            for (int c = count - 1; c >= 0; c--)
+            {
+                var range = destination[c];
+                for (var pos = range.Start.Value; pos <= range.End.Value; pos++)
+                {
+                    Console.Write(span[pos]);
+                }
+            }
         }
 
         private static void TestTupleValueTuple()

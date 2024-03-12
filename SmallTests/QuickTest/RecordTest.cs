@@ -2,7 +2,7 @@ using NUnit.Framework.Constraints;
 
 namespace QuickTest;
 
-public class Tests
+public class RecordTest
 {
     [Test]
     public void TestRC()

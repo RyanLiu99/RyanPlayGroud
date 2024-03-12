@@ -3,7 +3,7 @@ using gRPC.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddGrpc();
+builder.Services.AddGrpc(cfg => cfg.EnableDetailedErrors = true);
 
 var app = builder.Build();
 
