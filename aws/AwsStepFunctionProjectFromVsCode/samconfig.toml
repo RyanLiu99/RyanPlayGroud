@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "sam-stock-deploy-again"
+resolve_s3 = true
+s3_prefix = "sam-stock-deploy-again"
+region = "us-east-1"
+profile = "ryanadmin_accesskey_for_local_code"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

@@ -1,0 +1,100 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'lambda-dotnet6
+
+  Sample SAM Template for lambda-dotnet6
+
+  '
+Resources:
+  StockTradingStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      DefinitionUri: ..\..\lambda-dotnet6\statemachine\stockTrader.asl.json
+      DefinitionSubstitutions:
+        StockCheckerFunctionArn:
+          Fn::GetAtt:
+          - StockCheckerFunction
+          - Arn
+        StockSellerFunctionArn:
+          Fn::GetAtt:
+          - StockSellerFunction
+          - Arn
+        StockBuyerFunctionArn:
+          Fn::GetAtt:
+          - StockBuyerFunction
+          - Arn
+        DDBPutItem:
+          Fn::Sub: arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBTable:
+          Ref: TransactionTable
+      Events:
+        HourlyTradingSchedule:
+          Type: Schedule
+          Properties:
+            Description: Schedule to run the stock trading state machine every hour
+            Enabled: false
+            Schedule: rate(1 hour)
+      Policies:
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: StockCheckerFunction
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: StockSellerFunction
+      - LambdaInvokePolicy:
+          FunctionName:
+            Ref: StockBuyerFunction
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: TransactionTable
+  StockCheckerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: StockCheckerFunction
+      Handler: StockChecker::StockChecker.Function::FunctionHandler
+      Runtime: dotnet6
+      Architectures:
+      - x86_64
+    Metadata:
+      SamResourceId: StockCheckerFunction
+  StockSellerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: StockSellerFunction
+      Handler: StockSeller::StockSeller.Function::FunctionHandler
+      Runtime: dotnet6
+      Architectures:
+      - x86_64
+    Metadata:
+      SamResourceId: StockSellerFunction
+  StockBuyerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: StockBuyerFunction
+      Handler: StockBuyer::StockBuyer.Function::FunctionHandler
+      Runtime: dotnet6
+      Architectures:
+      - x86_64
+    Metadata:
+      SamResourceId: StockBuyerFunction
+  TransactionTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: Id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+Outputs:
+  StockTradingStateMachineArn:
+    Description: Stock Trading State machine ARN
+    Value:
+      Ref: StockTradingStateMachine
+  StockTradingStateMachineRoleArn:
+    Description: IAM Role created for Stock Trading State machine based on the specified
+      SAM Policy Templates
+    Value:
+      Fn::GetAtt:
+      - StockTradingStateMachineRole
+      - Arn
