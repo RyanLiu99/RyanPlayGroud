@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "build c:\\git\\RyanAuthored\\RyanPlayGroud\\aws\\dotnetCmdLine\\KinesisTest\\KinesisTest.csproj",
+			"file": "c:\\git\\RyanAuthored\\RyanPlayGroud\\aws\\dotnetCmdLine\\KinesisTest\\KinesisTest.csproj",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "dotnet: build c:\\git\\RyanAuthored\\RyanPlayGroud\\aws\\dotnetCmdLine\\KinesisTest\\KinesisTest.csproj"
+		}
+	]
+}
