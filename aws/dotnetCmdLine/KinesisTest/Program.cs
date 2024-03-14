@@ -15,6 +15,7 @@ var r = new Random(100);
 Console.WriteLine($"args.Length {streamName}");
 await CreateSteam();
 await AddDataToStream();
+await DeleteStream();
 
 async Task AddDataToStream()
 {
@@ -28,7 +29,7 @@ async Task AddDataToStream()
     };
 
     var putRecordResponse = await kinesisClient.PutRecordAsync(putRecordRequest);
-
+ 
     Console.WriteLine($"Successfully put record to shard {putRecordResponse.ShardId}");
 }
 
@@ -69,4 +70,24 @@ async Task<bool> DoesStreamExist()
         Console.WriteLine($"Stream '{streamName}' does not exist.");
         return false;
     }
+}
+
+// delete the Kinesis stream, generated cy Amazon Q
+//https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DeleteStream.html
+
+
+
+async Task DeleteStream()
+{
+
+  // Create the delete stream request
+  DeleteStreamRequest deleteStreamRequest = new DeleteStreamRequest
+  {
+    StreamName = streamName
+  };
+
+  // Delete the stream asynchronously 
+  await kinesisClient.DeleteStreamAsync(deleteStreamRequest);
+
+  Console.WriteLine($"Stream '{streamName}' deleted successfully");
 }
