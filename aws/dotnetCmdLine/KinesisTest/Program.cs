@@ -14,6 +14,7 @@ var r = new Random(100);
 
 Console.WriteLine($"args.Length {streamName}");
 await CreateSteam();
+await Task.Delay(9000); //  seems has hard time to use right way
 await AddDataToStream();
 await DeleteStream();
 
