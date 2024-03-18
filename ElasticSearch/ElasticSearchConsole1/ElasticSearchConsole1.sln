@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KinesisTest", "KinesisTest.csproj", "{68525C38-4641-4C2F-A627-A7679C44531C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElasticSearchConsole1", "ElasticSearchConsole1.csproj", "{1B858C87-1D55-48DC-B41E-E4A0587465A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68525C38-4641-4C2F-A627-A7679C44531C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68525C38-4641-4C2F-A627-A7679C44531C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68525C38-4641-4C2F-A627-A7679C44531C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68525C38-4641-4C2F-A627-A7679C44531C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B858C87-1D55-48DC-B41E-E4A0587465A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B858C87-1D55-48DC-B41E-E4A0587465A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B858C87-1D55-48DC-B41E-E4A0587465A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B858C87-1D55-48DC-B41E-E4A0587465A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {01F12361-ED60-4CC6-91E8-B0300AC3AB62}
+		SolutionGuid = {957C67BC-7D95-4F56-AFE9-49E106914D18}
 	EndGlobalSection
 EndGlobal

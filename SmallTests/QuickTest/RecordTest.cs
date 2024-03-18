@@ -1,4 +1,5 @@
 using NUnit.Framework.Constraints;
+using System;
 
 namespace QuickTest;
 
@@ -14,6 +15,7 @@ public class RecordTest
         Assert.IsTrue(r11.Equals(r22));
 
         Assert.IsFalse(object.ReferenceEquals(r11, r22));
+        Console.WriteLine("Passed Test RC, it shows in Tests output");
     }
 
     [Test]

@@ -1,7 +1,4 @@
-﻿
-
-
-using System.Text;
+﻿using System.Text;
 using Amazon;
 using Amazon.Kinesis;
 using Amazon.Kinesis.Model;
@@ -16,7 +13,9 @@ Console.WriteLine($"args.Length {streamName}");
 await CreateSteam();
 await Task.Delay(9000); //  seems has hard time to use right way
 await AddDataToStream();
-await DeleteStream();
+//await DeleteStream();
+
+await ProcessStream.Process(streamName);
 
 async Task AddDataToStream()
 {
