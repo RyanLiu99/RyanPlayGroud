@@ -15,22 +15,33 @@ await Task.Delay(9000); //  seems has hard time to use right way
 await AddDataToStream();
 //await DeleteStream();
 
-await ProcessStream.Process(streamName);
+var process = Task.Run( async()=> await ProcessStream.Process(streamName));
+var add =  AddDataToStream();
+var add2 = AddDataToStream();
+await Task.Delay(1000);
+var add3 = AddDataToStream();
+await Task.WhenAll(add, add2, add3, process);
 
-async Task AddDataToStream()
+async Task<bool> DoesStreamExist()
 {
-    var data = Encoding.UTF8.GetBytes("Hello Kinesis! " + r.Next(0,100)) ; 
-
-    var putRecordRequest = new PutRecordRequest
+    var describeStreamRequest = new DescribeStreamRequest
     {
-        StreamName = streamName,
-        Data = new MemoryStream(data),
-        PartitionKey = "partitionKey" // You can specify any partition key here
+        StreamName = streamName
     };
 
-    var putRecordResponse = await kinesisClient.PutRecordAsync(putRecordRequest);
- 
-    Console.WriteLine($"Successfully put record to shard {putRecordResponse.ShardId}");
+    try
+    {
+        var describeStreamResponse = await kinesisClient.DescribeStreamAsync(describeStreamRequest);
+        var streamStatus = describeStreamResponse.StreamDescription.StreamStatus;
+
+        Console.WriteLine($"Stream '{streamName}' exists and its status is '{streamStatus}'. name: {describeStreamResponse.StreamDescription.StreamName}; arn: {describeStreamResponse.StreamDescription.StreamARN}.");
+        return true;
+    }
+    catch (ResourceNotFoundException)
+    {
+        Console.WriteLine($"Stream '{streamName}' does not exist.");
+        return false;
+    }
 }
 
 async Task CreateSteam()
@@ -49,27 +60,20 @@ async Task CreateSteam()
     Console.WriteLine($"Stream '{streamName}' created successfully with {shardCount} shard(s).");
 }
 
-
-async Task<bool> DoesStreamExist()
+async Task AddDataToStream()
 {
-    var describeStreamRequest = new DescribeStreamRequest
+    var data = Encoding.UTF8.GetBytes("Hello Kinesis! " + r.Next(0, 100));
+
+    var putRecordRequest = new PutRecordRequest
     {
-        StreamName = streamName
+        StreamName = streamName,
+        Data = new MemoryStream(data),
+        PartitionKey = "partitionKey" // You can specify any partition key here
     };
 
-    try
-    {
-        var describeStreamResponse = await kinesisClient.DescribeStreamAsync(describeStreamRequest);
-        var streamStatus = describeStreamResponse.StreamDescription.StreamStatus;
+    var putRecordResponse = await kinesisClient.PutRecordAsync(putRecordRequest);
 
-        Console.WriteLine($"Stream '{streamName}' exists and its status is '{streamStatus}'.");
-        return true;
-    }
-    catch (ResourceNotFoundException)
-    {
-        Console.WriteLine($"Stream '{streamName}' does not exist.");
-        return false;
-    }
+    Console.WriteLine($"Successfully put record to shard {putRecordResponse.ShardId}, {putRecordResponse.SequenceNumber}");
 }
 
 // delete the Kinesis stream, generated cy Amazon Q
