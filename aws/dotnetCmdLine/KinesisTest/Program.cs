@@ -68,7 +68,7 @@ async Task AddDataToStream()
     {
         StreamName = streamName,
         Data = new MemoryStream(data),
-        PartitionKey = "partitionKey" // You can specify any partition key here
+        PartitionKey = r.Next(100,120).ToString() // You can specify any partition key here
     };
 
     var putRecordResponse = await kinesisClient.PutRecordAsync(putRecordRequest);

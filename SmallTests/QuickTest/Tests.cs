@@ -19,9 +19,9 @@ namespace QuickTest
         {
             var data = fixture.Build<ValueTuple<int, string>>()
                 .With(x => x.Item1, 0)
-                .CreateMany().ToArray();
-
-            Debug.WriteLine($"============={data.Length}");
+                .CreateMany(20).ToArray();
+            
+            Console.WriteLine($"============={data.Length}");
             Assert.IsNotNull(data);
         }
     }
