@@ -21,24 +21,24 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/", async Task<string> () =>
 {
     var dateTime = DateTime.Now;
-    //var guidKey = Guid.NewGuid().ToString();
+    var guidKey = Guid.NewGuid().ToString();
     var guidValue = Guid.NewGuid();
     var name = "name";
     var age = 21;
     CallContext.LogicalSetData("DateTime", dateTime);
-    //CallContext.LogicalSetData(guidKey, guidValue);
+    CallContext.LogicalSetData(guidKey, guidValue);
     CallContext.LogicalSetData("Name", name);
     CallContext.LogicalSetData("Age", age);
 
     await Task.Delay(20);
 
     var dateTimeBack = CallContext.LogicalGetData("DateTime") as DateTime?;
-    //var guidBack = CallContext.LogicalGetData(guidKey) as Guid?;
+    var guidBack = CallContext.LogicalGetData(guidKey) as Guid?;
     var nameBack = CallContext.LogicalGetData("Name") as string;
     var ageBack = CallContext.LogicalGetData("Age") as int?;
 
     Trace.Assert(dateTimeBack == dateTime);
-    //Trace.Assert(guidBack == guidBack.GetValueOrDefault() );
+    Trace.Assert(guidBack == guidBack.GetValueOrDefault() );
     Trace.Assert(nameBack == name);
     Trace.Assert(ageBack == age);
 
