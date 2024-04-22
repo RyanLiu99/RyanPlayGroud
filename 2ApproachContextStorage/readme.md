@@ -69,3 +69,77 @@ sizeof(DateTime*)
 
 ```
 
+## 
+- First notice there is no way to remove an entry. But probably for a good reason. 
+
+- 2ndly probably better use Ioc container, inject ICallContext  to wherever it is needed, instead of using a static class which can make unit test harder. When using It’s lifetime should be scoped. Then Ioc container will take care it.  Some Ioc containers indeed will use AsyncLoca to implement it. Also there is a chance to support strong typed context item value, not just object, and support context initiation and verification (e.g. from http request) and propagation (like open telemetry does), and better selectively supply data to generic logging framework.  
+
+- If we keep the simple approach of using a static class CallContextHelper.cs like we have now, I would suggest the other way around, put ConcurrentDictionary in async local. So only one async local, but many dictionaries. This whole dictionary as async local value can be garbage collected once the execution chain is over (e.g. http response is done).  Dictionary Keys introduced in one execution will not pollute another execution, and no memory leak.  
+
+Verse now ConcurrentDictionary COULD keep growing forever if news keys are added by different executions. The global dictionary couples otherwise unrelated execution together which is not desirable in a web server.  When execution is done, data in asyncLocal can be GCed, but “empty shell” of AsyncLocal is always there together with its key (KeyValuePair<string, AsyncLocal<obj>>), it can not be GCed since referenced by the big dictionary.   This can cause memory leak depending on usage pattern which as a library it does not dicates.  We might have a small set of keys, so the memory problem won’t be so evident. 
+
+
+Another issue is there and won’t be in the new proposal.  In my new proposal Dictionary is local to  the execution, no longer shared, concurrent tension changes  from very high to almost none.  It is good for performance. In current imp, static CallContext.state ConcurrentDictionary is a global state. IMO global state is not desired unless it is const.  ConcurrentDictionary’s implementation is optimized, but fine-grained lock is still used in write operations. Global lock is an enemy of scalability, and needs to be avoided. 
+
+```
+
+public static class CallContext  //Optional extra layer to support different runtime and better isolation/test
+{
+
+#if NETFRAMEWORK  // async local works mostly in .NET framework but there are edge cases in classic ASP.NET
+        private static readonly IContextDataStore ImpInstance = new DotNetFrameworkVersionDataStore();
+#else
+    private static readonly IContextDataStore ImpInstance = new ContextDataStore(); 
+#endif
+
+        public static void AddObject(string key, object value)
+        {
+            ImpInstance.AddObject(key, value);
+        }
+
+        public static object GetObject(string key)
+        {
+            return ImpInstance.GetObject(key);
+        }
+
+        public static T GetObject<T>(string key) where T : class
+        {
+            return (T)GetObject(key);
+        }
+
+
+        public static bool HasKey(string key)
+        {
+            return ImpInstance.HasKey(key);
+        }
+
+        public static bool ClearObject(string key) => ImpInstance.ClearObject(key);
+
+}
+
+  
+  internal class ContextDataStore: IContextDataStore  // because extra layer, this no need be static, better for unit test
+   {
+       private readonly AsyncLocal<ConcurrentDictionary<string, object>> _asyncLocalDictionary = new();
+
+       public void AddObject(string key, object value)
+       {
+           if (_asyncLocalDictionary.Value == null)
+           {
+               _asyncLocalDictionary.Value = new();
+           }
+
+           _asyncLocalDictionary.Value[key] = value;
+       }
+
+       public object GetObject(string key)
+       {
+           return _asyncLocalDictionary.Value?[key];
+       }
+
+
+       public bool HasKey(string key) => _asyncLocalDictionary.Value?.ContainsKey(key) ?? false;
+
+       public bool ClearObject(string key) => _asyncLocalDictionary.Value?.TryRemove(key, out _) ?? false;
+   }
+```
