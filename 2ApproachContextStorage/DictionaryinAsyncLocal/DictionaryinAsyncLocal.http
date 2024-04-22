@@ -1,0 +1,6 @@
+@DictionaryinAsyncLocal_HostAddress = http://localhost:5252
+
+GET {{DictionaryinAsyncLocal_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
