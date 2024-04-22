@@ -81,16 +81,23 @@ Verse now ConcurrentDictionary COULD keep growing forever if news keys are added
 
 Another issue is there and won’t be in the new proposal.  In my new proposal Dictionary is local to  the execution, no longer shared, concurrent tension changes  from very high to almost none.  It is good for performance. In current imp, static CallContext.state ConcurrentDictionary is a global state. IMO global state is not desired unless it is const.  ConcurrentDictionary’s implementation is optimized, but fine-grained lock is still used in write operations. Global lock is an enemy of scalability, and needs to be avoided. 
 
+
+
 ```
 
 public static class CallContext  //Optional extra layer to support different runtime and better isolation/test
+
 {
 
-#if NETFRAMEWORK  // async local works mostly in .NET framework but there are edge cases in classic ASP.NET
-        private static readonly IContextDataStore ImpInstance = new DotNetFrameworkVersionDataStore();
-#else
+   \#if NETFRAMEWORK  // async local works mostly in .NET framework but there are edge cases in classic ASP.NET
+
+    private static readonly IContextDataStore ImpInstance = new DotNetFrameworkVersionDataStore();
+
+   \#else
+
     private static readonly IContextDataStore ImpInstance = new ContextDataStore(); 
-#endif
+
+   \#endif
 
         public static void AddObject(string key, object value)
         {
@@ -142,4 +149,4 @@ public static class CallContext  //Optional extra layer to support different run
 
        public bool ClearObject(string key) => _asyncLocalDictionary.Value?.TryRemove(key, out _) ?? false;
    }
-```
+``` 
