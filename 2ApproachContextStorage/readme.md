@@ -30,14 +30,28 @@
   
   ## But for memory and GC:
   
-  - When key is static thus just small set:	Two approach performance are similar.
-  - When key is dynamic thus lot of keys added overtime: DictionaryinAsyncLocal is way way better 	
-  ![when key is dymamic, DictionaryinAsyncLocal is better on GC](./LargeDynamicKeySets2AppraocCompareDicInAsyncLocalIsMuchBetterForGC.png)
+  When key is static thus just small set, two approach performance are similar. 
+  
+  ![](./SmallStaicKeySet2ApproachAreSame.png)
+  
+  
+  
+  When key is dynamic thus lot of keys added overtime: DictionaryinAsyncLocal is way way better 	
+
+  ![](./LargeDynamicKeySets2AppraocCompareDicInAsyncLocalIsMuchBetterForGC.png)
+  
   
   
   ## Deep div to spcial case where key is dynamic (120K unique keys in dictionary )
 
-  From ![](./OneGiantDictionary1InstanceButManyKeys.png) , for AsyncLocalIndictionary old approach you can see only one instance of ConcurrentDictionary<string, AsyncLocal<object>>, but this dictioary has 120,003 keys/entries. Take 21,448,872 bytes momeory. Avg  21448872/120003 = 179 Bytes for a KeyVaulePair<string, AsyncLocal<object>>.  *** 21M momory can NOT be released. ***  
+   ![](./DicInAsyncLocalMostedGCed_AsyncLocalinDicOneGiantInstance.png)
+
+Drill in :
+
+   ![](./OneGiantDictionary1InstanceButManyKeys.png) 
+
+  
+  For AsyncLocalIndictionary old approach you can see only one instance of ConcurrentDictionary<string, AsyncLocal<object>>, but this dictioary has 120,003 keys/entries. Take 21,448,872 bytes momeory. Avg  21448872/120003 = 179 Bytes for a KeyVaulePair<string, AsyncLocal<object>>.  *** 21M momory can NOT be released. ***  
  
  ```
  8 bytes for string key refence
@@ -52,7 +66,7 @@ Total is 176 bytes
   Even those remaing 3054 instances, they are dead objects already, ready to be GCed.
 
 ```
-sizeof(object*) which is size of a reference
+sizeof(object\*) which is size of a reference
 8
 
 sizeof(Guid)
