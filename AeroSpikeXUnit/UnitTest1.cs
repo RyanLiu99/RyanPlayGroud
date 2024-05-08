@@ -1,5 +1,6 @@
 using Aerospike.Client;
 using Xunit.Abstractions;
+using static Aerospike.Client.Value;
 
 namespace AeroSpikeXUnit;
 
@@ -13,7 +14,7 @@ public UnitTest1(ITestOutputHelper output)
 }
 
     [Fact]
-    public void Test1()
+    public void TestCURD()
     {
         var clientPolicy = new ClientPolicy();
         clientPolicy.timeout = 1000; // milliseconds
