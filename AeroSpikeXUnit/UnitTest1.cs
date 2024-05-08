@@ -2,16 +2,24 @@ using Aerospike.Client;
 using Xunit.Abstractions;
 using static Aerospike.Client.Value;
 
+
 namespace AeroSpikeXUnit;
 
 public class UnitTest1
 {
-     private readonly ITestOutputHelper _output;
-     
-public UnitTest1(ITestOutputHelper output)
-{
-    _output = output;
-}
+    private readonly ITestOutputHelper _output;
+
+    private WritePolicy _writePolicy = new WritePolicy
+    {
+        expiration = -2, //seconds
+        sendKey = true
+
+    };
+
+    public UnitTest1(ITestOutputHelper output)
+    {
+        _output = output;
+    }
 
     [Fact]
     public void TestCURD()
@@ -65,9 +73,38 @@ public UnitTest1(ITestOutputHelper output)
 
         Assert.Equal(36, ageBack);
 
+        // It does not provide default policy like client.Get() does which has readPolicyDefault which is just new Policy()
+        ReadCommand readCommand = new ReadCommand(client.Cluster, new QueryPolicy(), key); // here policy cannot be null, since it has no defaults
+        readCommand.Execute();
+        var ageBackeyCmd = readCommand.Record.GetInt("age");
+        Assert.Equal(36, ageBackeyCmd);
+
         // Delete a record
-        // bool deleteResult= client.Delete(null, key);
-        //_output.WriteLine($"Delete resutl is {deleteResult}");
+        bool deleteResult = client.Delete(null, key);
+        _output.WriteLine($"Delete resutl is {deleteResult}");
+        Assert.True(deleteResult);
+
+    }
+
+    [Fact]
+    public void TestList()
+    {
+        var clientPolicy = new ClientPolicy();
+        clientPolicy.timeout = 1000; // milliseconds
+        using var client = new AerospikeClient(clientPolicy, "127.0.0.1", 3000);
+
+        var key = new Key("ryantest", "users", "userList1");
+        var listBinName = "myList";
+
+        List<object> elements = new List<object>() { "write policy sendKey", true};
+        //var listOp = ListOperation.Insert(listBinName, 0, new Value.ListValue(elements));
+        var listOp = ListOperation.Insert(listBinName, 0, new Value.IntegerValue(33));
+        var listOpBatch = ListOperation.AppendItems(listBinName,  elements);
+       var record = client.Operate(_writePolicy, key, listOp, listOpBatch);
+       var listBack = record.bins[listBinName] as IList<object>;
+
+        ReadPolicy rp = new ReadPolicy();
 
     }
 }
+
