@@ -5,7 +5,7 @@ using static Aerospike.Client.Value;
 
 namespace AeroSpikeXUnit;
 
-public class UnitTest1
+public class Curd
 {
     private readonly ITestOutputHelper _output;
 
@@ -16,7 +16,7 @@ public class UnitTest1
 
     };
 
-    public UnitTest1(ITestOutputHelper output)
+    public Curd(ITestOutputHelper output)
     {
         _output = output;
     }
@@ -103,7 +103,7 @@ public class UnitTest1
        var record = client.Operate(_writePolicy, key, listOp, listOpBatch);
        var listBack = record.bins[listBinName] as IList<object>;
 
-        ReadPolicy rp = new ReadPolicy();
+   
 
     }
 }
