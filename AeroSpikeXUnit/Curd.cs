@@ -27,6 +27,8 @@ public class Curd
         
         using var client = new AsyncClient( "127.0.0.1", 3000);
 
+        WritePolicy wp = new WritePolicy() { sendKey =true};
+
 
         // // Create a new Aerospike _client
         // var config = new Config
@@ -48,7 +50,7 @@ public class Curd
                 { "StNo", 152}
             })
         };
-        client.Put(null, key, bins);
+        client.Put(wp, key, bins);
 
         // Read an existing record
         var record = client.Get(null, key);
