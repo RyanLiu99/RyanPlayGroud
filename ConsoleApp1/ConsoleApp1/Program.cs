@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,9 @@ namespace ConsoleApp1
     {
         
         internal static ServiceProvider Container;
+        static Program p = new Program();
+
+        public readonly string ACCOUNT_ID = "TestBenchMark_Original_" + Guid.NewGuid().ToString();
 
         static void Main(string[] args)
         {
@@ -32,28 +36,73 @@ namespace ConsoleApp1
 
             //new TestAsyncLocal().Test();
 
-            TestSpan();
+            // TestSpan();
+
+            // TestTimeer();
+            ConsoleTest();
         }
 
-        
-        public static void TestSpan()
+        static void ConsoleTest()
         {
+            Thread t1 = new Thread(WriteToConsole);
+            Thread t2 = new Thread(WriteToConsole);
+            Thread t3 = new Thread(WriteToConsole);
+            Thread t4 = new Thread(WriteToConsole);
 
-            var seperator = new ReadOnlySpan<char>(new[] { ' ' });
+            t1.Start();
+            t2.Start();
+            t3.Start();
+            t4.Start();
 
-            ReadOnlySpan<char> span = "Hello world!".AsMemory().Span;
-            //Span<Range> destination = new Span<Range>();
-            int count = span.Split(' ');
+            t1.Join();
+            t2.Join();
+            t3.Join();
+            t4.Join();
+        }
 
-            for (int c = count - 1; c >= 0; c--)
+        static void WriteToConsole()
+        {
+            
+            for (int i = 0; i < 100; i++)
             {
-                var range = destination[c];
-                for (var pos = range.Start.Value; pos <= range.End.Value; pos++)
-                {
-                    Console.Write(span[pos]);
-                }
+                Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId}: {i}  I am right, I didn't messed up. I will be good. {p.ACCOUNT_ID}");
             }
         }
+
+
+        private static void TestTimeer()
+        {
+            var timer = new Timer((object state) => {
+                Console.WriteLine(DateTime.Now);
+            }, null, 1000, 1000);
+
+            Thread.Sleep(5000);
+
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+
+            Console.WriteLine("timers stops");
+            Thread.Sleep(5000);
+            Console.WriteLine("Done sleep");
+        }
+
+        //public static void TestSpan()
+        //{
+
+        //    var seperator = new ReadOnlySpan<char>(new[] { ' ' });
+
+        //    ReadOnlySpan<char> span = "Hello world!".AsMemory().Span;
+        //    //Span<Range> destination = new Span<Range>();
+        //    int count = span.Split(' ');
+
+        //    for (int c = count - 1; c >= 0; c--)
+        //    {
+        //        var range = destination[c];
+        //        for (var pos = range.Start.Value; pos <= range.End.Value; pos++)
+        //        {
+        //            Console.Write(span[pos]);
+        //        }
+        //    }
+        //}
 
         private static void TestTupleValueTuple()
         {

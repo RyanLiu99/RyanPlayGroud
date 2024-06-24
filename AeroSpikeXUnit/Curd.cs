@@ -24,18 +24,16 @@ public class Curd
     [Fact]
     public void TestCURD()
     {
-        var clientPolicy = new ClientPolicy();
-        clientPolicy.timeout = 1000; // milliseconds
-
-        using var client = new AerospikeClient(clientPolicy, "127.0.0.1", 3000);
+        
+        using var client = new AsyncClient( "127.0.0.1", 3000);
 
 
-        // // Create a new Aerospike client
+        // // Create a new Aerospike _client
         // var config = new Config
         // {
         //     Hosts = new[] { new Host("127.0.0.1", 3000) }
         // };
-        // var client = new AerospikeClient(config);
+        // var _client = new AerospikeClient(config);
 
         // Create a new record
         var key = new Key("ryantest", "users", "user1");
@@ -43,7 +41,12 @@ public class Curd
         {
             new Bin("name", "John Doe"),
             new Bin("email", "john.doe@example.com"),
-            new Bin("age", 35)
+            new Bin("age", 35),
+            new Bin("address", new Dictionary<string, object>(){
+                {"City", "Shanghai" },
+                { "Street", "Park ave"},
+                { "StNo", 152}
+            })
         };
         client.Put(null, key, bins);
 
@@ -54,6 +57,7 @@ public class Curd
             _output.WriteLine($"Name: {record.GetString("name")}");
             _output.WriteLine($"Email: {record.GetString("email")}");
             _output.WriteLine($"Age: {record.GetInt("age")}");
+            _output.WriteLine($"City: {record.GetMap("address")?["City"]}");
         }
         else
         {
@@ -73,16 +77,28 @@ public class Curd
 
         Assert.Equal(36, ageBack);
 
-        // It does not provide default policy like client.Get() does which has readPolicyDefault which is just new Policy()
+        // It does not provide default policy like _client.Get() does which has readPolicyDefault which is just new Policy()
         ReadCommand readCommand = new ReadCommand(client.Cluster, new QueryPolicy(), key); // here policy cannot be null, since it has no defaults
         readCommand.Execute();
         var ageBackeyCmd = readCommand.Record.GetInt("age");
         Assert.Equal(36, ageBackeyCmd);
 
-        // Delete a record
-        bool deleteResult = client.Delete(null, key);
-        _output.WriteLine($"Delete resutl is {deleteResult}");
-        Assert.True(deleteResult);
+        //// Delete a record
+        //bool deleteResult = client.Delete(null, key);
+        //_output.WriteLine($"Delete resutl is {deleteResult}");
+        //Assert.True(deleteResult);
+
+        var keys = new Key[] {
+            new Key("ryantest", "users", "user1111"),
+            new Key("ryantest", "users", "user2"),
+            new Key("ryantest", "users", "user333"),
+        };
+        var records = client.Get(null, CancellationToken.None, keys, "age").GetAwaiter().GetResult();
+        Assert.NotNull(records);
+        Assert.Equal(3, records.Length);
+        Assert.Null(records[0]);
+        Assert.NotNull(records[1]);
+        Assert.Null(records[2]);
 
     }
 
