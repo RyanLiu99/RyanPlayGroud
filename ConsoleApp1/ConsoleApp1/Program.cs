@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,8 +20,13 @@ namespace ConsoleApp1
 
         public readonly string ACCOUNT_ID = "TestBenchMark_Original_" + Guid.NewGuid().ToString();
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            TestAsync.PrintThreadInfo("Main", true);
+            await TestAsync.M1();
+            TestAsync.PrintThreadInfo("Main", false);
+
+            //await Task.Delay(10);
             //TestLogFactory();
             //TestLogFactory2();
 
@@ -39,7 +45,7 @@ namespace ConsoleApp1
             // TestSpan();
 
             // TestTimeer();
-            ConsoleTest();
+            //ConsoleTest();
         }
 
         static void ConsoleTest()
