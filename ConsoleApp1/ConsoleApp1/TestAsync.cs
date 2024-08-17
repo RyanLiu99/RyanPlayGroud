@@ -19,15 +19,19 @@ namespace ConsoleApp1
         internal static async Task M1_1()
         {
             PrintThreadInfo("M1_1", true);
-            await M1_1_1().ConfigureAwait(false);
+            await Task.Run(() => M1_1_1());
+            //await M1_1_1().ConfigureAwait(false);
             PrintThreadInfo("M1_1", false);
         }
 
         internal static async Task M1_1_1()
         {
-            PrintThreadInfo("M1_1_1", true);
-            await Task.Delay(3).ConfigureAwait(false);
-            PrintThreadInfo("M1_1_1", false);
+            for (int i = 0; i < 3; i++)
+            {
+                PrintThreadInfo("M1_1_1:" + i, true);
+                await Task.Delay(3).ConfigureAwait(false);
+                PrintThreadInfo("M1_1_1:" + i, false);
+            }
         }
 
         internal static void PrintThreadInfo(string method, bool before)

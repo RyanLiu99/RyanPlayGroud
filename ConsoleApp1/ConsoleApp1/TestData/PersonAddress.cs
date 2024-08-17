@@ -35,6 +35,8 @@ namespace ConsoleApp1.TestData
         [Required, ValidateObject]
         public ZipCode Zip { get; set; }
 
+        public int StrNo { get; set; }
+
     }
 
     public class ZipCode

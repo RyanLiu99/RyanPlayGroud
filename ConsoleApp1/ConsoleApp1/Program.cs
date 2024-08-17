@@ -22,9 +22,11 @@ namespace ConsoleApp1
 
         static async Task Main(string[] args)
         {
-            TestAsync.PrintThreadInfo("Main", true);
-            await TestAsync.M1();
-            TestAsync.PrintThreadInfo("Main", false);
+            TestSelect.TestSelectMethod();
+
+            //TestAsync.PrintThreadInfo("Main", true);
+            //await TestAsync.M1();
+            //TestAsync.PrintThreadInfo("Main", false);
 
             //await Task.Delay(10);
             //TestLogFactory();
