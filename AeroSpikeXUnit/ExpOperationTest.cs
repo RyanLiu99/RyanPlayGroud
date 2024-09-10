@@ -1,5 +1,6 @@
 ﻿using Aerospike.Client;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,8 +46,6 @@ namespace AeroSpikeXUnit
 
             // Close the client connection
             client.Close();
-
-
         }
 
         [Fact]
@@ -59,9 +58,23 @@ namespace AeroSpikeXUnit
             string innerKey = "Inner";
             Value value = Value.Get(99);
 
-            //var writeOps = GetNestedWriteOperationsForField<int>(binName, outKey, innerKey, value).ToArray();
+            try
+            {
+                WritePolicy wp = new WritePolicy()
+                {
+                    expiration = 3600,
+                    recordExistsAction = RecordExistsAction.UPDATE,
+                    respondAllOps = true,
+                    sendKey = true                    
+                };
+                var writeOps = GetNestedWriteOperationsForField<int>(binName, outKey, innerKey, value).ToArray();
+                var recordWrite = client.Operate(wp, key, writeOps);
 
-            //var recordWrite = client.Operate(null, key, writeOps);
+            }
+            catch (AerospikeException ae) when (ae.Result == ResultCode.KEY_EXISTS_ERROR)
+            {
+                //ignore
+            }
 
             var recordRead = client.Operate(null, key, GetNestedReadOperationsForField(binName, outKey, innerKey));
 
@@ -70,24 +83,41 @@ namespace AeroSpikeXUnit
         }
 
         private static IEnumerable<Operation> GetNestedWriteOperationsForField<TValue>(string binName, string outerKey, string innerKey, Value value)
-        {
-            //create an empty innder map first as needed, otherwise AE exception
-            yield return MapOperation.Put(new MapPolicy(MapOrder.UNORDERED, MapWriteMode.CREATE_ONLY), binName,
-                Value.Get(outerKey), Value.Get(new Dictionary<string, TValue> { }));
+        {            
+            
+            ////create an empty innder map first as needed, otherwise AE exception, but won't work if insert for 2nd for same map key
+            //yield return MapOperation.Put(new MapPolicy(MapOrder.UNORDERED, MapWriteMode.CREATE_ONLY), binName,
+            //    Value.Get(outerKey), Value.Get(new Dictionary<string, TValue> { }));
+
+            
+            Exp outerKeyExp = MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP));
+
+            Exp condition = Exp.EQ(outerKeyExp, Exp.Val((string)null));
+
+            IDictionary outMap = new Dictionary<string, TValue> { };
+
+            Exp insertMap = MapExp.Put(new MapPolicy(MapOrder.UNORDERED, MapWriteMode.CREATE_ONLY), 
+                Exp.Val(outerKey), Exp.Val(outMap, MapOrder.UNORDERED), Exp.Bin(binName, Exp.Type.MAP));
+
+            
+            Exp conditioned = Exp.Cond(condition, insertMap, Exp.Unknown());
+            yield return ExpOperation.Write(binName, Exp.Build(conditioned), ExpWriteFlags.EVAL_NO_FAIL | ExpWriteFlags.POLICY_NO_FAIL);
 
             yield return MapOperation.Increment(MapPolicy.Default, binName, new StringValue(innerKey), value, CTX.MapKey(Value.Get(outerKey)));
         }
 
         private static Operation GetNestedReadOperationsForField(string binName, string outerKey, string innerKey)
         {
-            //Exp condition = Exp.And(
-            //    Exp.BinExists(binName),
-            //    Exp.NE(MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP)), Exp.Nil())
-            // );
+            Exp condition = Exp.And(                
+                Exp.BinExists(binName),  //Good  by itself or combine with Val(true) in Exp.And. Cannot be alone in And()
+                Exp.NE(MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP)), Exp.Val((string?)null))//works
+             );
 
-            Exp work = MapExp.GetByKey(MapReturnType.VALUE, Exp.Type.INT, Exp.Val(innerKey), Exp.Bin(binName, Exp.Type.MAP), CTX.MapKey(Value.Get(outerKey)));
+            //Exp condition = Exp.NE(MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP)), Exp.Val((string?)null)); // works
 
-            Exp conditionedWork = Exp.Cond(Exp.BinExists(binName), work, Exp.Val(0)); // Exp.Nil()
+            Exp work = MapExp.GetByKey(MapReturnType.VALUE, Exp.Type.INT, Exp.Val(innerKey), Exp.Bin(binName, Exp.Type.MAP), CTX.MapKey(Value.Get(outerKey))); //Good
+
+            Exp conditionedWork = Exp.Cond(condition, work, Exp.Val(0)); // works
             return ExpOperation.Read(binName, Exp.Build(conditionedWork), ExpReadFlags.EVAL_NO_FAIL);         
         }
 
