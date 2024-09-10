@@ -24,7 +24,6 @@ public class Curd
     [Fact]
     public void TestCURD()
     {
-        
         using var client = new AsyncClient( "127.0.0.1", 3000);
 
         WritePolicy wp = new WritePolicy() { sendKey =true};
@@ -92,7 +91,7 @@ public class Curd
 
         var keys = new Key[] {
             new Key("ryantest", "users", "user1111"),
-            new Key("ryantest", "users", "user2"),
+            new Key("ryantest", "users", "user1"),
             new Key("ryantest", "users", "user333"),
         };
         var records = client.Get(null, CancellationToken.None, keys, "age").GetAwaiter().GetResult();
@@ -115,13 +114,11 @@ public class Curd
         var listBinName = "myList";
 
         List<object> elements = new List<object>() { "write policy sendKey", true};
-        //var listOp = ListOperation.Insert(listBinName, 0, new Value.ListValue(elements));
-        var listOp = ListOperation.Insert(listBinName, 0, new Value.IntegerValue(33));
-        var listOpBatch = ListOperation.AppendItems(listBinName,  elements);
-       var record = client.Operate(_writePolicy, key, listOp, listOpBatch);
+        var listOp = ListOperation.Insert(listBinName, 0, new Value.ListValue(elements));
+        var listOp2 = ListOperation.Insert(listBinName, 0, new Value.IntegerValue(33));
+        var listOp3 = ListOperation.AppendItems(listBinName,  elements);
+       var record = client.Operate(_writePolicy, key, listOp, listOp2, listOp3);
        var listBack = record.bins[listBinName] as IList<object>;
-
-   
 
     }
 }
