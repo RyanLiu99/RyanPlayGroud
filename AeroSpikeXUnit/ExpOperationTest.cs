@@ -51,7 +51,7 @@ namespace AeroSpikeXUnit
         [Fact]
         public void TestNestedMap()
         {
-            AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
+            using AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
             Key key = new Key("test", "NestedMapOps", "key1");
             string binName = "NestedMap";
             string outKey = "Out";
@@ -63,7 +63,7 @@ namespace AeroSpikeXUnit
                 WritePolicy wp = new WritePolicy()
                 {
                     expiration = 3600,
-                    recordExistsAction = RecordExistsAction.UPDATE,
+                    recordExistsAction = RecordExistsAction.UPDATE,  //create or update
                     respondAllOps = true,
                     sendKey = true                    
                 };
@@ -83,27 +83,28 @@ namespace AeroSpikeXUnit
         }
 
         private static IEnumerable<Operation> GetNestedWriteOperationsForField<TValue>(string binName, string outerKey, string innerKey, Value value)
-        {            
-            
+        {
+
             ////create an empty innder map first as needed, otherwise AE exception, but won't work if insert for 2nd for same map key
             //yield return MapOperation.Put(new MapPolicy(MapOrder.UNORDERED, MapWriteMode.CREATE_ONLY), binName,
             //    Value.Get(outerKey), Value.Get(new Dictionary<string, TValue> { }));
 
-            
-            Exp outerKeyExp = MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP));
 
-            Exp condition = Exp.EQ(outerKeyExp, Exp.Val((string)null));
+            //Exp outerKeyExp = MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP));
 
-            IDictionary outMap = new Dictionary<string, TValue> { };
+            //Exp outKeyNotExist = Exp.EQ(outerKeyExp, Exp.Val((string)null));
 
-            Exp insertMap = MapExp.Put(new MapPolicy(MapOrder.UNORDERED, MapWriteMode.CREATE_ONLY), 
-                Exp.Val(outerKey), Exp.Val(outMap, MapOrder.UNORDERED), Exp.Bin(binName, Exp.Type.MAP));
+            //IDictionary innerEmptyMap = new Dictionary<string, TValue> { };
 
-            
-            Exp conditioned = Exp.Cond(condition, insertMap, Exp.Unknown());
-            yield return ExpOperation.Write(binName, Exp.Build(conditioned), ExpWriteFlags.EVAL_NO_FAIL | ExpWriteFlags.POLICY_NO_FAIL);
+            //Exp insertMap = MapExp.Put(new MapPolicy(MapOrder.UNORDERED, MapWriteMode.CREATE_ONLY),
+            //    Exp.Val(outerKey), Exp.Val(innerEmptyMap, MapOrder.UNORDERED), Exp.Bin(binName, Exp.Type.MAP));
 
-            yield return MapOperation.Increment(MapPolicy.Default, binName, new StringValue(innerKey), value, CTX.MapKey(Value.Get(outerKey)));
+            //Exp conditioned = Exp.Cond(outKeyNotExist, insertMap, Exp.Unknown());
+            //yield return ExpOperation.Write(binName, Exp.Build(conditioned), ExpWriteFlags.CREATE_ONLY | ExpWriteFlags.EVAL_NO_FAIL | ExpWriteFlags.POLICY_NO_FAIL);
+
+            //Above complex code is not working,  and they can all be replaced by CTX.MapKeyCreate
+
+            yield return MapOperation.Increment(MapPolicy.Default, binName, new StringValue(innerKey), value, CTX.MapKeyCreate(Value.Get(outerKey), MapOrder.UNORDERED));
         }
 
         private static Operation GetNestedReadOperationsForField(string binName, string outerKey, string innerKey)
@@ -113,7 +114,7 @@ namespace AeroSpikeXUnit
                 Exp.NE(MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP)), Exp.Val((string?)null))//works
              );
 
-            //Exp condition = Exp.NE(MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP)), Exp.Val((string?)null)); // works
+            //Exp outKeyNotExist = Exp.NE(MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP)), Exp.Val((string?)null)); // works
 
             Exp work = MapExp.GetByKey(MapReturnType.VALUE, Exp.Type.INT, Exp.Val(innerKey), Exp.Bin(binName, Exp.Type.MAP), CTX.MapKey(Value.Get(outerKey))); //Good
 
