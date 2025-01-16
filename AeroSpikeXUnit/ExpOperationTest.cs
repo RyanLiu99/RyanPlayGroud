@@ -90,7 +90,7 @@ namespace AeroSpikeXUnit
             //    Value.Get(outerKey), Value.Get(new Dictionary<string, TValue> { }));
 
 
-            //Exp outerKeyExp = MapExp.GetByKey(MapReturnType.KEY, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP));
+            //Exp outerKeyExp = MapExp.GetByKey(MapReturnType.EXISTS, Exp.Type.STRING, Exp.Val(outerKey), Exp.Bin(binName, Exp.Type.MAP));
 
             //Exp outKeyNotExist = Exp.EQ(outerKeyExp, Exp.Val((string)null));
 
@@ -121,6 +121,152 @@ namespace AeroSpikeXUnit
             Exp conditionedWork = Exp.Cond(condition, work, Exp.Val(0)); // works
             return ExpOperation.Read(binName, Exp.Build(conditionedWork), ExpReadFlags.EVAL_NO_FAIL);         
         }
+
+        [Fact]
+        public void TryAcquireLock()
+        {
+            string namespaceName = "ryantest";
+            string setName = "tetlock";
+            string keyString =  Guid.NewGuid().ToString();
+
+            string binName = "v";
+            Bin bin = new Bin(binName, true);
+            WritePolicy wp = new WritePolicy()
+            {
+                expiration = 1000 * 3600, //1h
+                //generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL,  // Same effect, but different error
+                //generation = 0,
+                recordExistsAction = RecordExistsAction.UPDATE //.UPDATE means Create or update record
+            };
+
+            using AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
+
+            Key key = new Key(namespaceName, setName, keyString);
+
+
+            // Define operations to check existence and create record if it doesn't exist
+            Operation[] operations1 = new Operation[]
+            {
+                Operation.Get(binName),
+                Operation.Put(bin), // Add the bin
+                Operation.GetHeader(), // Check if record exists, order does not matter, can move line up, get same generateion back, since there is only one record, one generation                
+                ExpOperation.Read("v2", Exp.Build(Exp.BoolBin(binName)), ExpReadFlags.EVAL_NO_FAIL)
+            };
+
+            Aerospike.Client.Record record1 = client.Operate(wp, key, operations1);
+
+            Assert.Equal(1, record1.generation);
+
+            Bin bin2 = new Bin(binName, false);
+
+            Operation[] operations2 = new Operation[]
+            {
+                Operation.Get(binName),
+               // Operation.GetHeader(), // Check if record exists, order does not matter, can move line up, get same generateion back
+                Operation.Put(bin2), // Add the bin
+                ExpOperation.Read("v2", Exp.Build(Exp.BoolBin(binName)), ExpReadFlags.EVAL_NO_FAIL)
+
+            };
+
+            Aerospike.Client.Record record2 = client.Operate(wp, key, operations2);
+            Assert.Equal(2, record2.generation);
+
+        }
+
+
+        [Fact]
+        public void TryAcquireLock2()
+        {
+            string namespaceName = "ryantest";
+            string setName = "tetlock";
+            string keyString = Guid.NewGuid().ToString();
+
+            string binName = "v";
+            Bin bin = new Bin(binName, true);
+            WritePolicy wp = new WritePolicy()
+            {
+                expiration = 1000 * 3600, //1h                
+                recordExistsAction = RecordExistsAction.UPDATE //.UPDATE means Create or update record
+            };
+
+            using AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
+
+            Key key = new Key(namespaceName, setName, keyString);
+
+
+            // Define operations to check existence and create record if it doesn't exist
+            Operation[] operations1 = new Operation[]
+            {
+                Operation.Put(bin), // Add the bin
+            };
+
+            Aerospike.Client.Record record1 = client.Operate(wp, key, operations1);
+
+            Assert.Equal(1, record1.generation);
+
+            Aerospike.Client.Record record2 = client.Operate(wp, key, operations1);
+            Assert.Equal(2, record2.generation);
+        }
+
+        [Fact]
+        public void TestInterLock()
+        {
+
+            string namespaceName = "ryantest";
+            string setName = "tetlock";
+            string keyString = Guid.NewGuid().ToString();
+
+            string binName = "v";
+            Bin bin = new Bin(binName, true);
+            WritePolicy wp = new WritePolicy()
+            {
+                expiration = 1000 * 3600, //1h                
+                recordExistsAction = RecordExistsAction.UPDATE //.UPDATE means Create or update record
+            };
+
+            using AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
+
+            Key key = new Key(namespaceName, setName, keyString);
+
+            int c = 300;
+            bool?[] result = new bool?[c];
+
+            var pr = Parallel.For(0, c, i =>
+            {
+                result[i] = IsKeyNew(client, key, bin, wp);
+            });
+
+            
+
+            Assert.DoesNotContain(result, x => x == null); // no null
+            Assert.Equal(1, result.Count(x => x == true)); 
+            Assert.Equal(299, result.Count(x => x == false));
+
+            var r =client.Get(null, key);
+            Assert.Equal(300, r.generation);
+        }
+
+
+        public static bool IsKeyNew(AerospikeClient client, Key key, Bin bin, WritePolicy wp)
+        {
+            try
+            {
+                Operation[] operations = new Operation[]
+                {
+                    Operation.Put(bin)
+                };
+               Aerospike.Client.Record record = client.Operate(wp, key, operations);
+
+                return record.generation == 1;
+            }
+            catch (AerospikeException ex) when (ex.Result == ResultCode.KEY_EXISTS_ERROR)
+            {
+                return false;
+            }
+        }
+
+
+    
 
 
 
