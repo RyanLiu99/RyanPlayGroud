@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ringba.Devtools.Aerospike", "Ringba.Devtools.Aerospike\Ringba.Devtools.Aerospike.csproj", "{385F8628-E305-470A-BA91-62D0F9CFA9B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ringba.Devtools.Aerospike.CodeFixes", "Ringba.Devtools.Aerospike.CodeFixes\Ringba.Devtools.Aerospike.CodeFixes.csproj", "{CF4D9C15-229F-4BC5-9CDF-A08CD3DBD15D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ringba.Devtools.Aerospike.Package", "Ringba.Devtools.Aerospike.Package\Ringba.Devtools.Aerospike.Package.csproj", "{C3C7EB59-A3A1-4207-8AC7-D5098C9BACB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ringba.Devtools.Aerospike.Test", "Ringba.Devtools.Aerospike.Test\Ringba.Devtools.Aerospike.Test.csproj", "{3C2A8FF9-1404-401B-BBE5-A002100068E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ring.Devtools.Aerospike.ManulTest", "Ring.Devtools.Aerospike.ManulTest\Ring.Devtools.Aerospike.ManulTest.csproj", "{B7C997D0-B9FA-46A6-A733-E7623BFD1CC6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{385F8628-E305-470A-BA91-62D0F9CFA9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385F8628-E305-470A-BA91-62D0F9CFA9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385F8628-E305-470A-BA91-62D0F9CFA9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385F8628-E305-470A-BA91-62D0F9CFA9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF4D9C15-229F-4BC5-9CDF-A08CD3DBD15D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF4D9C15-229F-4BC5-9CDF-A08CD3DBD15D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF4D9C15-229F-4BC5-9CDF-A08CD3DBD15D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF4D9C15-229F-4BC5-9CDF-A08CD3DBD15D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3C7EB59-A3A1-4207-8AC7-D5098C9BACB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C7EB59-A3A1-4207-8AC7-D5098C9BACB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C7EB59-A3A1-4207-8AC7-D5098C9BACB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C7EB59-A3A1-4207-8AC7-D5098C9BACB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2A8FF9-1404-401B-BBE5-A002100068E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2A8FF9-1404-401B-BBE5-A002100068E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2A8FF9-1404-401B-BBE5-A002100068E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2A8FF9-1404-401B-BBE5-A002100068E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7C997D0-B9FA-46A6-A733-E7623BFD1CC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7C997D0-B9FA-46A6-A733-E7623BFD1CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7C997D0-B9FA-46A6-A733-E7623BFD1CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7C997D0-B9FA-46A6-A733-E7623BFD1CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
