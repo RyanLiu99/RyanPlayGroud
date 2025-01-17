@@ -8,8 +8,13 @@ namespace Ring.Devtools.AerospikeCodeAnalyzer.ManulTest
             Justification = "This unit test just show how code analyzer work")]
         public static void Test()
         {
-            //Bad one, do not fix them, they show Analyzers are working 
-            var clientPolicy1 = new AsyncClientPolicy(); // Wrong: no writePolicyDefault
+            //Bad ones, do not fix them, they show Analyzers are working 
+
+            var clientPolicy11 = new ClientPolicy(); // Wrong: no writePolicyDefault
+            var clientPolicy12 = new ClientPolicy() { writePolicyDefault = null}; // Wrong: no writePolicyDefault
+
+            var acyncClientPolicy11 = new AsyncClientPolicy(); // Wrong: no writePolicyDefault
+            var acyncClientPolicy12 = new AsyncClientPolicy() { writePolicyDefault = null}; // Wrong: writePolicyDefault is null
 
             var client11 = new AerospikeClient("localhost", 3000); // Wrong: No ClientPolicy
             var client12 = new AerospikeClient( null, "localhost", 3000); // Wrong: CleintPolicy is null
@@ -22,6 +27,7 @@ namespace Ring.Devtools.AerospikeCodeAnalyzer.ManulTest
 
 
             //Good ones
+
             var clientPolicy2 = new AsyncClientPolicy() {writePolicyDefault= new WritePolicy() { durableDelete = true} };
 
             var client2 = new AerospikeClient(clientPolicy2, "localhost", 3000);            
