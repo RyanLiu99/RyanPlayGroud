@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Ringba.Devtools.Aerospike.Test
+namespace Ringba.Devtools.AerospikeCodeAnalyzer.Test.Verifiers
 {
     internal static class CSharpVerifierHelper
     {

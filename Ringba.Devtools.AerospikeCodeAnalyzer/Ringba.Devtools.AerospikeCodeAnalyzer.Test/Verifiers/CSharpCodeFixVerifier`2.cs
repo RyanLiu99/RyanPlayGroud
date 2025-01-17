@@ -7,9 +7,11 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using Ringba.Devtools.AerospikeCodeAnalyzer;
+using Ringba.Devtools.AerospikeCodeAnalyzer.Test.Verifiers;
 using AerospikeClient = Aerospike.Client;
 
-namespace Ringba.Devtools.Aerospike.Test
+namespace Ringba.Devtools.AerospikeCodeAnalyzer.Test
 {
     public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         where TAnalyzer : DiagnosticAnalyzer, new()

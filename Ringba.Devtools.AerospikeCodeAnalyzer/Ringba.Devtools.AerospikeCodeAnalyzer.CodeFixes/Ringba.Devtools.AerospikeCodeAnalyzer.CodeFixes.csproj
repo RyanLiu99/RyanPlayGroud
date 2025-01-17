@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RootNamespace>Ringba.Devtools.Aerospike</RootNamespace>
+    <RootNamespace>Ringba.Devtools.AerospikeCodeAnalyzer</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ringba.Devtools.Aerospike\Ringba.Devtools.Aerospike.csproj" />
+    <ProjectReference Include="..\Ringba.Devtools.AerospikeCodeAnalyzer\Ringba.Devtools.AerospikeCodeAnalyzer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

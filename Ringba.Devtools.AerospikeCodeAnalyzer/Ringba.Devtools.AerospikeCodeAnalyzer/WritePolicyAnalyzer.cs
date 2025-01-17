@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Ringba.Devtools.Aerospike
+namespace Ringba.Devtools.AerospikeCodeAnalyzer
 {
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]

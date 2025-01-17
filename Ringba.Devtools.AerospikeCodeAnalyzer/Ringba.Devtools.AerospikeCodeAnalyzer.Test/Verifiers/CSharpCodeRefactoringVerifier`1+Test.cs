@@ -1,13 +1,14 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Testing;
-using Microsoft.CodeAnalysis.Diagnostics;
+﻿using Microsoft.CodeAnalysis.CodeRefactorings;
+using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using Ringba.Devtools.AerospikeCodeAnalyzer.Test.Verifiers;
 
-namespace Ringba.Devtools.Aerospike.Test
+namespace Ringba.Devtools.AerospikeCodeAnalyzer.Test
 {
-    public static partial class CSharpAnalyzerVerifier<TAnalyzer>
-        where TAnalyzer : DiagnosticAnalyzer, new()
+    public static partial class CSharpCodeRefactoringVerifier<TCodeRefactoring>
+        where TCodeRefactoring : CodeRefactoringProvider, new()
     {
-        public class Test : CSharpAnalyzerTest<TAnalyzer, MSTestVerifier>
+        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, MSTestVerifier>
         {
             public Test()
             {

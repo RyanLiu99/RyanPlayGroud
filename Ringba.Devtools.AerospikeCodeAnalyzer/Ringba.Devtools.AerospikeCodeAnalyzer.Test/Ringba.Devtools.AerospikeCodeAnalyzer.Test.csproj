@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ringba.Devtools.Aerospike.CodeFixes\Ringba.Devtools.Aerospike.CodeFixes.csproj" />
-    <ProjectReference Include="..\Ringba.Devtools.Aerospike\Ringba.Devtools.Aerospike.csproj" />
+    <ProjectReference Include="..\Ringba.Devtools.AerospikeCodeAnalyzer.CodeFixes\Ringba.Devtools.AerospikeCodeAnalyzer.CodeFixes.csproj" />
+    <ProjectReference Include="..\Ringba.Devtools.AerospikeCodeAnalyzer\Ringba.Devtools.AerospikeCodeAnalyzer.csproj" />
   </ItemGroup>
 
 </Project>

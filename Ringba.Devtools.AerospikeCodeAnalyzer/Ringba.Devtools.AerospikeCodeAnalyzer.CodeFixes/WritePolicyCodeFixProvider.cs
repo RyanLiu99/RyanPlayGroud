@@ -1,5 +1,5 @@
 ﻿
-namespace Ringba.Devtools.Aerospike
+namespace Ringba.Devtools.AerospikeCodeAnalyzer
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -12,7 +12,6 @@ namespace Ringba.Devtools.Aerospike
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Editing;
-
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(WritePolicyCodeFixProvider)), Shared]
     public class WritePolicyCodeFixProvider : CodeFixProvider
@@ -33,8 +32,8 @@ namespace Ringba.Devtools.Aerospike
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the object creation expression identified by the diagnostic.
-            var objectCreation = root.FindNode(diagnosticSpan) as ObjectCreationExpressionSyntax;
-            if (objectCreation == null) return;
+            
+            if (!(root.FindNode(diagnosticSpan) is ObjectCreationExpressionSyntax objectCreation)) return;
 
             // Register a code action that will invoke the fix.
             context.RegisterCodeFix(

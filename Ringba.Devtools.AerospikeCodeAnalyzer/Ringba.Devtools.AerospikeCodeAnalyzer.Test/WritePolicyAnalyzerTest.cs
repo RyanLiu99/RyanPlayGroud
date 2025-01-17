@@ -1,18 +1,19 @@
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = Ringba.Devtools.Aerospike.Test.CSharpCodeFixVerifier<
-    Ringba.Devtools.Aerospike.WritePolicyAnalyzer,
-    Ringba.Devtools.Aerospike.WritePolicyCodeFixProvider>;
+using Ringba.Devtools.AerospikeCodeAnalyzer;
+using VerifyCS = Ringba.Devtools.AerospikeCodeAnalyzer.Test.CSharpCodeFixVerifier<
+    Ringba.Devtools.AerospikeCodeAnalyzer.WritePolicyAnalyzer,
+    Ringba.Devtools.AerospikeCodeAnalyzer.WritePolicyCodeFixProvider>;
 
-namespace Ringba.Devtools.Aerospike.Test
+namespace Ringba.Devtools.AerospikeCodeAnalyzer.Test
 {
     [TestClass]
     public class WritePolicyAnalyzerTest
     {
         // No diagnostics expected to show up
         [TestMethod]
-        public async Task TestNoDiagnosticsExpectedWhenNotRelated()
+        public async Task NoDiagnosticsExpectedWhenNotRelated()
         {
             var test = @"
    
@@ -30,7 +31,7 @@ namespace Ringba.Devtools.Aerospike.Test
 
         // No diagnostics expected to show up
         [TestMethod]
-        public async Task TestNoDiagnosticsExpectedWhenAlreadyHasRightValue()
+        public async Task NoDiagnosticsExpectedWhenDurableDeleteAlreadyTrue()
         {
             var test = @"
     using Aerospike.Client;
@@ -116,6 +117,6 @@ namespace Ringba.Devtools.Aerospike.Test
             await VerifyCS.VerifyCodeFixAsync(originalSrc, expectedDiagnostic, updatedSrc);
         }
 
-       
+
     }
 }
