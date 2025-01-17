@@ -10,15 +10,14 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
     public class ClientPolicyAnalyzer : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "RAE003";
-
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            id: DiagnosticId,
-            title: "Ensure ClientPolicy has writePolicyDefault set",
-            messageFormat: "ClientPolicy must be initialized with writePolicyDefault.",
-            category: "AerospikeUsage",
-            defaultSeverity: DiagnosticSeverity.Error,
-            isEnabledByDefault: true
-        );
+             id: DiagnosticId,
+             title: "Ensure ClientPolicy has writePolicyDefault set",
+             messageFormat: "ClientPolicy must be initialized with writePolicyDefault and cannot be null. Perfer use one of existing Ringba.Framework.Aerospike.DefaultPolicies",
+             category: "AerospikeUsage",
+             defaultSeverity: DiagnosticSeverity.Error,
+             isEnabledByDefault: true
+         );
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -39,9 +38,30 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
             }
 
             var initializer = objectCreation.Initializer;
-            if (initializer == null || !initializer.Expressions.OfType<AssignmentExpressionSyntax>().Any(assign => assign.Left.ToString() == "writePolicyDefault"))
+
+            if (initializer == null)
             {
+                // If there is no initializer, report missing writePolicyDefault
                 var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation());
+                context.ReportDiagnostic(diagnostic);
+                return;
+            }
+
+            // Look for writePolicyDefault assignment
+            var writePolicyAssignment = initializer.Expressions
+                .OfType<AssignmentExpressionSyntax>()
+                .FirstOrDefault(assign => assign.Left.ToString() == "writePolicyDefault");
+
+            if (writePolicyAssignment == null)
+            {
+                // If writePolicyDefault is missing, report a diagnostic
+                var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation());
+                context.ReportDiagnostic(diagnostic);
+            }
+            else if (writePolicyAssignment.Right.IsKind(SyntaxKind.NullLiteralExpression))
+            {
+                // If writePolicyDefault is explicitly set to null, report a diagnostic
+                var diagnostic = Diagnostic.Create(Rule, writePolicyAssignment.GetLocation());
                 context.ReportDiagnostic(diagnostic);
             }
         }

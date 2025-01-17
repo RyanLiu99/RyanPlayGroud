@@ -4,7 +4,7 @@ This NuGet Pacakge is not be used to enforce always use durable delete for Aeros
 
 > Whenever you add reference to Aerospike.Client, please also add this Ringba.Devtools.AerospikeCodeAnalyzer NuGet package at the same time!!!
 
-And it is all need to be done. No need call this NuGet package from code.
+And it is all need to be done. No need call this NuGet package from code.  But you might close and re-open Visual Studio or Visual Studio Code.
 
 Then it will generate compile error when the source code is composed/compiled.  It can also fix all the violations in the scope of file/project/solution wehen moving mouse over the error.
 
