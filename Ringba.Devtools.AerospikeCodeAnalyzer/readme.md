@@ -19,6 +19,8 @@ It works in Visual Studio Code too:
 
 Even with this tool, please still check the code yourself when writing code or reviewing the code.
 
+It works for both .NET framework and .NET Core/.NET apps/libs.
+
 # Background
 
 To make sure deleted records will not come back to life when restart Aerospike server, https://app.shortcut.com/ringbadevteam/story/21019/enable-durable-delete-for-aerospike is deployed to enable durable delete.
