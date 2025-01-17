@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>Ringba.Devtools.AerospikeCodeAnalyzer</PackageId>
-    <PackageVersion>1.0.0.29</PackageVersion>
+    <PackageVersion>1.0.0.32</PackageVersion>
     <Authors>ryanl</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
     <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>

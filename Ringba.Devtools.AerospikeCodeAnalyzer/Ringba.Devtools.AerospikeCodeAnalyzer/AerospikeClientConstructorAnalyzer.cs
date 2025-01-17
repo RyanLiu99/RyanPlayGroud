@@ -10,7 +10,7 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class AerospikeClientConstructorAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "RAE002";
+        public const string DiagnosticId = "RAE001";
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: DiagnosticId,

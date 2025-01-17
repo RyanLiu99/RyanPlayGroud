@@ -11,7 +11,7 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class WritePolicyAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "RAE001";
+        public const string DiagnosticId = "RAE004";
 
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Localizing%20Analyzers.md
 
