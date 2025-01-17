@@ -9,13 +9,18 @@ namespace Ring.Devtools.AerospikeCodeAnalyzer.ManulTest
         public static void Test()
         {
             //Bad one, do not fix them, they show Analyzers are working 
-            var client = new AerospikeClient("localhost", 3000);
-            var asyncClient = new AsyncClient(null, "localhost", 3000);
-            var wp = new WritePolicy() { durableDelete = false };
+            var clientPolicy1 = new AsyncClientPolicy();
+            var client1 = new AerospikeClient("localhost", 3000);          
+            var asyncClient1 = new AsyncClient(null, "localhost", 3000);
+            var wp11 = new WritePolicy() { durableDelete = false };
+            var wp12 = new WritePolicy();
+
 
             //Good ones
-            var client2 = new AerospikeClient(new ClientPolicy(),"localhost", 3000);
-            var asyncClient2 = new AsyncClient(new AsyncClientPolicy(), "localhost", 3000);
+            var clientPolicy2 = new AsyncClientPolicy() {writePolicyDefault= new WritePolicy() { durableDelete = true} };
+
+            var client2 = new AerospikeClient(clientPolicy2, "localhost", 3000);            
+            var asyncClient2 = new AsyncClient(clientPolicy2, "localhost", 3000);
             var wp2 = new WritePolicy() { durableDelete = true };
         }
     }

@@ -50,7 +50,8 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
                 var firstArg = objectCreation.ArgumentList.Arguments[0];
                 var argType = context.SemanticModel.GetTypeInfo(firstArg.Expression).Type;
 
-                if (argType == null || argType.ToString() != "Aerospike.Client.ClientPolicy")
+                if (argType == null || 
+                    (argType.ToString() != "Aerospike.Client.ClientPolicy" && argType.ToString() != "Aerospike.Client.AsyncClientPolicy"))
                 {
                     var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation());
                     context.ReportDiagnostic(diagnostic);
