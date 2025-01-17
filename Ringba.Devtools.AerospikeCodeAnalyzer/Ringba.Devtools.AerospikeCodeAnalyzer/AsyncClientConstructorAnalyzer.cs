@@ -15,7 +15,7 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Ensure AsyncClient constructor uses AsyncClientPolicy",
-            messageFormat: "AsyncClient must be initialized with a AsyncClientPolicy.",
+            messageFormat: "AsyncClient must be initialized with a AsyncClientPolicy. Perfer Ringba.Framework.Aerospike. DefaultPolicies.DurableDeleteAsyncClientPolicy.",
             category: "AerospikeUsage",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true

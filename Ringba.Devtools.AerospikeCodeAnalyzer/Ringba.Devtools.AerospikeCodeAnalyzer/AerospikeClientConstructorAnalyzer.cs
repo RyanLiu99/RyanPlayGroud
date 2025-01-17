@@ -15,7 +15,7 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Ensure AerospikeClient constructor uses ClientPolicy",
-            messageFormat: "AerospikeClient must be initialized with a ClientPolicy.",
+            messageFormat: "AerospikeClient must be initialized with a ClientPolicy. Perfer Ringba.Framework.Aerospike. DefaultPolicies.DurableDeleteClientPolicy.",
             category: "AerospikeUsage",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true

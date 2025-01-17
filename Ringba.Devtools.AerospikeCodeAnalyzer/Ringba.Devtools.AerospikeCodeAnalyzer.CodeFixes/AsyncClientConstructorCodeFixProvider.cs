@@ -13,9 +13,9 @@ using Microsoft.CodeAnalysis.Editing;
 namespace Ringba.Devtools.AerospikeCodeAnalyzer
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AerospikeClientConstructorCodeFixProvider)), Shared]
-    public class AerospikeClientConstructorCodeFixProvider : CodeFixProvider
+    public class AsyncClientConstructorCodeFixProvider : CodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(AerospikeClientConstructorAnalyzer.DiagnosticId);
+        public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(AsyncClientConstructorAnalyzer.DiagnosticId);
 
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
@@ -29,11 +29,12 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: "Use constructor with ClientPolicy",
+                    title: "Use constructor with AsyncClientPolicy",
                     createChangedDocument: c => FixAsync(context.Document, objectCreation, c),
-                    equivalenceKey: "Use constructor with ClientPolicy"),
+                    equivalenceKey: "Use constructor with AsyncClientPolicy"),
                 diagnostic);
         }
+
 
         private async Task<Document> FixAsync(Document document, ObjectCreationExpressionSyntax objectCreation, CancellationToken cancellationToken)
         {
@@ -41,7 +42,7 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
 
             // Create new ClientPolicy with writePolicyDefault = new WritePolicy() { durableDelete = true }
             var newClientPolicy = SyntaxFactory.ObjectCreationExpression(
-                SyntaxFactory.IdentifierName("ClientPolicy"))
+                SyntaxFactory.IdentifierName("AsyncClientPolicy"))
                 .WithArgumentList(SyntaxFactory.ArgumentList()) // No constructor parameters
                 .WithInitializer(SyntaxFactory.InitializerExpression(
                     SyntaxKind.ObjectInitializerExpression,
