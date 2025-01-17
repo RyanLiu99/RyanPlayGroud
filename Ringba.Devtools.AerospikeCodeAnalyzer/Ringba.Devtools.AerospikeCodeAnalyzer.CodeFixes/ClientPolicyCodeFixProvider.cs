@@ -76,6 +76,7 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
                     {
                         editor.ReplaceNode(existingAssignment, newAssignment);
                     }
+                    // If writePolicyDefault is assigned to a value other than null, keep it
                 }
                 else
                 {
@@ -98,5 +99,4 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
             return editor.GetChangedDocument();
         }
     }
-
 }

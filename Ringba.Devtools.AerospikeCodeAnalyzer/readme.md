@@ -2,11 +2,14 @@
 
 This NuGet Pacakge is not be used to enforce always use durable delete for Aerospike.
 
+> It is very hard to get rid of stale data from AE server.  DevOps need to replace AE nodes one by one. So make sure not to re-introduce stale data back by always using a writePolicy with durableDelete=true. 
+
 > Whenever you add reference to Aerospike.Client, please also add this Ringba.Devtools.AerospikeCodeAnalyzer NuGet package at the same time!!!
 
 And it is all need to be done. No need call this NuGet package from code.  But you might close and re-open Visual Studio or Visual Studio Code.
 
-Then it will generate compile error when the source code is composed/compiled.  It can also fix all the violations in the scope of file/project/solution wehen moving mouse over the error.
+Then it will generate compile error when the source code is composed/compiled.  It can also fix all kind of violations for `WritePolicy, ClientPolicy, AsyncClientPolicy, AerospikeClient, AsyncClient` in the scope of file/project/solution wehen moving mouse over the error.
+
 
 ![Compile eror](./screenShots/VisualStudio-4-compile-errors.jpg)
 
@@ -14,10 +17,14 @@ Then it will generate compile error when the source code is composed/compiled.  
 It works in Visual Studio Code too:
 
 ![Compile eror](./screenShots/VSCode-4-compile-errors.jpg)
-![Compile eror](./screenShots/VSCodeWritePolicyFix.jpg)
+
+![Fix Write Policy](./screenShots/VSCodeWritePolicyFix.jpg)
+![Fix AE Client](./screenShots/VSCodeAerospikeClientFix.jpg)
 
 
 Even with this tool, please still check the code yourself when writing code or reviewing the code.
+
+Its autofix might not also your best fix. As the compile error suggests, perfer use [DefaultPolicies](https://github.com/Ringba/Ringba-v2/blob/ccc67a659fc5df0970c89500eb7ffaf676502957/Ringba.Infrastructure.Aerospike/DefaultPolicies.cs) which auto-fix does not use.
 
 It works for both .NET framework and .NET Core/.NET apps/libs.
 
@@ -47,14 +54,10 @@ So to ensure we always have durableDelete set to true, we need
 1. Do this for both AsyncClient  and  AerospikeClient (later one should be phasing out);
 1. Utilize [PolicyExtensions](https://github.com/Ringba/Ringba-v2/blob/ccc67a659fc5df0970c89500eb7ffaf676502957/Ringba.Infrastructure.Aerospike/PolicyExtensions.cs)'s extension method `EnsureDurableDelete(this WritePolicy policy)`, as our Ringba.Infrastructure.RetyClient and RetryClientAsync do.
 
+
 This NuGet package is for rule 1 and 2.
 
 Examples can be found in https://github.com/Ringba/Ringba-v2/pull/3938/commits for the first 4 commits. 
-
-
-
-> It is very hard to get rid of stale data from AE server.  Brian needs to replace AE nodes one by one. 
-So make sure not re-introduce stale data back by always using a writePolicy with durableDelete=true. 
 
 
 When write new code or doing code review, please keep these in mind.  Thanks!
