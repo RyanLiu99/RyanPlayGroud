@@ -9,9 +9,11 @@ namespace Ring.Devtools.AerospikeCodeAnalyzer.ManulTest
 {
     public class TestEnforcingWritePolicy
     {
-        public static WritePolicy Test()
+        public static void Test()
         {
-            return new WritePolicy() { durableDelete = false };
+            var client = new AerospikeClient("localhost", 3000);
+
+            var wp = new WritePolicy() { durableDelete = false };
         }
     }
 
