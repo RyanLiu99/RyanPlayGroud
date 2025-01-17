@@ -8,11 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Aerospike.Client" Version="4.2.7" />
-    <PackageReference Include="Ringba.Devtools.AerospikeCodeAnalyzer" Version="1.0.0.20" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Ringba.Devtools.AerospikeCodeAnalyzer.Package\Ringba.Devtools.AerospikeCodeAnalyzer.Package.csproj" />
+    <PackageReference Include="Ringba.Devtools.AerospikeCodeAnalyzer" Version="1.0.0.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

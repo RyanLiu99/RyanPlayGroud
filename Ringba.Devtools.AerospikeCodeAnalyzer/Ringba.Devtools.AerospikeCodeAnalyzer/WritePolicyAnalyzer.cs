@@ -38,10 +38,9 @@ namespace Ringba.Devtools.AerospikeCodeAnalyzer
         private static void AnalyzeObjectCreation(SyntaxNodeAnalysisContext context)
         {
             var objectCreation = (ObjectCreationExpressionSyntax)context.Node;
-            var typeSymbol = context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol as INamedTypeSymbol;
 
             // Ensure the type is Aerospike.Client.WritePolicy
-            if (typeSymbol == null ||
+            if (!(context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol is INamedTypeSymbol typeSymbol) ||
                 typeSymbol.Name != "WritePolicy" ||
                 typeSymbol.ContainingNamespace.ToDisplayString() != "Aerospike.Client")
             {
