@@ -1,0 +1,1 @@
+This sln is almost nothing, just check if CancellationChangeToken  from Microsoft.Extensions.Primitives Nuget pkg is available in .NET 4.8 apps.

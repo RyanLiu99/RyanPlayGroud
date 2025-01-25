@@ -15,6 +15,7 @@ namespace AspNetMvc
         private readonly CacheProfile _cacheProfile;
         private static volatile int _c;
 
+        //suppplied, not injected by Ioc
         public ConditionalResponseCacheFilter(CacheProfile cacheProfile)
         {
             this._cacheProfile = cacheProfile;

@@ -1,0 +1,1 @@
+﻿This project is almost nothing, it is just used to test basic of .NET core option patten for configuration.
