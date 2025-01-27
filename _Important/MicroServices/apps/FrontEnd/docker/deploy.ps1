@@ -3,9 +3,9 @@ trap {
     exit 1
 }
 function prune{
-    docker container prune -f
-    docker image prune -f
-    docker network prune -f
+    # docker container prune 
+    docker image prune 
+    docker network prune 
 }
 
 $OldLocaton = Get-Location
@@ -29,4 +29,4 @@ try { [System.Diagnostics.Process]::Start("http://localhost:$exposePort")  # PS 
 } catch { } #Ignore
 
 Set-Location $OldLocaton
-prune
+# prune   # don't do it, it will remove all containers and images, I don't always keep things running

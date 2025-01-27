@@ -1,7 +1,7 @@
 function prune{
-    docker container prune -f
-    docker image prune -f
-    docker network prune -f
+    # docker container prune 
+    docker image prune 
+    docker network prune 
 }
 
 $OldLocaton = Get-Location
@@ -20,9 +20,9 @@ $image = 'playground/proxyservice'
 
 docker ps --format "{{.Image}}#{{.ID}}" -n 1 -q | Where-Object {$_ -Match $image} | foreach-object {docker rm -f $_.split("#")[1]}  
 # docker container rm -fv playgroundProxyService
-prune
+# prune  # don't do it, it will remove all containers and images, I don't always keep things running
 docker-compose up -d --build # or run dockerize-another.directWay.ps1 to create image only
 try { [System.Diagnostics.Process]::Start("https://localhost:352/")  # PS 5 only
 } catch { } #Ignore
 Set-Location $OldLocaton
-prune
+#  prune   # Don't do it, it will remove all containers and images, I don't always keep things running

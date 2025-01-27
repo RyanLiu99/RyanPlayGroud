@@ -2,9 +2,9 @@
 # depends on DockerfilePublish
 
 function prune{
-    docker container prune -f
-    docker image prune -f
-    docker network prune -f
+    # docker container prune 
+    docker image prune 
+    docker network prune 
 }
 
 $OldLocaton = Get-Location
@@ -21,9 +21,9 @@ Set-Location "$PSSCRIPTROOT\"
 docker-compose stop
 docker ps --format "{{.Image}}#{{.ID}}" -n 1 -q | Where-Object {$_ -Match "webapinet5publish"} | foreach-object {docker rm -f $_.split("#")[1]}  
 # docker container rm -fv WebApiNet5BackEnd
-prune
+# prune # don't do it
 docker-compose up -d --build # or run dockerize-another.directWay.ps1 to create image only
 try { [System.Diagnostics.Process]::Start("https://localhost:252/Index")  # PS 5 only
 } catch { } #Ignore
 Set-Location $OldLocaton
-prune
+# prune # don't do it, it will remove all containers and images, I don't always keep things running
