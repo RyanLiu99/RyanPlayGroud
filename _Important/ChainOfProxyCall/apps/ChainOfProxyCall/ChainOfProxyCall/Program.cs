@@ -47,7 +47,7 @@ app.MapGet("/", async (HttpContext context) =>
     catch (Exception ex)
     {
         // If there's an error reaching the target, return an error message.
-        await context.Response.WriteAsync($"Error forwarding to {targetUrl}: {ex.Message}");
+        await context.Response.WriteAsync($"Error calling to {targetUrl}: {ex.Message}");
         return;
     }
 
@@ -55,7 +55,7 @@ app.MapGet("/", async (HttpContext context) =>
     string responseBody = await response.Content.ReadAsStringAsync();
 
     // Append the current host info to the response.
-    responseBody += $" | {host} forwarding.";
+    responseBody = $" {host} calling next. | " + responseBody;
 
     // Write the final response.
     await context.Response.WriteAsync(responseBody);
