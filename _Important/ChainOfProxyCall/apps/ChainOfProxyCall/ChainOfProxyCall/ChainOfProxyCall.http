@@ -1,0 +1,6 @@
+@ChainOfProxyCall_HostAddress = http://localhost:5091
+
+GET {{ChainOfProxyCall_HostAddress}}/
+Accept: application/json
+
+###
