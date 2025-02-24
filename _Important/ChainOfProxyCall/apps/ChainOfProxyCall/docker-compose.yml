@@ -1,22 +1,19 @@
 services:
   chainofproxycall1:
     container_name: chainofproxycall1
-    build: 
-      context: .
-      dockerfile: ChainOfProxyCall/Dockerfile
+    image: chain-of-proxy-call:latest
+    # build: 
+    #   context: .
+    #   dockerfile: ChainOfProxyCall/Dockerfile
     ports:
       - "5301:8080"
   chainofproxycall2:
     container_name: chainofproxycall2
-    build: 
-      context: .
-      dockerfile: ChainOfProxyCall/Dockerfile    
+    image: chain-of-proxy-call:latest
     ports:
       - "5302:8080"
   chainofproxycall3:
     container_name: chainofproxycall3
-    build: 
-      context: .
-      dockerfile: ChainOfProxyCall/Dockerfile    
+    image: chain-of-proxy-call:latest
     ports:
       - "5303:8080"

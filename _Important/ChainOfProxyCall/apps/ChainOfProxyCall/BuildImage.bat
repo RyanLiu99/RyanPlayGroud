@@ -1,0 +1,1 @@
+docker build -t chain-of-proxy-call:latest -f ChainOfProxyCall/Dockerfile .
