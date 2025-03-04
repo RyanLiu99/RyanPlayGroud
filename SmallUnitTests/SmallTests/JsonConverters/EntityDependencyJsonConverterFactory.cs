@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SmallTests.Entities;
+using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SmallTests.Entities
+namespace SmallTests.JsonConverters
 {
     public class EntityDependencyJsonConverterFactory : JsonConverterFactory
     {
@@ -46,10 +47,10 @@ namespace SmallTests.Entities
         private class EntityDependencyConverterInner : JsonConverter<EntityDependency>
         {
 
-          
+
             public EntityDependencyConverterInner(JsonSerializerOptions options)
             {
-                    
+
             }
             public override EntityDependency? Read(ref Utf8JsonReader reader, Type typeToConvert,
                 JsonSerializerOptions options)

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SmallTests.Entities
+namespace SmallTests.JsonConverters
 {
 
     public class TupleJsonConverter : JsonConverter<ITuple>
@@ -33,16 +33,16 @@ namespace SmallTests.Entities
                 try
                 {
                     var converter = _options.GetConverter(dataType);
-                   // ((JsonConverter<string>)converter).Write();
+                    // ((JsonConverter<string>)converter).Write();
                 }
                 catch (Exception e)
                 {
-                   
+
                     throw;
                 }
-                
-                
-               
+
+
+
             }
 
             writer.WriteEndArray();
