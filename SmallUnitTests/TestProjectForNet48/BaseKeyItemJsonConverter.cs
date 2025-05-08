@@ -39,30 +39,43 @@ namespace TestProjectForNet48
                 return;
             }
 
-            if (writer.BytesCommitted + writer.BytesPending > PreDefinedOptions.MaxSize)
-            {
-                Console.WriteLine("Max size reached when doing " + value.Id);
-                writer.WriteNullValue();
-                return;  
-            }
-
-
             //Fetched form db, truncate it.        
             if (value.generation.HasValue)
             {
                 writer.WriteStartObject();
                 writer.WriteNumber("Id", value.Id);
-                writer.WriteString("Name", value.Name);
+
+                if (!string.IsNullOrEmpty(value.Name))
+                {
+                    writer.WriteString("Name", value.Name);
+                }
+
                 writer.WriteNumber("_t_gen", value.generation.Value);
                 writer.WriteString("_excludeType", _typeToExclude?.Name);
 
                 writer.WriteEndObject();
 
             }
+            else if (writer.BytesCommitted + writer.BytesPending > PreDefinedOptions.MaxSize)
+            {
+                Console.WriteLine("Max size reached when doing " + value.Id);
+                //writer.WriteNullValue();
+
+                writer.WriteStartObject();
+
+                writer.WriteNumber("Id", value.Id);
+                if (!string.IsNullOrEmpty(value.Name))
+                {
+                    writer.WriteString("Name", value.Name);
+                }
+
+                writer.WriteBoolean("_cap", true);
+
+                writer.WriteEndObject();
+                return;
+            }
             else
             {
-                
-
                 var newOptions = PreDefinedOptions.GetOptions(value.GetType());                
                 JsonSerializer.Serialize(writer, value, value.GetType(), newOptions);
             }
