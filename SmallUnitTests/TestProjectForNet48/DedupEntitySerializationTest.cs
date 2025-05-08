@@ -35,15 +35,15 @@ namespace TestProjectForNet48
 
             var obj1 = new KeyItem() { Id = 1 };
             var obj1Str = JsonSerializer.Serialize(obj1, jsonSerializerOptions);
-            Console.WriteLine(obj1Str);
+            Console.WriteLine("obj1:" + obj1Str);
 
             var obj2 = new KeyItem() { Id = 2 };
             var obj2Str = JsonSerializer.Serialize(obj2, jsonSerializerOptions.CloneExlcudeConverter());
-            Console.WriteLine(obj2Str);
+            Console.WriteLine("obj2: " + obj2Str);
 
             var obj3 = new KeyItem() { Id = 3 };
             var obj3Str = JsonSerializer.Serialize(obj3, jsonSerializerOptions.CloneExcludeConverterType());
-            Console.WriteLine(obj3Str);
+            Console.WriteLine("obj3: " + obj3Str);
 
 
         }
