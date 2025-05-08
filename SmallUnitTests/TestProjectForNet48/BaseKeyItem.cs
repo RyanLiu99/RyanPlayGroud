@@ -3,12 +3,20 @@ using System.Collections.Generic;
 
 namespace TestProjectForNet48
 {
-    internal class KeyItem : BaseKeyItem
+    public class KeyItem : BaseKeyItem
     {
+        public KeyItem()
+        {
+            
+        }
     }
 
     internal class KeyItem2 : KeyItem
     {
+        public KeyItem2()
+        {
+            
+        }
         public KeyItem2(BaseKeyItem keyItem) 
         {
             this.Id = keyItem.Id;
@@ -19,8 +27,14 @@ namespace TestProjectForNet48
 
     public abstract class BaseKeyItem
     {
+        public int? generation;
+
         public int Id { get; set; }
 
         public virtual string Name { get; set; }
+
+        public KeyItem Child1 { get; set; }
+        public KeyItem Child2 { get; set; }
+
     }
 }

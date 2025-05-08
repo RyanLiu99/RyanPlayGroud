@@ -9,47 +9,19 @@ using System.Threading.Tasks;
 
 namespace TestProjectForNet48
 {
-    public class BaseKeyItemJsonConverter1 : BaseKeyItemJsonConverter
-    {
-        public BaseKeyItemJsonConverter1() : base(1)
-        {
-        }
-    }
-    public class BaseKeyItemJsonConverter2 : BaseKeyItemJsonConverter
-    {
-        public BaseKeyItemJsonConverter2() : base(2)
-        {
-        }
-    }
-    public class BaseKeyItemJsonConverter3 : BaseKeyItemJsonConverter
-    {
-        public BaseKeyItemJsonConverter3() : base(3)
-        {
-        }
-    }
 
     public class BaseKeyItemJsonConverter : JsonConverter<BaseKeyItem>
     {
-        public int Id{ get; }
+        private readonly Type _typeToExclude;
 
-        public BaseKeyItemJsonConverter(int id)
+        public BaseKeyItemJsonConverter(Type typeToExclude = null)
         {
-            Id = id;
+            _typeToExclude = typeToExclude;
         }
-        
+
         public override bool CanConvert(Type typeToConvert)
-        {
-            //Stack overflow. Repeat 1728 times. = Test run aborted:
-            // bool result = typeToConvert == typeof(BaseKeyItem) ||  typeToConvert.IsSubclassOf(typeof(BaseKeyItem));
-
-
-            //Stack overflow. Repeat 1728 times. = Test run aborted:
-            //bool result = typeof(BaseKeyItem).IsAssignableFrom(typeToConvert);
-
-            bool result = typeToConvert.IsSubclassOf(typeof(BaseKeyItem));
-            return result;
-        }
-
+              => typeToConvert != _typeToExclude
+                && typeof(BaseKeyItem).IsAssignableFrom(typeToConvert);
 
         public override BaseKeyItem Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -64,27 +36,26 @@ namespace TestProjectForNet48
                 return;
             }
 
-            if (value.Id == Id)
+            //Fetched form db, truncate it.        
+            if (value.generation.HasValue)
             {
                 writer.WriteStartObject();
                 writer.WriteNumber("Id", value.Id);
-                writer.WriteNumber("Converter", Id);
+                writer.WriteString("Name", value.Name);
+                writer.WriteNumber("_t_gen", value.generation.Value);
+                writer.WriteString("_excludeType", _typeToExclude?.Name);
+
                 writer.WriteEndObject();
-                return;
+
             }
             else
             {
                 //return; // simple will not be seralized
 
-                //JsonSerializer.Serialize(writer, value, options);//Delegate serialization to system converter  as far as I test
-                var newOptions = options.CloneExlcudeConverter(this);
-
-                JsonSerializer.Serialize(writer, value, newOptions);
-                //!!!  Here I have to change type (From KeyItem to KeyItem2) means the converer is cached at hight level, not inside JsonSerializerOptions.  Even at very early verson Json.Text on .NET 4.8
-                JsonSerializer.Serialize(writer, new KeyItem2(value), newOptions);
-
-                //result    {"Id":3,"Name":null},{"Id":3,"Converter":3}
+                var newOptions = PreDefinedOptions.GetOptions(value.GetType());                
+                JsonSerializer.Serialize(writer, value, value.GetType(), newOptions);
             }
         }
     }
 }
+
