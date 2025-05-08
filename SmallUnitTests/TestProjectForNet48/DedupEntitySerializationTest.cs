@@ -69,5 +69,26 @@ namespace TestProjectForNet48
             Console.WriteLine("obj4: " + obj4Str);
         }
 
+
+        [Test]
+        public void Shortcut()
+        {
+            PreDefinedOptions.MaxSize = 18;
+
+            var options = PreDefinedOptions.Default;
+
+            var child1 = new KeyItem() { Id = 11, generation = 1, Name = "child1" };
+            var child2 = new KeyItem2() { Id = 12, Name = "child2" };
+            
+
+            var obj1 = new KeyItem2() { Id = 1, Child1 = child1, Child2 = child2 };
+            var obj2 = new KeyItem2() { Id = 2, generation = 3 };
+
+            var obj12Str = JsonSerializer.Serialize(new[] { obj1, obj2 }, options);
+            Console.WriteLine("obj12: " + obj12Str);
+
+            PreDefinedOptions.MaxSize = int.MaxValue;
+        }
+
     }
 }

@@ -8,6 +8,7 @@ namespace TestProjectForNet48
 {
     public static class PreDefinedOptions
     {
+        public static int MaxSize = int.MaxValue;
         public static JsonSerializerOptions Default { get; private set; }
 
         private static Dictionary<Type, JsonSerializerOptions> _optionsExcludeConveter  = new Dictionary<Type, JsonSerializerOptions>();
@@ -42,4 +43,8 @@ namespace TestProjectForNet48
        
 
     }
+
+
+
+   
 }

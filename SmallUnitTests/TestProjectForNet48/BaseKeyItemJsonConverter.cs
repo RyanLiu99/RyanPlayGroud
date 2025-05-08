@@ -30,11 +30,22 @@ namespace TestProjectForNet48
 
         public override void Write(Utf8JsonWriter writer, BaseKeyItem value, JsonSerializerOptions options)
         {
+            Console.WriteLine($"Commited: {writer.BytesCommitted};  Pending: {writer.BytesPending}" );
+
+
             if (value == null)
             {
                 writer.WriteNullValue();
                 return;
             }
+
+            if (writer.BytesCommitted + writer.BytesPending > PreDefinedOptions.MaxSize)
+            {
+                Console.WriteLine("Max size reached when doing " + value.Id);
+                writer.WriteNullValue();
+                return;  
+            }
+
 
             //Fetched form db, truncate it.        
             if (value.generation.HasValue)
@@ -50,7 +61,7 @@ namespace TestProjectForNet48
             }
             else
             {
-                //return; // simple will not be seralized
+                
 
                 var newOptions = PreDefinedOptions.GetOptions(value.GetType());                
                 JsonSerializer.Serialize(writer, value, value.GetType(), newOptions);
