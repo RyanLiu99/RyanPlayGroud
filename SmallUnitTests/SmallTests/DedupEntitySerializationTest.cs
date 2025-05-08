@@ -13,15 +13,15 @@ using SmallTests.JsonConverters;
 namespace SmallTests
 {
     public class DedupEntitySerializationTest
-    {
+    {     
         [Test]
         //    Standard Output: 
         //{"Id":1}
         //{"Id":2,"Converter":2}
         //{ "Id":3}
 
-public void PrintSerializationResult()
-        {
+        public void PrintSerializationResult()
+        {            
             var jsonSerializerOptions = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,

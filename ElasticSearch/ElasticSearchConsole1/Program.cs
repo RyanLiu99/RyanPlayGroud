@@ -10,31 +10,40 @@ namespace ElasticsearchCRUD
 
         static  async Task Main(string[] args)
         {
+            try
+            {
                 //Main1();
-                await Program2.Main2();
+                // await Program2.Main2();
+                await LocalProgram3.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex}");
+            }
+            
         }
 
         //kibana_system/xpnxx9nrQfuFpnE2m+Jc
         static void Main1()
         {
-            // var url = "https://localhost:9200/";
-            // var settings = new ConnectionSettings(new Uri(url))
-            //     .BasicAuthentication("elastic", "DYSt-rYpiasj27pFWHHp")  //localhost in docker, works
-            //     //.BasicAuthentication("ryanuser", "ryan_pwd") // I created this admin user by POST locally, works, it can also log into Kibana
-            //     .DefaultIndex("ryanindex1")
-            //     .EnableApiVersioningHeader()
-            //     .ServerCertificateValidationCallback((o, certificate, chain, errors) => true); // Bypass SSL certificate validation;
-
-            // //curl -u ryanuser1:qqbZ2nMm9kRRiRR https://a68c38bed0da42aea85d5854ea2d11df.us-central1.gcp.cloud.es.io:443 works
-            // organization key: essu_TWtZNWFWTlpORUpFUTBnelNXbEtiVmxMWjJZNlVuTmFSRkl0TFhGUmQxZGhWRXhJVmpSbE0wODRadz09AAAAABBHUeo=
-            var url = "https://a68c38bed0da42aea85d5854ea2d11df.us-central1.gcp.cloud.es.io:443";
+            var url = "https://localhost:9200/";
             var settings = new ConnectionSettings(new Uri(url))
-               //.ApiKeyAuthentication("ryancode", "emZ3UFE0NEJmcFE1cEpBMUxlR3k6MWZqM0I0RnhRTHF5cFd2QjRBTDBJZw==") // not working, api key for org owner with all permissions
-               .ApiKeyAuthentication("ryabapikey2", "bFB4MFNZNEJmcFE1cEpBMUplS1I6WDM5ck41Wi1RMFNrWlpMZHN4a0tGdw==") // not working either, api key for org owner with all permissions
-                                                                                                                    // .BasicAuthentication("ryanuser1", "qqbZ2nMm9kRRiRR") // docker cloud, works
+                .BasicAuthentication("elastic", "DYSt-rYpiasj27pFWHHp")  //localhost in docker, works
+                                                                         //.BasicAuthentication("ryanuser", "ryan_pwd") // I created this admin user by POST locally, works, it can also log into Kibana
                 .DefaultIndex("ryanindex1")
                 .EnableApiVersioningHeader()
                 .ServerCertificateValidationCallback((o, certificate, chain, errors) => true); // Bypass SSL certificate validation;
+
+            //// //curl -u ryanuser1:qqbZ2nMm9kRRiRR https://a68c38bed0da42aea85d5854ea2d11df.us-central1.gcp.cloud.es.io:443 works
+            //// organization key: essu_TWtZNWFWTlpORUpFUTBnelNXbEtiVmxMWjJZNlVuTmFSRkl0TFhGUmQxZGhWRXhJVmpSbE0wODRadz09AAAAABBHUeo=
+            //var url = "https://a68c38bed0da42aea85d5854ea2d11df.us-central1.gcp.cloud.es.io:443";
+            //var settings = new ConnectionSettings(new Uri(url))
+            //   //.ApiKeyAuthentication("ryancode", "emZ3UFE0NEJmcFE1cEpBMUxlR3k6MWZqM0I0RnhRTHF5cFd2QjRBTDBJZw==") // not working, api key for org owner with all permissions
+            //   .ApiKeyAuthentication("ryabapikey2", "bFB4MFNZNEJmcFE1cEpBMUplS1I6WDM5ck41Wi1RMFNrWlpMZHN4a0tGdw==") // not working either, api key for org owner with all permissions
+            //                                                                                                        // .BasicAuthentication("ryanuser1", "qqbZ2nMm9kRRiRR") // docker cloud, works
+            //    .DefaultIndex("ryanindex1")
+            //    .EnableApiVersioningHeader()
+            //    .ServerCertificateValidationCallback((o, certificate, chain, errors) => true); // Bypass SSL certificate validation;
 
             var client = new ElasticClient(settings);
 

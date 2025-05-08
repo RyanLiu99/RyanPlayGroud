@@ -1,5 +1,4 @@
-﻿using SmallTests.Entities;
-using SmallTests.Helpers.Serialization;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace SmallTests.JsonConverters
+namespace TestProjectForNet48
 {
     public class BaseKeyItemJsonConverter1 : BaseKeyItemJsonConverter
     {
@@ -29,8 +28,6 @@ namespace SmallTests.JsonConverters
         }
     }
 
-
-
     public class BaseKeyItemJsonConverter : JsonConverter<BaseKeyItem>
     {
         public int Id{ get; }
@@ -40,7 +37,6 @@ namespace SmallTests.JsonConverters
             Id = id;
         }
         
-
         public override bool CanConvert(Type typeToConvert)
         {
             //Stack overflow. Repeat 1728 times. = Test run aborted:
@@ -81,8 +77,13 @@ namespace SmallTests.JsonConverters
                 //return; // simple will not be seralized
 
                 //JsonSerializer.Serialize(writer, value, options);//Delegate serialization to system converter  as far as I test
-                var newOptions = options.Clone(this);
+                var newOptions = options.CloneExlcudeConverter(this);
+
                 JsonSerializer.Serialize(writer, value, newOptions);
+                //!!!  Here I have to change type (From KeyItem to KeyItem2) means the converer is cached at hight level, not inside JsonSerializerOptions.  Even at very early verson Json.Text on .NET 4.8
+                JsonSerializer.Serialize(writer, new KeyItem2(value), newOptions);
+
+                //result    {"Id":3,"Name":null},{"Id":3,"Converter":3}
             }
         }
     }
