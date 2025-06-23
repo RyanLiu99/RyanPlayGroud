@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ChainOfProxyCall/Dockerfile
     ports:
-      - "8080"  #  "5000:80" Maps container port 80 to host port 5000. Now to any port
+      - "8080"  #   "host:container".  Here means only container port 8080 is specified. Host port will be randomly assigned. 
     deploy:     # Swarm mode
       replicas: 3
       restart_policy:

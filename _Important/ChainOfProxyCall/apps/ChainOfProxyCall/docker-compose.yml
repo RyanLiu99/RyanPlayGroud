@@ -1,6 +1,7 @@
 services:
   chainofproxycall1:
     container_name: chainofproxycall1
+    hostname: chainofproxycall-1
     image: chain-of-proxy-call:latest
     # build: 
     #   context: .
@@ -9,11 +10,13 @@ services:
       - "5301:8080"
   chainofproxycall2:
     container_name: chainofproxycall2
+    hostname: chainofproxycall-2
     image: chain-of-proxy-call:latest
     ports:
       - "5302:8080"
   chainofproxycall3:
     container_name: chainofproxycall3
+    hostname: chainofproxycall-3
     image: chain-of-proxy-call:latest
     ports:
       - "5303:8080"
