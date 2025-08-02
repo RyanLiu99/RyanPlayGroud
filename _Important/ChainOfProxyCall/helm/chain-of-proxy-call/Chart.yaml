@@ -1,0 +1,14 @@
+apiVersion: v2
+name: chain-of-proxy-call
+description: A Helm chart for Chain of Proxy Call application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - proxy
+  - microservice
+  - api
+home: https://github.com/RyanAuthored/RyanPlayGroud
+maintainers:
+  - name: Ryan
+    email: ryan@example.com

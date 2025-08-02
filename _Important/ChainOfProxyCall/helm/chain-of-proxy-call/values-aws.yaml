@@ -1,0 +1,30 @@
+# Values for AWS production environment
+environment: aws
+
+replicaCount: 3
+
+aws:
+  image:
+    repository: 975050029283.dkr.ecr.us-east-1.amazonaws.com/chain-of-proxy-call
+    pullPolicy: Always
+    tag: "latest"
+
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: false  # Using LoadBalancer instead
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi

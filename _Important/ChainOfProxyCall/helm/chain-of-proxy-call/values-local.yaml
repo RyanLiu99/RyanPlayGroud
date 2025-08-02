@@ -1,0 +1,31 @@
+# Values for local development environment (Minikube)
+environment: local
+
+replicaCount: 1
+
+image:
+  repository: chain-of-proxy-call
+  pullPolicy: Never
+  tag: "latest"
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  className: "nginx"  # Use nginx ingress controller for Minikube
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: chainofproxy.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
